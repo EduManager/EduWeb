@@ -13,5 +13,10 @@ namespace Edu.Controller.Controller
         {
             return View();
         }
+
+        public ViewResult Contract()
+        {
+            return View();
+        }
     }
 }
