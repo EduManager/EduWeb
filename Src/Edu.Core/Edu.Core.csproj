@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainRepository\IRepository.cs" />
+    <Compile Include="DomainRepository\IRoleRepository.cs" />
     <Compile Include="DomainRepository\IRoleMenuRepository.cs" />
     <Compile Include="DomainRepository\IUnitOfWork.cs" />
     <Compile Include="DomainRepository\ISqlExcuteContext.cs" />
