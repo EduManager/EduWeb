@@ -14,10 +14,13 @@ namespace Edu.Model.Core
         public int Id { get; set; }
 
         [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
         public int SchoolId { get; set; }
 
         [DataMember]
-        public string Name { get; set; }
+        public string SchoolName { get; set; }
 
         [DataMember]
         public string Description { get; set; }

@@ -3,9 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
 <body>
@@ -22,7 +24,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">前台业务<span class="caret"></span></a>
+                        <a href="#" data-toggle="dropdown" id="ahr" class="dropdown-toggle">前台业务<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="~/Home/Contract">学生咨询</a></li>
                             <li><a href="~/Home/Index">咨询信息查询</a></li>
@@ -67,7 +69,7 @@
                             <li><a href="~/Home/Index">教材杂项</a></li>
                             <li><a href="~/Home/Index">班级设置</a></li>
                             <li class="divider"></li>
-                            <li><a href="~/Home/Index">角色管理</a></li>
+                            <li><a href="~/Role/List">角色管理</a></li>
                             <li><a href="~/Home/Index">员工管理</a></li>
                             <li><a href="~/Home/Index">系统日志</a></li>
                             <li><a href="~/Home/Index">参数设置</a></li>
@@ -87,7 +89,17 @@
         </footer>
     </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        $('a.dropdown-toggle')
+            .mouseover(function() {
+                $(this).parent().addClass('open');
+            });
+
+        $('li.dropdown').mouseover(function () {
+            $(this).addClass('open');
+        }).mouseout(function () {
+            $(this).removeClass('open');
+        });
+    </script>
 </body>
 </html>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Beisen.CSTinsight.Repository;
 using Edu.Core.DomainRepository;
 using Edu.Model;
 using Edu.Model.Bussiness;

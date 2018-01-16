@@ -2,7 +2,7 @@
 using Castle.Windsor;
 using Edu.Infrastructure.Helper;
 
-namespace Beisen.CSTinsight.Repository
+namespace Edu.Repository
 {
     /// <summary>
     /// 组件工厂
@@ -31,7 +31,7 @@ namespace Beisen.CSTinsight.Repository
             }
             catch (Exception e1)
             {
-                LogHelper.Error(null,"注册IOC出错",e1);
+                LogHelper.Error(typeof(IWindsorContainer),"注册IOC出错",e1);
             }
         }
 
@@ -50,7 +50,7 @@ namespace Beisen.CSTinsight.Repository
                 }
                 catch (Exception e1)
                 {
-                    LogHelper.Error(null,"获取类型出错：" + typeof(T).Name, e1);
+                    LogHelper.Error(typeof(IWindsorContainer), "获取类型出错：" + typeof(T).Name, e1);
                     return default(T);
                 }
             }

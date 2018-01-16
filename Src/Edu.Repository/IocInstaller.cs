@@ -1,9 +1,9 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Edu.Core.DomainRepository;
-using Edu.Repository;
+using Edu.Repository.UnitOfWork;
 
-namespace Beisen.CSTinsight.Repository
+namespace Edu.Repository
 {
     /// <summary>
     /// Ioc Installer
@@ -16,13 +16,16 @@ namespace Beisen.CSTinsight.Repository
 
             container.Register(
                 Component.For(typeof(ISqlExcuteContext))
-                    .ImplementedBy<ISqlExcuteContext>()
+                    .ImplementedBy<SqlExcuteContext>()
                     .LifeStyle.Singleton,
                 Component.For(typeof(IRoleMenuRepository))
                     .ImplementedBy<RoleMenuRepository>()
                     .LifeStyle.Singleton,
                 Component.For(typeof(IRoleRepository))
                     .ImplementedBy<RoleRepository>()
+                    .LifeStyle.Singleton,
+                Component.For(typeof(IMenuRepository))
+                    .ImplementedBy<MenuRepository>()
                     .LifeStyle.Singleton);
 
             #endregion

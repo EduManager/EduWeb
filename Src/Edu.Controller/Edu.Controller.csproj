@@ -35,6 +35,11 @@
       <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -76,12 +81,21 @@
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\RoleController.cs" />
     <Compile Include="GlobeRouteTable.cs" />
+    <Compile Include="Model\TreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Edu.Infrastructure\Edu.Infrastructure.csproj">
+      <Project>{4412f1a9-5b8d-4697-ae1b-c2f4e81ff946}</Project>
+      <Name>Edu.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Edu.Model\Edu.Model.csproj">
+      <Project>{5ece9a32-ded4-4778-8ed4-094960f244e8}</Project>
+      <Name>Edu.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Edu.Services\Edu.Services.csproj">
       <Project>{b093c3e4-c720-41f8-963e-08765b750904}</Project>
       <Name>Edu.Services</Name>
