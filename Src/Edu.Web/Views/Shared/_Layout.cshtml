@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">教育管理软件</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">前台业务<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="~/Home/Contract">学生咨询</a></li>
+                            <li><a href="~/Home/Index">咨询信息查询</a></li>
+                            <li><a href="~/Home/Index">学生报名</a></li>
+                            <li class="divider"></li>
+                            <li><a href="~/Home/Index">办理续费</a></li>
+                            <li><a href="~/Home/Index">办理退费</a></li>
+                            <li><a href="~/Home/Index">办理停课</a></li>
+                            <li><a href="~/Home/Index">办理转班</a></li>
+                            <li class="divider"></li>
+                            <li><a href="~/Home/Index">学生信息</a></li>
+                            <li><a href="~/Home/Index">数据导入</a></li>
+                            <li class="divider"></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">教务教学<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="~/Home/Index">考勤记录</a></li>
+                            <li><a href="~/Home/Index">教师排课表</a></li>
+                            <li><a href="~/Home/Index">教室排课表</a></li>
+                            <li class="divider"></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">财务管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="~/Home/Index">学费明细</a></li>
+                            <li><a href="~/Home/Index">账户管理</a></li>
+                            <li><a href="~/Home/Index">财务报表</a></li>
+                            <li class="divider"></li>
+                            <li><a href="~/Home/Index">其他收入</a></li>
+                            <li><a href="~/Home/Index">支出项目</a></li>
+                            <li class="divider"></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">系统设置<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="~/Home/Index">校区管理</a></li>
+                            <li><a href="~/Home/Index">课程设置</a></li>
+                            <li><a href="~/Home/Index">教材杂项</a></li>
+                            <li><a href="~/Home/Index">班级设置</a></li>
+                            <li class="divider"></li>
+                            <li><a href="~/Home/Index">角色管理</a></li>
+                            <li><a href="~/Home/Index">员工管理</a></li>
+                            <li><a href="~/Home/Index">系统日志</a></li>
+                            <li><a href="~/Home/Index">参数设置</a></li>
+                            <li class="divider"></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
