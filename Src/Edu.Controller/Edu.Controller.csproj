@@ -74,13 +74,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\HomeController.cs" />
+    <Compile Include="Controller\RoleController.cs" />
     <Compile Include="GlobeRouteTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Edu.Services\Edu.Services.csproj">
+      <Project>{b093c3e4-c720-41f8-963e-08765b750904}</Project>
+      <Name>Edu.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
