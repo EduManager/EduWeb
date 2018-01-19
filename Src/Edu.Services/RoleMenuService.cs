@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Edu.Core.DomainRepository;
+using Edu.Core.Procedure;
 using Edu.Infrastructure.Common;
 using Edu.Model;
-using Edu.Model.Bussiness;
-using Edu.Model.Procedure;
+using Edu.Model.Core;
 using Edu.Repository;
 
 namespace Edu.Services

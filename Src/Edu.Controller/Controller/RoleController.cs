@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Edu.Controller.Model;
+using Edu.Infrastructure.Helper;
+using Edu.Model;
 using Edu.Model.Core;
 using Edu.Services;
 
@@ -22,8 +24,14 @@ namespace Edu.Controller.Controller
             return View(roles);
         }
 
+        [HttpPost]
+        public string Commit(List<TreeNode> nodes)
+        {
+            return "";
+        }
+
         [HttpGet]
-        public JsonResult GetMenuList(int roleId)
+        public string GetMenuList(int roleId)
         {
             List<TreeNode> result = new List<TreeNode>();
             //获取菜单
@@ -56,7 +64,8 @@ namespace Edu.Controller.Controller
                     if (parentItem != null) parentItem.Checked = item.Checked;
                 }
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return JsonHelper.Serialize(QueryResult.Success(result));
+            //return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

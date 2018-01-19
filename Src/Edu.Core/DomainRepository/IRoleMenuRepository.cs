@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Edu.Core.Procedure;
 using Edu.Model;
-using Edu.Model.Bussiness;
-using Edu.Model.Procedure;
+using Edu.Model.Core;
 
 namespace Edu.Core.DomainRepository
 {
@@ -17,5 +17,7 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetRoleMenuByRoleIdArgs args);
+
+
     }
 }

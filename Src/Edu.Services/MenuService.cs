@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using Edu.Core.DomainRepository;
 using Edu.Infrastructure.Common;
 using Edu.Model;
-using Edu.Model.Bussiness;
 using Edu.Model.Core;
-using Edu.Model.Procedure;
 using Edu.Repository;
 
 namespace Edu.Services

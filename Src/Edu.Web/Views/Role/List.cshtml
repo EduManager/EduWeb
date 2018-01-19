@@ -6,7 +6,15 @@
 <link href="~/Content/ztree/zTreeStyle.css" rel="stylesheet" type="text/css" />
 <script src="~/Scripts/ztree/jquery.ztree.core.min.js"></script>
 <script src="~/Scripts/ztree/jquery.ztree.excheck.min.js"></script>
-
+<style type="text/css">
+    .modal-dialog {
+        right: auto;
+        left: 50%;
+        width: 40%;
+        padding-top: 30px;
+        padding-bottom: 30px;
+  }
+</style>
 <script>
     var setting = {
         view: {
@@ -27,6 +35,7 @@
     };
 
     var zNodes = [];
+    var currentRoleId = 0;
 
     var code, log, className = "dark";
     function beforeCheck(treeId, treeNode) {
@@ -92,37 +101,49 @@
     }
 
     function handlerModalData(e) {
-        var zNodes = [
-        { id: 1, pId: 0, name: "随意勾选 1", open: true },
-        { id: 11, pId: 1, name: "随意勾选 1-1", open: true, checked: true },
-        { id: 12, pId: 1, name: "随意勾选 1-2", open: true },
-        { id: 121, pId: 12, name: "随意勾选 1-2-1", open: true },
-        { id: 122, pId: 12, name: "随意勾选 1-2-2", open: true },
-        { id: 2, pId: 0, name: "禁止勾选 2", open: true },
-        { id: 21, pId: 2, name: "禁止勾选 2-1", open: true },
-        { id: 22, pId: 2, name: "禁止勾选 2-2", open: true },
-        { id: 221, pId: 22, name: "禁止勾选 2-2-1", open: true },
-        { id: 222, pId: 22, name: "禁止勾选 2-2-2", open: true },
-        { id: 23, pId: 2, name: "禁止勾选 2-3", open: true }
-        ];
-
-        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-        $("#checkTrue").bind("click", { type: "checkTrue" }, checkNode);
-        $("#checkFalse").bind("click", { type: "checkFalse" }, checkNode);
-        $("#toggle").bind("click", { type: "toggle" }, checkNode);
-        $("#checkTruePS").bind("click", { type: "checkTruePS" }, checkNode);
-        $("#checkFalsePS").bind("click", { type: "checkFalsePS" }, checkNode);
-        $("#togglePS").bind("click", { type: "togglePS" }, checkNode);
-        $("#checkAllTrue").bind("click", { type: "checkAllTrue" }, checkNode);
-        $("#checkAllFalse").bind("click", { type: "checkAllFalse" }, checkNode);
-
-        $("#autoCallbackTrigger").bind("change", {}, setAutoTrigger);
+        //var zNodes = [
+        //{ id: 1, pId: 0, name: "随意勾选 1", open: true },
+        //{ id: 11, pId: 1, name: "随意勾选 1-1", open: true, checked: true },
+        //{ id: 12, pId: 1, name: "随意勾选 1-2", open: true },
+        //{ id: 121, pId: 12, name: "随意勾选 1-2-1", open: true },
+        //{ id: 122, pId: 12, name: "随意勾选 1-2-2", open: true },
+        //{ id: 2, pId: 0, name: "禁止勾选 2", open: true },
+        //{ id: 21, pId: 2, name: "禁止勾选 2-1", open: true },
+        //{ id: 22, pId: 2, name: "禁止勾选 2-2", open: true },
+        //{ id: 221, pId: 22, name: "禁止勾选 2-2-1", open: true },
+        //{ id: 222, pId: 22, name: "禁止勾选 2-2-2", open: true },
+        //{ id: 23, pId: 2, name: "禁止勾选 2-3", open: true }
+        //];
+        var roleId = $(e).attr("data-real");
+        currentRoleId = roleId; 
+        var roleName = $(e).attr("data-text");
+        $.get("GetMenuList?roleId=" + roleId,
+            function (data) {
+                debugger;
+                var result = JSON.parse(data);
+                if(result.code === 200){
+                    var zNodes = result.items;
+                    $("#myModalLabel").html(roleName + "-权限编辑");
+                    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                    $("#checkTrue").bind("click", { type: "checkTrue" }, checkNode);
+                    $("#checkFalse").bind("click", { type: "checkFalse" }, checkNode);
+                    $("#toggle").bind("click", { type: "toggle" }, checkNode);
+                    $("#checkTruePS").bind("click", { type: "checkTruePS" }, checkNode);
+                    $("#checkFalsePS").bind("click", { type: "checkFalsePS" }, checkNode);
+                    $("#togglePS").bind("click", { type: "togglePS" }, checkNode);
+                    $("#checkAllTrue").bind("click", { type: "checkAllTrue" }, checkNode);
+                    $("#checkAllFalse").bind("click", { type: "checkAllFalse" }, checkNode);
+                    $("#autoCallbackTrigger").bind("change", {}, setAutoTrigger);
+                }
+            });
     }
 
-    $(document)
-        .ready(function() {
-            
-        });
+    function commitData() {
+        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        var node = treeObj.getNodes();
+        var nodes = treeObj.transformToArray(node); 
+    }
+
 </script>
 
 <div class="container body-content">
@@ -164,23 +185,23 @@
                             }
                         </td>
                         <td>
-                            <button class="btn btn-default" onclick="handlerModalData(this);" data-toggle="modal" data-target="#roleModal" data-real="@item.Id">编辑权限</button>
+                            <button class="btn btn-default" onclick="handlerModalData(this);" data-toggle="modal" data-target="#roleModal" data-real="@item.Id" data-text="@item.Name">编辑权限</button>
                         </td>
                     </tr>
                 }
                 </tbody>
             </table>
             <!-- 模态框（Modal） -->
-            <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                                 &times;
                             </button>
-                            <h6 class="modal-title" id="myModalLabel">
-                                模态框（Modal）标题
-                            </h6>
+                            <h5 class="modal-title" id="myModalLabel">
+                                
+                            </h5>
                         </div>
                         <div class="modal-body">
                             <div class="col-md-12">
@@ -191,7 +212,7 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                 关闭
                             </button>
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary" onclick="commitData();">
                                 提交更改
                             </button>
                         </div>

@@ -78,9 +78,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AuthAttribute.cs" />
+    <Compile Include="Common\SessionConst.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\RoleController.cs" />
     <Compile Include="GlobeRouteTable.cs" />
+    <Compile Include="Model\HttpContextUser.cs" />
     <Compile Include="Model\TreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

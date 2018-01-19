@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Edu.Model.Procedure
+namespace Edu.Core.Procedure
 {
-    public class GetRoleBySchoolIdArgs
+    public class ClearRoleMenuByRoleIdArgs
     {
-        public int SchoolId { get; set; }
+        public int RoleId { get; set; }
     }
 }

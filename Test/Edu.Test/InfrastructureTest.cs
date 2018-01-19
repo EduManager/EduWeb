@@ -15,5 +15,11 @@ namespace Edu.Test
         {
             LogHelper.Error(this.GetType(), "erw", null);
         }
+        [Test]
+        public void Entry()
+        {
+            var id = Guid.NewGuid().ToString().Replace("-", "");
+            var s = id.Length;
+        }
     }
 }

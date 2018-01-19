@@ -26,5 +26,9 @@ namespace Edu.Controller.Model
         [JsonProperty("checked")]
         [DataMember]
         public bool Checked { get; set; }
+
+        [JsonProperty("open")]
+        [DataMember]
+        public bool Open => true;
     }
 }
