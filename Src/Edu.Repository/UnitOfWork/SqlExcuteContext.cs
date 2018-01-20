@@ -28,7 +28,7 @@ namespace Edu.Repository.UnitOfWork
             return QueryResult.Success<T>(result);
         }
 
-        public QueryResult<T> RunProcedure<T>(string procName, object paras = null)
+        public QueryResult<T> ExcuteQueryProcedure<T>(string procName, object paras = null)
         {
             List<T> result = new List<T>();
             using (IDbConnection connection = new MySqlConnection(_strConn))
@@ -38,6 +38,28 @@ namespace Edu.Repository.UnitOfWork
                     .ToList();
             }
             return QueryResult.Success<T>(result);
+        }
+
+        public CommandResult ExcuteScalarProceDure(string procName, object paras = null)
+        {
+            object result;
+            using (IDbConnection connection = new MySqlConnection(_strConn))
+            {
+                connection.Open();
+                result = connection.ExecuteScalar(procName, param: paras, commandType: CommandType.StoredProcedure);
+            }
+            return CommandResult.Success(result);
+        }
+
+        public CommandResult ExcuteProceDure(string procName, object paras = null)
+        {
+            int result = -1;
+            using (IDbConnection connection = new MySqlConnection(_strConn))
+            {
+                connection.Open();
+                result = connection.Execute(procName, param: paras, commandType: CommandType.StoredProcedure);
+            }
+            return CommandResult.Success(result);
         }
     }
 }

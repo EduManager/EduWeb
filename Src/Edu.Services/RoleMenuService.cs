@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Edu.Core.DomainRepository;
-using Edu.Core.Procedure;
 using Edu.Infrastructure.Common;
 using Edu.Model;
+using Edu.Model.Args;
 using Edu.Model.Core;
 using Edu.Repository;
 
@@ -30,16 +30,40 @@ namespace Edu.Services
         /// <summary>
         /// 获取角色菜单列表
         /// </summary>
-        /// <param name="roleId"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(int roleId)
+        public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetRoleMenuByRoleIdArgs args)
         {
-            Arguments.Positive(roleId, "roleId");
+            Arguments.Positive(args.RoleId, "RoleId");
 
-            return ContainerFactory<IRoleMenuRepository>.Instance.GetRoleMenuByRoleId(new GetRoleMenuByRoleIdArgs()
-            {
-                RoleId = roleId
-            });
+            return ContainerFactory<IRoleMenuRepository>.Instance.GetRoleMenuByRoleId(args);
+        }
+
+
+        /// <summary>
+        /// 通过角色清除角色权限（需要重设置）
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args)
+        {
+            Arguments.Positive(args.RoleId, "RoleId");
+            return ContainerFactory<IRoleMenuRepository>.Instance.ClearRoleMenuByRoleId(args);
+        }
+
+        /// <summary>
+        /// 添加角色权限
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult AddRoleMenu(AddRoleMenuArgs args)
+        {
+            Arguments.Positive(args.RoleId, "RoleId");
+            Arguments.Positive(args.MenuId, "MenuId");
+            Arguments.Positive(args.CreateBy, "CreateBy");
+            Arguments.Positive(args.ModifyBy, "ModifyBy");
+
+            return ContainerFactory<IRoleMenuRepository>.Instance.AddRoleMenu(args);
         }
     }
 }

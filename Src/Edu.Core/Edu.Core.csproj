@@ -47,10 +47,6 @@
     <Compile Include="DomainRepository\IRoleMenuRepository.cs" />
     <Compile Include="DomainRepository\IUnitOfWork.cs" />
     <Compile Include="DomainRepository\ISqlExcuteContext.cs" />
-    <Compile Include="Procedure\AddRoleMenuArgs.cs" />
-    <Compile Include="Procedure\ClearRoleMenuByRoleIdArgs.cs" />
-    <Compile Include="Procedure\GetRoleBySchoolIdArgs.cs" />
-    <Compile Include="Procedure\GetRoleMenuByRoleIdArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

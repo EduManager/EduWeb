@@ -12,6 +12,29 @@ namespace Edu.Core.DomainRepository
     {
         QueryResult<T> Query<T>(string sqlStr, object paras = null) where T : DomainEntity;
 
-        QueryResult<T> RunProcedure<T>(string procName, object paras = null);
+        /// <summary>
+        /// 执行查询select类型的存储过程
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="procName"></param>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        QueryResult<T> ExcuteQueryProcedure<T>(string procName, object paras = null);
+
+        /// <summary>
+        /// 执行返回第一行第一列类型的存储过程
+        /// </summary>
+        /// <param name="procName"></param>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        CommandResult ExcuteScalarProceDure(string procName, object paras = null);
+
+        /// <summary>
+        /// 执行add\update\delete类型的存储过程
+        /// </summary>
+        /// <param name="procName"></param>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        CommandResult ExcuteProceDure(string procName, object paras = null);
     }
 }

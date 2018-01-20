@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Edu.Controller.Model;
 using Edu.Infrastructure.Helper;
 using Edu.Model;
+using Edu.Model.Args;
 using Edu.Model.Core;
 using Edu.Services;
 
@@ -17,7 +18,10 @@ namespace Edu.Controller.Controller
         public ViewResult List()
         {
             var schoolId = 1;
-            var result = RoleService.Instance.GetRoleBySchoolId(schoolId);
+            var result = RoleService.Instance.GetRoleBySchoolId(new GetRoleBySchoolIdArgs()
+            {
+                SchoolId = schoolId
+            });
             var roles = new List<Role>();
             if (result.Code == 200)
                 roles = result.Items;
@@ -37,7 +41,10 @@ namespace Edu.Controller.Controller
             //获取菜单
             var menuResult = MenuService.Instance.GetMenu();
             //获取角色对应的菜单
-            var roleMenuResult = RoleMenuService.Instance.GetRoleMenuByRoleId(roleId);
+            var roleMenuResult = RoleMenuService.Instance.GetRoleMenuByRoleId(new GetRoleMenuByRoleIdArgs()
+            {
+                RoleId = roleId
+            });
             if (menuResult.Code == 200 && roleMenuResult.Code == 200)
             {
                 var menus = menuResult.Items;

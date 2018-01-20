@@ -13,7 +13,7 @@ namespace Edu.Repository
     {
         public QueryResult<Menu> GetMenu()
         {
-            var result = ContainerFactory<ISqlExcuteContext>.Instance.RunProcedure<Menu>("get_menu");
+            var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Menu>("get_menu");
             return result;
         }
     }

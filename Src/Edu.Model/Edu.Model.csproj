@@ -49,6 +49,10 @@
     <Compile Include="DomainEntity.cs" />
     <Compile Include="Core\Role.cs" />
     <Compile Include="IDomainEntity.cs" />
+    <Compile Include="Args\AddRoleMenuArgs.cs" />
+    <Compile Include="Args\ClearRoleMenuByRoleIdArgs.cs" />
+    <Compile Include="Args\GetRoleBySchoolIdArgs.cs" />
+    <Compile Include="Args\GetRoleMenuByRoleIdArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryResult.cs" />
   </ItemGroup>

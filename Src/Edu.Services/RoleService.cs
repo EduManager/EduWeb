@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Edu.Core.DomainRepository;
-using Edu.Core.Procedure;
 using Edu.Infrastructure.Common;
 using Edu.Model;
+using Edu.Model.Args;
 using Edu.Model.Core;
 using Edu.Repository;
 
@@ -30,16 +30,13 @@ namespace Edu.Services
         /// <summary>
         /// 获取角色菜单列表
         /// </summary>
-        /// <param name="schoolId"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        public QueryResult<Role> GetRoleBySchoolId(int schoolId)
+        public QueryResult<Role> GetRoleBySchoolId(GetRoleBySchoolIdArgs args)
         {
-            Arguments.Positive(schoolId, "schoolId");
+            Arguments.Positive(args.SchoolId, "SchoolId");
 
-            return ContainerFactory<IRoleRepository>.Instance.GetRoleBySchoolId(new GetRoleBySchoolIdArgs()
-            {
-                SchoolId = schoolId
-            });
+            return ContainerFactory<IRoleRepository>.Instance.GetRoleBySchoolId(args);
         }
     }
 }

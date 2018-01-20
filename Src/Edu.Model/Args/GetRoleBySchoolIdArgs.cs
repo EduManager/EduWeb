@@ -1,4 +1,4 @@
-﻿namespace Edu.Core.Procedure
+﻿namespace Edu.Model.Args
 {
     public class GetRoleBySchoolIdArgs
     {

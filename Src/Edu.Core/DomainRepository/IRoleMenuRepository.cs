@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Edu.Core.Procedure;
 using Edu.Model;
+using Edu.Model.Args;
 using Edu.Model.Core;
 
 namespace Edu.Core.DomainRepository
@@ -18,6 +18,18 @@ namespace Edu.Core.DomainRepository
         /// <returns></returns>
         QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetRoleMenuByRoleIdArgs args);
 
+        /// <summary>
+        /// 通过角色清除角色权限（需要重设置）
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args);
 
+        /// <summary>
+        /// 添加角色权限
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult AddRoleMenu(AddRoleMenuArgs args);
     }
 }
