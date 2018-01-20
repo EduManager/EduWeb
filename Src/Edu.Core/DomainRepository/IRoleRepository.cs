@@ -17,5 +17,12 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         QueryResult<Role> GetRoleBySchoolId(GetRoleBySchoolIdArgs args);
+
+        /// <summary>
+        /// 添加角色
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult AddRole(AddRoleArgs args);
     }
 }

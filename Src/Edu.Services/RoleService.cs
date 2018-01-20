@@ -38,5 +38,20 @@ namespace Edu.Services
 
             return ContainerFactory<IRoleRepository>.Instance.GetRoleBySchoolId(args);
         }
+
+        /// <summary>
+        /// 添加角色
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult AddRole(AddRoleArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            ArgumentHelper.Require(args.Name, "Name", Arguments.NotEmptyOrWhitespace);
+
+            return ContainerFactory<IRoleRepository>.Instance.AddRole(args);
+        }
     }
 }
