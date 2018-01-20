@@ -62,6 +62,14 @@
       <Project>{4412f1a9-5b8d-4697-ae1b-c2f4e81ff946}</Project>
       <Name>Edu.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Src\Edu.Model\Edu.Model.csproj">
+      <Project>{5ece9a32-ded4-4778-8ed4-094960f244e8}</Project>
+      <Name>Edu.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Src\Edu.Services\Edu.Services.csproj">
+      <Project>{b093c3e4-c720-41f8-963e-08765b750904}</Project>
+      <Name>Edu.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

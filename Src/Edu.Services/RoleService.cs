@@ -34,7 +34,7 @@ namespace Edu.Services
         /// <returns></returns>
         public QueryResult<Role> GetRoleBySchoolId(GetRoleBySchoolIdArgs args)
         {
-            Arguments.Positive(args.SchoolId, "SchoolId");
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
 
             return ContainerFactory<IRoleRepository>.Instance.GetRoleBySchoolId(args);
         }

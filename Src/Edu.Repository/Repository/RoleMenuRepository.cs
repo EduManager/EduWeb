@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Edu.Core.DomainRepository;
+using Edu.Infrastructure.Helper;
 using Edu.Model;
 using Edu.Model.Args;
 using Edu.Model.Core;
@@ -15,22 +16,52 @@ namespace Edu.Repository
     {
         public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetRoleMenuByRoleIdArgs args)
         {
-            var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<RoleMenuItem>("get_role_menu_by_role_id", args);
-            return result;
+            try
+            {
+                var result =
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<RoleMenuItem>(
+                        "get_role_menu_by_role_id", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "通过角色ID获取角色权限列表失败", e);
+                return QueryResult.Failure<RoleMenuItem>();
+            }
         }
 
         public CommandResult ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args)
         {
-            var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("clear_role_menu_by_role_id",
-                args);
-            return result;
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("clear_role_menu_by_role_id",
+                    args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "通过角色ID清除角色权限信息失败", e);
+                return CommandResult.Failure();
+            }
         }
 
         public CommandResult AddRoleMenu(AddRoleMenuArgs args)
         {
-            var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure("add_role_menu",
-                   args);
-            return result;
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>("add_role_menu",
+                    args);
+                if (result.Code == 200 && result.Items.Count > 0)
+                {
+                    return CommandResult.Success(result.Items[0]);
+                }
+                return CommandResult.Failure();
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "新增角色权限信息失败", e);
+                return CommandResult.Failure();
+            }
         }
     }
 }

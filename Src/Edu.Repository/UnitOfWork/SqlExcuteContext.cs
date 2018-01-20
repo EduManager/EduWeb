@@ -15,15 +15,15 @@ namespace Edu.Repository.UnitOfWork
     public class SqlExcuteContext : ISqlExcuteContext
     {
         private readonly string _strConn = "Data Source=127.0.0.1;Initial Catalog=edu;uid=root;password=jerry123;";
-       
-        public QueryResult<T> Query<T>(string sqlStr,object paras = null) where T : DomainEntity
+
+        public QueryResult<T> Query<T>(string sqlStr, object paras = null) where T : DomainEntity
         {
             List<T> result = new List<T>();
             using (IDbConnection connection = new MySqlConnection(_strConn))
             {
                 connection.Open();
-                result = connection.Query<T>(sqlStr, param:paras)
-                .ToList();
+                result = connection.Query<T>(sqlStr, param: paras)
+                    .ToList();
             }
             return QueryResult.Success<T>(result);
         }

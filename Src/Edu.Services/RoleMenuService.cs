@@ -34,7 +34,7 @@ namespace Edu.Services
         /// <returns></returns>
         public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetRoleMenuByRoleIdArgs args)
         {
-            Arguments.Positive(args.RoleId, "RoleId");
+            ArgumentHelper.Require(args.RoleId, "RoleId",Arguments.Positive);
 
             return ContainerFactory<IRoleMenuRepository>.Instance.GetRoleMenuByRoleId(args);
         }
@@ -47,7 +47,8 @@ namespace Edu.Services
         /// <returns></returns>
         public CommandResult ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args)
         {
-            Arguments.Positive(args.RoleId, "RoleId");
+            ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
+
             return ContainerFactory<IRoleMenuRepository>.Instance.ClearRoleMenuByRoleId(args);
         }
 
@@ -58,10 +59,10 @@ namespace Edu.Services
         /// <returns></returns>
         public CommandResult AddRoleMenu(AddRoleMenuArgs args)
         {
-            Arguments.Positive(args.RoleId, "RoleId");
-            Arguments.Positive(args.MenuId, "MenuId");
-            Arguments.Positive(args.CreateBy, "CreateBy");
-            Arguments.Positive(args.ModifyBy, "ModifyBy");
+            ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
+            ArgumentHelper.Require(args.MenuId, "MenuId", Arguments.Positive);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<IRoleMenuRepository>.Instance.AddRoleMenu(args);
         }

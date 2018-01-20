@@ -119,7 +119,6 @@
         var roleName = $(e).attr("data-text");
         $.get("GetMenuList?roleId=" + roleId,
             function (data) {
-                debugger;
                 var result = JSON.parse(data);
                 if(result.code === 200){
                     var zNodes = result.items;
@@ -141,7 +140,16 @@
     function commitData() {
         var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
         var node = treeObj.getNodes();
-        var nodes = treeObj.transformToArray(node); 
+        var nodes = treeObj.transformToArray(node);
+        var params = JSON.stringify(nodes);
+        debugger;
+        $.post("Commit",{"parametes":params},
+            function (data) {
+                var result = JSON.parse(data);
+                if(result.code == 200){
+                    $('#roleModal').modal('hide');
+                }
+            },"json");
     }
 
 </script>
@@ -186,6 +194,7 @@
                         </td>
                         <td>
                             <button class="btn btn-default" onclick="handlerModalData(this);" data-toggle="modal" data-target="#roleModal" data-real="@item.Id" data-text="@item.Name">编辑权限</button>
+                            <button class="btn btn-default" data-real="@item.Id" data-text="@item.Name">删除</button>
                         </td>
                     </tr>
                 }

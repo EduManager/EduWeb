@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Edu.Controller.Common;
 using Edu.Controller.Model;
+using Edu.Infrastructure.Common;
 using Edu.Infrastructure.Helper;
 using Edu.Model;
 using Edu.Model.Args;
@@ -29,9 +31,29 @@ namespace Edu.Controller.Controller
         }
 
         [HttpPost]
-        public string Commit(List<TreeNode> nodes)
+        public string Commit(string parametes)
         {
-            return "";
+            //先清除原有角色权限
+            RoleMenuService.Instance.ClearRoleMenuByRoleId(new ClearRoleMenuByRoleIdArgs()
+            {
+                RoleId = ApplicationContext.RoleId
+            });
+            var nodes = JsonHelper.Deserialize<List<TreeNode>>(parametes);
+            var selectNodes = nodes.Where(p => p.Checked);
+            var rowCount = 0;
+            //依次添加权限
+            foreach (var selectNode in selectNodes)
+            {
+                RoleMenuService.Instance.AddRoleMenu(new AddRoleMenuArgs()
+                {
+                    RoleId = ApplicationContext.RoleId,
+                    CreateBy = ApplicationContext.UserId,
+                    ModifyBy = ApplicationContext.UserId,
+                    MenuId = selectNode.Id
+                });
+                rowCount++;
+            }
+            return JsonHelper.Serialize(CommandResult.Success(rowCount));
         }
 
         [HttpGet]
@@ -62,15 +84,15 @@ namespace Edu.Controller.Controller
                     });
                 }
             }
-            //如果子节点被选中，父节点也要被选中
-            foreach (var item in result)
-            {
-                if (item.PId != 0 && item.Checked)
-                {
-                    var parentItem = result.FirstOrDefault(p => p.Id == item.PId);
-                    if (parentItem != null) parentItem.Checked = item.Checked;
-                }
-            }
+            ////如果子节点被选中，父节点也要被选中
+            //foreach (var item in result)
+            //{
+            //    if (item.PId != 0 && item.Checked)
+            //    {
+            //        var parentItem = result.FirstOrDefault(p => p.Id == item.PId);
+            //        if (parentItem != null) parentItem.Checked = item.Checked;
+            //    }
+            //}
             return JsonHelper.Serialize(QueryResult.Success(result));
             //return Json(result, JsonRequestBehavior.AllowGet);
         }

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Arguments.cs" />
+    <Compile Include="Common\EduExtension.cs" />
     <Compile Include="Database\SqlMapper.cs" />
     <Compile Include="Helper\DesEncryptHelper.cs" />
     <Compile Include="Helper\EncodeHelper.cs" />
