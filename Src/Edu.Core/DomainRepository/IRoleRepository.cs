@@ -31,5 +31,12 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         CommandResult<int> DeleteRole(DeleteRoleArgs args);
+
+        /// <summary>
+        /// 编辑角色
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> UpdateRole(UpdateRoleArgs args);
     }
 }

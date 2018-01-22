@@ -60,5 +60,19 @@ namespace Edu.Repository
                 return CommandResult.Failure<int>();
             }
         }
+
+        public CommandResult<int> UpdateRole(UpdateRoleArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("add_role_menu", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "编辑角色失败，RoleId:" + args.RoleId, e);
+                return CommandResult.Failure<int>();
+            }
+        }
     }
 }

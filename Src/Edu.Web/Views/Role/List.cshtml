@@ -145,8 +145,8 @@
         $.post("Commit",{"parametes":params},
             function (data) {
                 var result = JSON.parse(data);
-                if(result.code == 200){
-                    $('#roleModal').modal('hide');
+                if(result.code === 200){
+                    $('#roleMenuModal').modal('hide');
                 }
             });
     }
@@ -162,7 +162,10 @@
         var desc = $("#txtDescription").val();
         var role = { Name: name, Description: desc };
         $.post("Add", { "parametes": JSON.stringify(role) }, function (data) {
-
+            var result = JSON.parse(data);
+            if (result.code === 200) {
+                $('#addModal').modal('hide');
+            }
         });
     }
 
@@ -175,7 +178,7 @@
             contentType: 'application/json',
             success: function (data) {
                 var result = JSON.parse(data);
-                if (result.code == 200) {
+                if (result.code === 200) {
                     window.location.reload();
                 }
             }
@@ -284,7 +287,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="col-md-12">
-                                <div class="form-horizontal" role="form">
+                                <form class="form-horizontal" role="form">
                                     <div class="form-group">
                                         <label for="txtName" class="col-sm-2 control-label">名称</label>
                                         <div class="col-sm-10">
@@ -297,7 +300,7 @@
                                             <textarea class="form-control" rows="3" id="txtDescription" placeholder="请输入描述"></textarea>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                         <div class="modal-footer">

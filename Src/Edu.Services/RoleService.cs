@@ -66,5 +66,19 @@ namespace Edu.Services
 
             return ContainerFactory<IRoleRepository>.Instance.DeleteRole(args);
         }
+
+        /// <summary>
+        /// 编辑角色
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateRole(UpdateRoleArgs args)
+        {
+            ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
+            ArgumentHelper.Require(args.Name, "RoleId", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IRoleRepository>.Instance.UpdateRole(args);
+        }
     }
 }
