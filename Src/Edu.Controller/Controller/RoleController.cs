@@ -30,34 +30,67 @@ namespace Edu.Controller.Controller
             return View(roles);
         }
 
+        [HttpDelete]
+        public string Delete(int roleId)
+        {
+            var result = RoleService.Instance.DeleteRole(new DeleteRoleArgs()
+            {
+                RoleId = roleId,
+                ModifyBy = ApplicationContext.UserId
+            });
+            return JsonHelper.Serialize(result);
+        }
+
+        [HttpPost]
+        public string Add(string parametes)
+        {
+            //序列化数据
+            var model = JsonHelper.Deserialize<AddRoleArgs>(parametes);
+            if (model != null)
+            {
+                model.CreateBy = ApplicationContext.UserId;
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+
+                var result = RoleService.Instance.AddRole(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+
         [HttpPost]
         public string Commit(string parametes)
         {
-            //先清除原有角色权限
-            RoleMenuService.Instance.ClearRoleMenuByRoleId(new ClearRoleMenuByRoleIdArgs()
-            {
-                RoleId = ApplicationContext.RoleId
-            });
             var nodes = JsonHelper.Deserialize<List<TreeNode>>(parametes);
-            var selectNodes = nodes.Where(p => p.Checked);
-            var rowCount = 0;
-            //依次添加权限
-            foreach (var selectNode in selectNodes)
+            if (nodes != null)
             {
-                RoleMenuService.Instance.AddRoleMenu(new AddRoleMenuArgs()
+                //先清除原有角色权限
+                RoleMenuService.Instance.ClearRoleMenuByRoleId(new ClearRoleMenuByRoleIdArgs()
                 {
                     RoleId = ApplicationContext.RoleId,
-                    CreateBy = ApplicationContext.UserId,
-                    ModifyBy = ApplicationContext.UserId,
-                    MenuId = selectNode.Id
+                    ModifyBy = ApplicationContext.UserId
                 });
-                rowCount++;
+                var selectNodes = nodes.Where(p => p.Checked);
+                var rowCount = 0;
+                //依次添加权限
+                foreach (var selectNode in selectNodes)
+                {
+                    RoleMenuService.Instance.AddRoleMenu(new AddRoleMenuArgs()
+                    {
+                        RoleId = ApplicationContext.RoleId,
+                        CreateBy = ApplicationContext.UserId,
+                        ModifyBy = ApplicationContext.UserId,
+                        MenuId = selectNode.Id
+                    });
+                    rowCount++;
+                }
+                return JsonHelper.Serialize(CommandResult.Success(rowCount));
             }
-            return JsonHelper.Serialize(CommandResult.Success(rowCount));
+            return JsonHelper.Serialize(CommandResult.Failure());
         }
 
         [HttpGet]
-        public string GetMenuList(int roleId)
+        public string GetList(int roleId)
         {
             List<TreeNode> result = new List<TreeNode>();
             //获取菜单
@@ -84,17 +117,7 @@ namespace Edu.Controller.Controller
                     });
                 }
             }
-            ////如果子节点被选中，父节点也要被选中
-            //foreach (var item in result)
-            //{
-            //    if (item.PId != 0 && item.Checked)
-            //    {
-            //        var parentItem = result.FirstOrDefault(p => p.Id == item.PId);
-            //        if (parentItem != null) parentItem.Checked = item.Checked;
-            //    }
-            //}
             return JsonHelper.Serialize(QueryResult.Success(result));
-            //return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

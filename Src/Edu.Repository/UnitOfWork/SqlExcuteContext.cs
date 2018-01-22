@@ -40,7 +40,7 @@ namespace Edu.Repository.UnitOfWork
             return QueryResult.Success<T>(result);
         }
 
-        public CommandResult ExcuteScalarProceDure(string procName, object paras = null)
+        public CommandResult<object> ExcuteScalarProceDure(string procName, object paras = null)
         {
             object result;
             using (IDbConnection connection = new MySqlConnection(_strConn))
@@ -51,7 +51,7 @@ namespace Edu.Repository.UnitOfWork
             return CommandResult.Success(result);
         }
 
-        public CommandResult ExcuteProceDure(string procName, object paras = null)
+        public CommandResult<int> ExcuteProceDure(string procName, object paras = null)
         {
             int result = -1;
             using (IDbConnection connection = new MySqlConnection(_strConn))

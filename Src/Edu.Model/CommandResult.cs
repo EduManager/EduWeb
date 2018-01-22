@@ -19,7 +19,7 @@ namespace Edu.Model
         {
             get
             {
-                return Code.ToString().StartsWith("2");
+                return Code == OK_CODE;
             }
         }
 

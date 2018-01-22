@@ -23,13 +23,13 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args);
+        CommandResult<int> ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args);
 
         /// <summary>
         /// 添加角色权限
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult AddRoleMenu(AddRoleMenuArgs args);
+        CommandResult<object> AddRoleMenu(AddRoleMenuArgs args);
     }
 }

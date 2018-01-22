@@ -29,7 +29,7 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult AddRole(AddRoleArgs args)
+        public CommandResult<int> AddRole(AddRoleArgs args)
         {
             try
             {
@@ -38,12 +38,26 @@ namespace Edu.Repository
                 {
                     return CommandResult.Success(result.Items[0]);
                 }
-                return CommandResult.Failure();
+                return CommandResult.Failure<int>();
             }
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "创建角色失败，SchoolId:" + args.SchoolId + ",角色名称:" + args.Name, e);
-                return CommandResult.Failure();
+                return CommandResult.Failure<int>();
+            }
+        }
+
+        public CommandResult<int> DeleteRole(DeleteRoleArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("delete_role", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "删除角色失败，RoleId:" + args.RoleId , e);
+                return CommandResult.Failure<int>();
             }
         }
     }

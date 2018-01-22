@@ -44,7 +44,7 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult AddRole(AddRoleArgs args)
+        public CommandResult<int> AddRole(AddRoleArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
@@ -52,6 +52,19 @@ namespace Edu.Services
             ArgumentHelper.Require(args.Name, "Name", Arguments.NotEmptyOrWhitespace);
 
             return ContainerFactory<IRoleRepository>.Instance.AddRole(args);
+        }
+
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> DeleteRole(DeleteRoleArgs args)
+        {
+            ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IRoleRepository>.Instance.DeleteRole(args);
         }
     }
 }

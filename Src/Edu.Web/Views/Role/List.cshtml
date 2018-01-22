@@ -100,7 +100,7 @@
         $("#autoCheckTriggerValue").html(zTree.setting.check.autoCheckTrigger ? "true" : "false");
     }
 
-    function handlerModalData(e) {
+    function showUpdateRoleMenuModal(e) {
         //var zNodes = [
         //{ id: 1, pId: 0, name: "随意勾选 1", open: true },
         //{ id: 11, pId: 1, name: "随意勾选 1-1", open: true, checked: true },
@@ -115,14 +115,14 @@
         //{ id: 23, pId: 2, name: "禁止勾选 2-3", open: true }
         //];
         var roleId = $(e).attr("data-real");
-        currentRoleId = roleId; 
         var roleName = $(e).attr("data-text");
-        $.get("GetMenuList?roleId=" + roleId,
+        $("#roleMenuModalLabel").html(roleName + "-菜单权限编辑");
+        currentRoleId = roleId; 
+        $.get("GetList?roleId=" + roleId,
             function (data) {
                 var result = JSON.parse(data);
                 if(result.code === 200){
                     var zNodes = result.items;
-                    $("#myModalLabel").html(roleName + "-权限编辑");
                     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
                     $("#checkTrue").bind("click", { type: "checkTrue" }, checkNode);
                     $("#checkFalse").bind("click", { type: "checkFalse" }, checkNode);
@@ -137,21 +137,50 @@
             });
     }
 
-    function commitData() {
+    function commitRoleMenuData() {
         var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
         var node = treeObj.getNodes();
         var nodes = treeObj.transformToArray(node);
         var params = JSON.stringify(nodes);
-        debugger;
         $.post("Commit",{"parametes":params},
             function (data) {
                 var result = JSON.parse(data);
                 if(result.code == 200){
                     $('#roleModal').modal('hide');
                 }
-            },"json");
+            });
     }
 
+    function showUpdateRoleModal(e) {
+        var roleId = $(e).attr("data-real");
+        var roleName = $(e).attr("data-text");
+        $("#updateModalLabel").html(roleName + "-编辑");
+    }
+    
+    function addRole() {
+        var name = $("#txtName").val();
+        var desc = $("#txtDescription").val();
+        var role = { Name: name, Description: desc };
+        $.post("Add", { "parametes": JSON.stringify(role) }, function (data) {
+
+        });
+    }
+
+    function deleteRole(e) {
+        var roleId = $(e).attr("data-real");
+        $.ajax({
+            url: "Delete",
+            type: "delete",
+            data: JSON.stringify({ "roleId": roleId }),
+            contentType: 'application/json',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.code == 200) {
+                    window.location.reload();
+                }
+            }
+        });
+    }
 </script>
 
 <div class="container body-content">
@@ -160,7 +189,7 @@
     </ol>
     <div class="row">
         <div class="col-md-12">
-            <button class="btn btn-default" onclick="handlerModalData(this);" data-toggle="modal" data-target="#roleModal">创建角色</button>
+            <button class="btn btn-default" data-toggle="modal" data-target="#addModal">创建角色</button>
         </div>
         <div class="col-md-12">
             <table class="table table-striped">
@@ -196,22 +225,101 @@
                             }
                         </td>
                         <td>
-                            <button class="btn btn-default" onclick="handlerModalData(this);" data-toggle="modal" data-target="#roleModal" data-real="@item.Id" data-text="@item.Name">编辑权限</button>
-                            <button class="btn btn-default" data-real="@item.Id" data-text="@item.Name">删除</button>
+                            <button class="btn btn-default" onclick="showUpdateRoleModal(this);" data-toggle="modal" data-target="#updateRoleModal" data-real="@item.Id" data-text="@item.Name">编辑</button>
+                            <button class="btn btn-default" onclick="deleteRole(this);" data-real="@item.Id" data-text="@item.Name">删除</button>
+                            <button class="btn btn-default" onclick="showUpdateRoleMenuModal(this);" data-toggle="modal" data-target="#roleMenuModal" data-real="@item.Id" data-text="@item.Name">编辑权限</button>
                         </td>
                     </tr>
                 }
                 </tbody>
             </table>
-            <!-- 模态框（Modal）编辑角色权限 -->
-            <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+            <!-- 模态框（Modal）编辑角色 -->
+            <div class="modal fade" id="updateRoleModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" data-backdrop="false">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                                 &times;
                             </button>
-                            <h5 class="modal-title" id="myModalLabel"></h5>
+                            <h5 class="modal-title" id="updateModalLabel"></h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <div class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="txtUpdateName" class="col-sm-2 control-label">名称</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="txtUpdateName" placeholder="请输入名称">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txtUpdateDescription" class="col-sm-2 control-label">描述</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" id="txtUpdateDescription" placeholder="请输入描述"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                关闭
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                                提交更改
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!-- 模态框（Modal）创建角色 -->
+            <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h5 class="modal-title" id="addModalLabel">创建角色</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <div class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="txtName" class="col-sm-2 control-label">名称</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="txtName" placeholder="请输入名称">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txtDescription" class="col-sm-2 control-label">描述</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" id="txtDescription" placeholder="请输入描述"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                关闭
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="addRole();">
+                                提交
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!-- 模态框（Modal）编辑角色权限 -->
+            <div class="modal fade" id="roleMenuModal" tabindex="-1" role="dialog" aria-labelledby="roleMenuModalLabel" aria-hidden="true" data-backdrop="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h5 class="modal-title" id="roleMenuModalLabel"></h5>
                         </div>
                         <div class="modal-body">
                             <div class="col-md-12">
@@ -222,7 +330,7 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                 关闭
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="commitData();">
+                            <button type="button" class="btn btn-primary" onclick="commitRoleMenuData();">
                                 提交更改
                             </button>
                         </div>

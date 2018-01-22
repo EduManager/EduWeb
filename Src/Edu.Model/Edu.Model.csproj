@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Args\AddRoleArgs.cs" />
+    <Compile Include="Args\DeleteRoleArgs.cs" />
     <Compile Include="Core\RoleMenuItem.cs" />
     <Compile Include="CommandResult.cs" />
     <Compile Include="Core\Menu.cs" />

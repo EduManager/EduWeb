@@ -30,7 +30,7 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args)
+        public CommandResult<int> ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args)
         {
             try
             {
@@ -41,26 +41,22 @@ namespace Edu.Repository
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "通过角色ID清除角色权限信息失败", e);
-                return CommandResult.Failure();
+                return CommandResult.Failure<int>();
             }
         }
 
-        public CommandResult AddRoleMenu(AddRoleMenuArgs args)
+        public CommandResult<object> AddRoleMenu(AddRoleMenuArgs args)
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>("add_role_menu",
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure("add_role_menu",
                     args);
-                if (result.Code == 200 && result.Items.Count > 0)
-                {
-                    return CommandResult.Success(result.Items[0]);
-                }
-                return CommandResult.Failure();
+                return result;
             }
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "新增角色权限信息失败", e);
-                return CommandResult.Failure();
+                return CommandResult.Failure<object>();
             }
         }
     }

@@ -45,9 +45,10 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args)
+        public CommandResult<int> ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args)
         {
             ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<IRoleMenuRepository>.Instance.ClearRoleMenuByRoleId(args);
         }
@@ -57,7 +58,7 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult AddRoleMenu(AddRoleMenuArgs args)
+        public CommandResult<object> AddRoleMenu(AddRoleMenuArgs args)
         {
             ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
             ArgumentHelper.Require(args.MenuId, "MenuId", Arguments.Positive);

@@ -27,7 +27,7 @@ namespace Edu.Core.DomainRepository
         /// <param name="procName"></param>
         /// <param name="paras"></param>
         /// <returns></returns>
-        CommandResult ExcuteScalarProceDure(string procName, object paras = null);
+        CommandResult<object> ExcuteScalarProceDure(string procName, object paras = null);
 
         /// <summary>
         /// 执行add\update\delete类型的存储过程
@@ -35,6 +35,6 @@ namespace Edu.Core.DomainRepository
         /// <param name="procName"></param>
         /// <param name="paras"></param>
         /// <returns></returns>
-        CommandResult ExcuteProceDure(string procName, object paras = null);
+        CommandResult<int> ExcuteProceDure(string procName, object paras = null);
     }
 }
