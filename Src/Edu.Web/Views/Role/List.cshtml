@@ -3,9 +3,11 @@
     ViewBag.Title = "角色列表";
 }
 
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <link href="~/Content/ztree/zTreeStyle.css" rel="stylesheet" type="text/css" />
 <script src="~/Scripts/ztree/jquery.ztree.core.min.js"></script>
 <script src="~/Scripts/ztree/jquery.ztree.excheck.min.js"></script>
+<script src="~/Scripts/bootstrapValidator.js"></script>
 <style type="text/css">
     .modal-dialog {
         right: auto;
@@ -117,7 +119,6 @@
         var roleId = $(e).attr("data-real");
         var roleName = $(e).attr("data-text");
         $("#roleMenuModalLabel").html(roleName + "-菜单权限编辑");
-        currentRoleId = roleId; 
         $.get("GetList?roleId=" + roleId,
             function (data) {
                 var result = JSON.parse(data);
@@ -154,21 +155,13 @@
     function showUpdateRoleModal(e) {
         var roleId = $(e).attr("data-real");
         var roleName = $(e).attr("data-text");
+        var desc = $(e).attr("data-tag");
         $("#updateModalLabel").html(roleName + "-编辑");
+        $("#txtUpdateName").val(roleName);
+        $("#txtUpdateDescription").val(desc);
+        currentRoleId = roleId;
     }
     
-    function addRole() {
-        var name = $("#txtName").val();
-        var desc = $("#txtDescription").val();
-        var role = { Name: name, Description: desc };
-        $.post("Add", { "parametes": JSON.stringify(role) }, function (data) {
-            var result = JSON.parse(data);
-            if (result.code === 200) {
-                $('#addModal').modal('hide');
-            }
-        });
-    }
-
     function deleteRole(e) {
         var roleId = $(e).attr("data-real");
         $.ajax({
@@ -228,7 +221,7 @@
                             }
                         </td>
                         <td>
-                            <button class="btn btn-default" onclick="showUpdateRoleModal(this);" data-toggle="modal" data-target="#updateRoleModal" data-real="@item.Id" data-text="@item.Name">编辑</button>
+                            <button class="btn btn-default" onclick="showUpdateRoleModal(this);" data-toggle="modal" data-target="#updateRoleModal" data-real="@item.Id" data-text="@item.Name" data-tag="@item.Description">编辑</button>
                             <button class="btn btn-default" onclick="deleteRole(this);" data-real="@item.Id" data-text="@item.Name">删除</button>
                             <button class="btn btn-default" onclick="showUpdateRoleMenuModal(this);" data-toggle="modal" data-target="#roleMenuModal" data-real="@item.Id" data-text="@item.Name">编辑权限</button>
                         </td>
@@ -248,11 +241,11 @@
                         </div>
                         <div class="modal-body">
                             <div class="col-md-12">
-                                <div class="form-horizontal" role="form">
+                                <div class="form-horizontal" role="form" id="updateForm">
                                     <div class="form-group">
                                         <label for="txtUpdateName" class="col-sm-2 control-label">名称</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtUpdateName" placeholder="请输入名称">
+                                            <input type="text" class="form-control" id="txtUpdateName" name="txtUpdateName" placeholder="请输入名称">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -268,7 +261,7 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                 关闭
                             </button>
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary" id="btnUpdateRole">
                                 提交更改
                             </button>
                         </div>
@@ -287,27 +280,27 @@
                         </div>
                         <div class="modal-body">
                             <div class="col-md-12">
-                                <form class="form-horizontal" role="form">
+                                <div class="form-horizontal" id="addForm" role="form">
                                     <div class="form-group">
                                         <label for="txtName" class="col-sm-2 control-label">名称</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtName" placeholder="请输入名称">
+                                            <input type="text" class="form-control" id="txtName" name="txtName" placeholder="请输入名称">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txtDescription" class="col-sm-2 control-label">描述</label>
                                         <div class="col-sm-10">
-                                            <textarea class="form-control" rows="3" id="txtDescription" placeholder="请输入描述"></textarea>
+                                            <textarea class="form-control" rows="3" id="txtDescription" name="txtDescription" placeholder="请输入描述"></textarea>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                 关闭
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="addRole();">
+                            <button type="submit" class="btn btn-primary" id="btnAddRole">
                                 提交
                             </button>
                         </div>
@@ -341,6 +334,93 @@
                 </div><!-- /.modal -->
             </div>
         </div>
-        </div>
+    </div>
 </div>
+<script>
+    $(document)
+        .ready(function() {
+            $('#addForm')
+                .bootstrapValidator({
+                    message: 'This value is not valid',
+                    submitButtons: '#btnAddRole',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        txtName: {
+                            message: '用户名验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '角色名称不能为空'
+                                }
+                            }
+                        }
+                    }
+                });
+            $('#updateForm')
+                .bootstrapValidator({
+                    message: 'This value is not valid',
+                    submitButtons: '#btnAddRole',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        txtUpdateName: {
+                            message: '用户名验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '角色名称不能为空'
+                                }
+                            }
+                        }
+                    }
+                });
+            $("#btnAddRole")
+                .click(function() {
+                    $("#addForm").bootstrapValidator('validate'); //提交验证  
+                    if ($("#addForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码  
+                        //验证成功后的操作，如ajax 
+                        var name = $("#txtName").val();
+                        var desc = $("#txtDescription").val();
+                        var role = { Name: name, Description: desc };
+                        $.post("Add", { "parametes": JSON.stringify(role) }, function (data) {
+                            var result = JSON.parse(data);
+                            if (result.code === 200) {
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+            $("#btnUpdateRole")
+                .click(function() {
+                    $("#updateForm").bootstrapValidator('validate'); //提交验证  
+                    if ($("#updateForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码  
+                        //验证成功后的操作，如ajax 
+                        var name = $("#txtUpdateName").val();
+                        var desc = $("#txtUpdateDescription").val();
+                        var model = {
+                            RoleId: currentRoleId,
+                            Name: name,
+                            Description: desc
+                        };
+                        $.ajax({
+                            url: "Update",
+                            type: "put",
+                            data: JSON.stringify({ "parametes": JSON.stringify(model) }),
+                            contentType: 'application/json',
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
+                });
+        });
+</script>
 

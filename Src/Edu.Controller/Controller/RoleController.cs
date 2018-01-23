@@ -41,6 +41,20 @@ namespace Edu.Controller.Controller
             return JsonHelper.Serialize(result);
         }
 
+        [HttpPut]
+        public string Update(string parametes)
+        {
+            //序列化数据
+            var model = JsonHelper.Deserialize<UpdateRoleArgs>(parametes);
+            if (model != null)
+            {
+                model.ModifyBy = ApplicationContext.UserId;
+                var result = RoleService.Instance.UpdateRole(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+
         [HttpPost]
         public string Add(string parametes)
         {
