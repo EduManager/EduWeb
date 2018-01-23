@@ -83,6 +83,7 @@
     <Compile Include="Common\SessionConst.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\RoleController.cs" />
+    <Compile Include="Controller\UserController.cs" />
     <Compile Include="GlobeRouteTable.cs" />
     <Compile Include="Model\HttpContextUser.cs" />
     <Compile Include="Model\TreeNode.cs" />
