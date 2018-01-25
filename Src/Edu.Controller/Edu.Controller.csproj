@@ -86,6 +86,7 @@
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="GlobeRouteTable.cs" />
     <Compile Include="Model\HttpContextUser.cs" />
+    <Compile Include="Model\LoginUserInfo.cs" />
     <Compile Include="Model\TreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

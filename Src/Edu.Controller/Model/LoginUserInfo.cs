@@ -27,5 +27,8 @@ namespace Edu.Controller.Model
         [DataMember]
         public string Password { get; set; }
         
+        [JsonProperty("token_timespan")]
+        [DataMember]
+        public long TimeSpan { get; set; }
     }
 }
