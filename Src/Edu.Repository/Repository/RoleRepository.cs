@@ -25,7 +25,7 @@ namespace Edu.Repository
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "通过学校ID获取角色列表败", e);
-                return QueryResult.Failure<Role>();
+                return QueryResult.Failure<Role>(e.ToString());
             }
         }
 
@@ -43,7 +43,7 @@ namespace Edu.Repository
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "创建角色失败，SchoolId:" + args.SchoolId + ",角色名称:" + args.Name, e);
-                return CommandResult.Failure<int>();
+                return CommandResult.Failure<int>(e.ToString());
             }
         }
 
@@ -57,7 +57,7 @@ namespace Edu.Repository
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "删除角色失败，RoleId:" + args.RoleId , e);
-                return CommandResult.Failure<int>();
+                return CommandResult.Failure<int>(e.ToString());
             }
         }
 
@@ -71,7 +71,7 @@ namespace Edu.Repository
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "编辑角色失败，RoleId:" + args.RoleId, e);
-                return CommandResult.Failure<int>();
+                return CommandResult.Failure<int>(e.ToString());
             }
         }
     }

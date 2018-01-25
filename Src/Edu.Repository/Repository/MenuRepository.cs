@@ -22,7 +22,7 @@ namespace Edu.Repository
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(),"获取菜单列表失败",e);
-                return QueryResult.Failure<Menu>();
+                return QueryResult.Failure<Menu>(e.ToString());
             }
         }
     }

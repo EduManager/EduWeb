@@ -26,7 +26,7 @@ namespace Edu.Repository
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "通过角色ID获取角色权限列表失败", e);
-                return QueryResult.Failure<RoleMenuItem>();
+                return QueryResult.Failure<RoleMenuItem>(e.ToString());
             }
         }
 
@@ -41,7 +41,7 @@ namespace Edu.Repository
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "通过角色ID清除角色权限信息失败", e);
-                return CommandResult.Failure<int>();
+                return CommandResult.Failure<int>(e.ToString());
             }
         }
 
@@ -56,7 +56,7 @@ namespace Edu.Repository
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "新增角色权限信息失败", e);
-                return CommandResult.Failure<object>();
+                return CommandResult.Failure<object>(e.ToString());
             }
         }
     }
