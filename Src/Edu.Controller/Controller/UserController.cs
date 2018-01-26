@@ -101,20 +101,14 @@ namespace Edu.Controller.Controller
                 }
 
                 SetToken();
-                return string.IsNullOrEmpty(from)
-                    ? View("Login")
-                    : View("Login",
-                        new RouteValueDictionary {{"from", from}});
+                return View("Login");
             }
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), e.ToString(), e);
                 ViewBag.Msg = "用户登录异常";
                 SetToken();
-                return string.IsNullOrEmpty(from)
-                    ? View("Login")
-                    : View("Login",
-                        new RouteValueDictionary {{"from", from}});
+                return View("Login");
             }
         }
 
