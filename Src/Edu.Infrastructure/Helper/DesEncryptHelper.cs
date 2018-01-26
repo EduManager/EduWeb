@@ -13,59 +13,76 @@ namespace Edu.Infrastructure.Helper
     /// </summary>
     public class DesEncryptHelper
     {
-        /// <summary>
-        ///3DES加密
-        /// </summary>
-        /// <param name="originalValue">加密数据</param>
-        /// <param name="key">24位字符的密钥字符串</param>
-        /// <param name="IV">8位字符的初始化向量字符串</param>
-        /// <returns></returns>
-        public string DESEncrypt(string originalValue, string key, string IV)
-        {
-
-            SymmetricAlgorithm sa;
-            ICryptoTransform ct;
-            MemoryStream ms;
-            CryptoStream cs;
-            byte[] byt;
-            sa = new TripleDESCryptoServiceProvider();
-            sa.Key = Encoding.UTF8.GetBytes(key);
-            sa.IV = Encoding.UTF8.GetBytes(IV);
-            ct = sa.CreateEncryptor();
-            byt = Encoding.UTF8.GetBytes(originalValue);
-            ms = new MemoryStream();
-            cs = new CryptoStream(ms, ct, CryptoStreamMode.Write);
-            cs.Write(byt, 0, byt.Length);
-            cs.FlushFinalBlock();
-            cs.Close();
-            return Convert.ToBase64String(ms.ToArray());
-        }
+        #region 3des加密
 
         /// <summary>
-        /// 3DES解密
+        /// 3des ecb模式加密
         /// </summary>
-        /// <param name="data">解密数据</param>
-        /// <param name="key">24位字符的密钥字符串(需要和加密时相同)</param>
-        /// <param name="iv">8位字符的初始化向量字符串(需要和加密时相同)</param>
-        /// <returns></returns>
-        public static string DESDecrypst(string data, string key, string IV)
+        /// <param name="aStrString">待加密的字符串</param>
+        /// <param name="aStrKey">密钥</param>
+        /// <param name="iv">加密矢量：只有在CBC解密模式下才适用</param>
+        /// <param name="mode">运算模式</param>
+        /// <returns>加密后的字符串</returns>
+        public static string Encrypt3Des(string aStrString, string aStrKey, CipherMode mode = CipherMode.ECB, string iv = "12345678")
         {
-            SymmetricAlgorithm mCSP = new TripleDESCryptoServiceProvider();
-            mCSP.Key = Encoding.UTF8.GetBytes(key);
-            mCSP.IV = Encoding.UTF8.GetBytes(IV);
-            ICryptoTransform ct;
-            MemoryStream ms;
-            CryptoStream cs;
-            byte[] byt;
-            ct = mCSP.CreateDecryptor(mCSP.Key, mCSP.IV);
-            byt = Convert.FromBase64String(data);
-            ms = new MemoryStream();
-            cs = new CryptoStream(ms, ct, CryptoStreamMode.Write);
-            cs.Write(byt, 0, byt.Length);
-            cs.FlushFinalBlock();
-            cs.Close();
-            return Encoding.UTF8.GetString(ms.ToArray());
+            try
+            {
+                var des = new TripleDESCryptoServiceProvider
+                {
+                    Key = Encoding.UTF8.GetBytes(aStrKey),
+                    Mode = mode
+                };
+                if (mode == CipherMode.CBC)
+                {
+                    des.IV = Encoding.UTF8.GetBytes(iv);
+                }
+                var desEncrypt = des.CreateEncryptor();
+                byte[] buffer = Encoding.UTF8.GetBytes(aStrString);
+                return Convert.ToBase64String(desEncrypt.TransformFinalBlock(buffer, 0, buffer.Length));
+            }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }
         }
 
+        #endregion
+
+        #region 3des解密
+
+        /// <summary>
+        /// des 解密
+        /// </summary>
+        /// <param name="aStrString">加密的字符串</param>
+        /// <param name="aStrKey">密钥</param>
+        /// <param name="iv">解密矢量：只有在CBC解密模式下才适用</param>
+        /// <param name="mode">运算模式</param>
+        /// <returns>解密的字符串</returns>
+        public static string Decrypt3Des(string aStrString, string aStrKey, CipherMode mode = CipherMode.ECB, string iv = "12345678")
+        {
+            try
+            {
+                var des = new TripleDESCryptoServiceProvider
+                {
+                    Key = Encoding.UTF8.GetBytes(aStrKey),
+                    Mode = mode,
+                    Padding = PaddingMode.PKCS7
+                };
+                if (mode == CipherMode.CBC)
+                {
+                    des.IV = Encoding.UTF8.GetBytes(iv);
+                }
+                var desDecrypt = des.CreateDecryptor();
+                var result = "";
+                byte[] buffer = Convert.FromBase64String(aStrString);
+                result = Encoding.UTF8.GetString(desDecrypt.TransformFinalBlock(buffer, 0, buffer.Length));
+                return result;
+            }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }
+        }
+        #endregion
     }
 }
