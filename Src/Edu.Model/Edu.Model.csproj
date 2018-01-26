@@ -44,7 +44,9 @@
   <ItemGroup>
     <Compile Include="Args\AddRoleArgs.cs" />
     <Compile Include="Args\DeleteRoleArgs.cs" />
+    <Compile Include="Args\LoginInArgs.cs" />
     <Compile Include="Args\UpdateRoleArgs.cs" />
+    <Compile Include="Core\User.cs" />
     <Compile Include="Core\RoleMenuItem.cs" />
     <Compile Include="CommandResult.cs" />
     <Compile Include="Core\Menu.cs" />

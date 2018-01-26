@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DomainRepository\IMenuRepository.cs" />
     <Compile Include="DomainRepository\IRepository.cs" />
+    <Compile Include="DomainRepository\IUserRepository.cs" />
     <Compile Include="DomainRepository\IRoleRepository.cs" />
     <Compile Include="DomainRepository\IRoleMenuRepository.cs" />
     <Compile Include="DomainRepository\IUnitOfWork.cs" />

@@ -14,7 +14,8 @@ namespace Edu.Web
         {
             AreaRegistration.RegisterAllAreas();
             //RouteConfig.RegisterRoutes(RouteTable.Routes);
-            GlobeRouteTable.RegisterRoutes(RouteTable.Routes);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            GlobalRouteTable.RegisterRoutes(RouteTable.Routes);
         }
     }
 }

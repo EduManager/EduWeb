@@ -18,6 +18,7 @@ namespace Edu.Controller.Common
                     return 0;
                 return (int)obj;
             }
+            set { HttpContext.Current.Session[SessionConst.SchoolId] = value; }
         }
 
         public static int RoleId
@@ -29,6 +30,7 @@ namespace Edu.Controller.Common
                     return 0;
                 return (int)obj;
             }
+            set { HttpContext.Current.Session[SessionConst.RoleId] = value; }
         }
 
         public static int UserId
@@ -40,6 +42,7 @@ namespace Edu.Controller.Common
                     return 0;
                 return (int)obj;
             }
+            set { HttpContext.Current.Session[SessionConst.UserId] = value; }
         }
 
         public static string UserName
@@ -51,6 +54,7 @@ namespace Edu.Controller.Common
                     return "";
                 return obj.ToString();
             }
+            set { HttpContext.Current.Session[SessionConst.UserName] = value; }
         }
     }
     

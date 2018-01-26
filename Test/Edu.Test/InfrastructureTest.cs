@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Edu.Infrastructure.Helper;
@@ -20,12 +21,10 @@ namespace Edu.Test
         [Test]
         public void Entry()
         {
-            var id = Guid.NewGuid().ToString().Replace("-", "");
-            var s = id.Substring(0,24);
-            var str = "werf@qq.com";
-            var s1 = DesEncryptHelper.Encrypt3Des(str, s);
-
-            var s2 = DesEncryptHelper.Decrypt3Des(s1, s);
+            var token = "c17e82c72ff74c2ea476006012345678";
+            var key = token.Substring(0, 24);
+            var id = token.Substring(24, 8);
+            var s2 = DesEncryptHelper.Decrypt3Des("F+C/TtcK6W4=", key,CipherMode.ECB,id);
         }
         [Test]
         public void Test()

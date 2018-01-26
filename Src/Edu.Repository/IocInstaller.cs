@@ -26,6 +26,9 @@ namespace Edu.Repository
                     .LifeStyle.Singleton,
                 Component.For(typeof(IMenuRepository))
                     .ImplementedBy<MenuRepository>()
+                    .LifeStyle.Singleton, 
+                Component.For(typeof(IUserRepository))
+                    .ImplementedBy<UserRepository>()
                     .LifeStyle.Singleton);
 
             #endregion

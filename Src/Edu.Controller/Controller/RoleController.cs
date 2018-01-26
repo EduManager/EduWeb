@@ -15,6 +15,7 @@ using Edu.Services;
 
 namespace Edu.Controller.Controller
 {
+    [AuthFilter]
     public class RoleController : System.Web.Mvc.Controller
     {
         public ViewResult List()
