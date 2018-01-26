@@ -26,6 +26,15 @@ namespace Edu.Controller.Controller
             return View();
         }
 
+        public ActionResult SignOut()
+        {
+            ApplicationContext.UserId = 0;
+            ApplicationContext.RoleId = 0;
+            ApplicationContext.SchoolId = 0;
+            ApplicationContext.UserName = null;
+            return View("Login");
+        }
+
         [HttpPost]
         public ActionResult SignIn()
         {
@@ -74,7 +83,7 @@ namespace Edu.Controller.Controller
                                     ApplicationContext.UserId = user.UserId;
                                     ApplicationContext.UserName = user.Name;
                                     if (!string.IsNullOrEmpty(from))
-                                        return Redirect(from);
+                                        return Redirect(HttpUtility.UrlDecode(from));
                                     return RedirectToAction("Index", "Home");
                                 }
                                 ViewBag.Msg = "用户密码错误";
