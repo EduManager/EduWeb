@@ -27,7 +27,7 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
-                                <a href="#" data-toggle="dropdown" id="ahr" class="dropdown-toggle" data-real="1">前台业务<span class="caret"></span></a>
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle" data-real="1">前台业务<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="~/Home/Contract"  data-real="5">学生咨询</a></li>
                                     <li><a href="~/Home/Index" data-real="6">咨询信息查询</a></li>
@@ -107,10 +107,13 @@
     </div>
 
 <script>
-    var list = '@ApplicationContext.RoleMenuList';
+    var listStr = '@ApplicationContext.RoleMenuList';
+    var reg = /&quot;/g;
+    var listStrAll = listStr.replace(reg, "'");
     var context = {
-        RoleMenuList: JSON.parse(list.replace("&quot",""))
+        RoleMenuList: eval(listStrAll)
     };
+
     $('a.dropdown-toggle')
         .mouseover(function() {
             $(this).parent().addClass('open');
@@ -121,9 +124,45 @@
     }).mouseout(function () {
         $(this).removeClass('open');
     });
-    $.ready(function() {
-        alert(context.RoleMenuList);
-    });
+    $(document)
+        .ready(function() {
+            $("ul.dropdown-menu li a")
+                .each(function() {
+                    var realId = this.dataset.real;
+                    if (typeof (realId) != "undefined") {
+                        var isExist = false;
+                        for (var i = 0; i < context.RoleMenuList.length; i++) {
+                            var menu = context.RoleMenuList[i];
+                            if (menu.menuId == realId) {
+                                isExist = true;
+                            }
+                        }
+                        if (isExist) {
+                            $(this).show();
+                        } else {
+                            $(this).remove();
+                        }
+                    }
+                });
+            $("a.dropdown-toggle")
+                .each(function() {
+                    var realId = this.dataset.real;
+                    if (typeof (realId) != "undefined") {
+                        var isExist = false;
+                        for (var i = 0; i < context.RoleMenuList.length; i++) {
+                            var menu = context.RoleMenuList[i];
+                            if (menu.menuId == realId) {
+                                isExist = true;
+                            }
+                        }
+                        if (isExist) {
+                            $(this).show();
+                        } else {
+                            $(this).remove();
+                        }
+                    }
+                });
+        });
 </script>
 </body>
 </html>
