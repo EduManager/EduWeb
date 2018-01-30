@@ -42,6 +42,7 @@ namespace Edu.Infrastructure.Helper
             }
             catch (Exception e)
             {
+                LogHelper.Error(typeof(DesEncryptHelper), "3Des加密出错", e);
                 return string.Empty;
             }
         }
@@ -80,6 +81,7 @@ namespace Edu.Infrastructure.Helper
             }
             catch (Exception e)
             {
+                LogHelper.Error(typeof(DesEncryptHelper), "3Des解密出错", e);
                 return string.Empty;
             }
         }
