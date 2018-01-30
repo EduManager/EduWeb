@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using Edu.Infrastructure.Helper;
-using Edu.Model.Args;
-using Edu.Model.Core;
-using Edu.Services;
+﻿using System.Web;
+using Edu.Controller.Common;
 
-namespace Edu.Controller.Common
+namespace Edu.Infrastructure.Common
 {
     public static class ApplicationContext
     {
@@ -36,22 +28,7 @@ namespace Edu.Controller.Common
             }
             set { HttpContext.Current.Session[SessionConst.RoleId] = value; }
         }
-
-        public static string RoleMenuList
-        {
-            get
-            {
-                if (RoleId == 0)
-                    return JsonHelper.Serialize(new List<RoleMenuItem>());
-                var result = RoleMenuService.Instance.GetRoleMenuByRoleId(new GetRoleMenuByRoleIdArgs()
-                {
-                    RoleId = RoleId
-                });
-                var model = result.Code == 200 ? result.Items : new List<RoleMenuItem>();
-                return JsonHelper.Serialize(model);
-            }
-        }
-
+        
         public static int UserId
         {
             get

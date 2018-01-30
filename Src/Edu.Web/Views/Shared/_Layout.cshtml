@@ -1,4 +1,5 @@
 ﻿@using Edu.Controller.Common
+@using Edu.Infrastructure.Common
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,7 +108,7 @@
     </div>
 
 <script>
-    var listStr = '@ApplicationContext.RoleMenuList';
+    var listStr = '@WebApplicationContext.RoleMenuList';
     var reg = /&quot;/g;
     var listStrAll = listStr.replace(reg, "'");
     var context = {

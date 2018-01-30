@@ -78,9 +78,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\ApplicationContext.cs" />
+    <Compile Include="Common\WebApplicationContext.cs" />
     <Compile Include="Common\AuthAttribute.cs" />
-    <Compile Include="Common\SessionConst.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\RoleController.cs" />
     <Compile Include="Controller\UserController.cs" />

@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,8 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ApplicationContext.cs" />
     <Compile Include="Common\Arguments.cs" />
     <Compile Include="Common\EduExtension.cs" />
+    <Compile Include="Common\SessionConst.cs" />
     <Compile Include="Database\SqlMapper.cs" />
     <Compile Include="Helper\DesEncryptHelper.cs" />
     <Compile Include="Helper\EncodeHelper.cs" />
