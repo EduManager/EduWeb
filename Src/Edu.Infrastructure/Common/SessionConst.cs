@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Edu.Controller.Common
+﻿namespace Edu.Infrastructure.Common
 {
-    public class SessionConst
+    internal class SessionConst
     {
         public static string SchoolId => "SchoolId";
 

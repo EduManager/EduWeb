@@ -1,5 +1,4 @@
 ﻿using System.Web;
-using Edu.Controller.Common;
 
 namespace Edu.Infrastructure.Common
 {
