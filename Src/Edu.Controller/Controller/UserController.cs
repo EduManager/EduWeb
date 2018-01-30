@@ -95,8 +95,7 @@ namespace Edu.Controller.Controller
                         }
                         else
                         {
-
-                            ViewBag.Msg = userInfo.Message;
+                            ViewBag.Msg = "服务器异常，请稍后重试";
                         }
                     }
                     else

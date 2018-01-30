@@ -25,7 +25,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "通过角色ID获取角色权限列表失败", e);
+                LogHelper.Error(this.GetType(), "登陆模块--通过角色ID获取角色权限列表失败", e);
                 return QueryResult.Failure<User>(e.ToString());
             }
         }
