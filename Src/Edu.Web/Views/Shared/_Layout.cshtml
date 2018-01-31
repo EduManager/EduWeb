@@ -111,7 +111,6 @@
     var listStr = '@WebApplicationContext.RoleMenuList';
     var reg = /&quot;/g;
     var listStrAll = listStr.replace(reg, "\"");
-    debugger;
     var context = {
         RoleMenuList: eval(listStrAll)
     };
