@@ -65,7 +65,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("add_role_menu", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("update_role", args);
                 return result;
             }
             catch (Exception e)
