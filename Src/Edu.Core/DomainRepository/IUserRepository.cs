@@ -9,7 +9,7 @@ using Edu.Model.Core;
 
 namespace Edu.Core.DomainRepository
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository
     {
         /// <summary>
         /// 通过登录账号获取用户信息
@@ -17,6 +17,6 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         QueryResult<User> GetUserInfoByLoginInAccount(LoginInArgs args);
-        
+
     }
 }

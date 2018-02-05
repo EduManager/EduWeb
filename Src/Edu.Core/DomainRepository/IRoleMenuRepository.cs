@@ -9,7 +9,7 @@ using Edu.Model.Core;
 
 namespace Edu.Core.DomainRepository
 {
-    public interface IRoleMenuRepository
+    public interface IRoleMenuRepository : IRepository
     {
         /// <summary>
         /// 获取角色菜单列表

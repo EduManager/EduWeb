@@ -10,7 +10,7 @@ using Edu.Model.Core;
 
 namespace Edu.Repository
 {
-    internal class MenuRepository : IMenuRepository
+    internal class MenuRepository : BaseRepository, IMenuRepository
     {
         public QueryResult<Menu> GetMenu()
         {

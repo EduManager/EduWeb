@@ -12,7 +12,7 @@ using Edu.Model.Core;
 
 namespace Edu.Repository
 {
-    internal class RoleMenuRepository : IRoleMenuRepository
+    internal class RoleMenuRepository : BaseRepository, IRoleMenuRepository
     {
         public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetRoleMenuByRoleIdArgs args)
         {

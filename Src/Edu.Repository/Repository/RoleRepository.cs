@@ -11,7 +11,7 @@ using Edu.Model.Core;
 
 namespace Edu.Repository
 {
-    internal class RoleRepository : IRoleRepository
+    internal class RoleRepository : BaseRepository, IRoleRepository
     {
         public QueryResult<Role> GetRoleBySchoolId(GetRoleBySchoolIdArgs args)
         {

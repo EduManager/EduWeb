@@ -38,7 +38,7 @@ namespace Edu.Controller.Controller
         [HttpPost]
         public ActionResult SignIn()
         {
-            var from = Request.UrlReferrer.AbsoluteUri.Contains("from")
+            var from = Request.UrlReferrer != null && Request.UrlReferrer.AbsoluteUri.Contains("from")
                 ? Request.UrlReferrer.AbsoluteUri.Substring(Request.UrlReferrer.AbsoluteUri.IndexOf('=')+1)
                 : "";
             try

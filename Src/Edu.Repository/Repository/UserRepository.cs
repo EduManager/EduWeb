@@ -12,7 +12,7 @@ using Edu.Model.Core;
 
 namespace Edu.Repository
 {
-    internal class UserRepository : IUserRepository
+    internal class UserRepository : BaseRepository, IUserRepository
     {
         public QueryResult<User> GetUserInfoByLoginInAccount(LoginInArgs args)
         {

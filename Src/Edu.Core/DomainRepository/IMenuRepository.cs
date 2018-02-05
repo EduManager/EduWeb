@@ -5,7 +5,7 @@ using Edu.Model.Core;
 
 namespace Edu.Core.DomainRepository
 {
-    public interface IMenuRepository
+    public interface IMenuRepository : IRepository
     {
         /// <summary>
         /// 获取菜单内容
