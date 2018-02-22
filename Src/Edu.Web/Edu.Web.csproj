@@ -132,6 +132,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Role\List.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

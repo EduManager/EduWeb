@@ -26,6 +26,14 @@ namespace Edu.Controller.Controller
             return View();
         }
 
+        public ViewResult Update()
+        {
+            var userId = ApplicationContext.UserId;
+
+
+            return View();
+        }
+
         public ActionResult SignOut()
         {
             ApplicationContext.UserId = 0;
