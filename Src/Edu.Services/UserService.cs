@@ -38,6 +38,18 @@ namespace Edu.Services
 
             return ContainerFactory<IUserRepository>.Instance.GetUserInfoByLoginInAccount(args);
         }
-        
+
+        /// <summary>
+        /// 通过userid获取用户信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public QueryResult<UserLite> GetUserInfoByUserId(GetObjectByIdArgs args)
+        {
+            ArgumentHelper.Require(args.Id, "UserId", Arguments.Positive);
+
+            return ContainerFactory<IUserRepository>.Instance.GetUserInfoByUserId(args);
+        }
+
     }
 }

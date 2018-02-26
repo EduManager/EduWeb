@@ -179,160 +179,158 @@
     }
 </script>
 
-<div class="container body-content">
-    <ol class="breadcrumb">
-        <li>角色管理</li>
-    </ol>
-    <div class="row">
-        <div class="col-md-12">
-            <button class="btn btn-default" data-toggle="modal" data-target="#addModal">创建角色</button>
-        </div>
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <thead>
+<ol class="breadcrumb">
+    <li>角色管理</li>
+</ol>
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">创建角色</button>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>名称</th>
+                <th>学校</th>
+                <th>创建人</th>
+                <th>创建时间</th>
+                <th>修改人</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <th>名称</th>
-                    <th>学校</th>
-                    <th>创建人</th>
-                    <th>创建时间</th>
-                    <th>修改人</th>
-                    <th>修改时间</th>
-                    <th>操作</th>
+                    <td>@item.Name</td>
+                    <td>@item.SchoolName</td>
+                    <td>@item.CreateBy</td>
+                    <td>
+                        @if (item.CreateTime != null)
+                        {
+                            @item.CreateTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                        }
+                    </td>
+                    <td>@item.ModifyBy</td>
+                    <td>
+                        @if (item.ModifyTime != null)
+                        {
+                            @item.ModifyTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-default" onclick="showUpdateRoleModal(this);" data-toggle="modal" data-target="#updateRoleModal" data-real="@item.Id" data-text="@item.Name" data-tag="@item.Description">编辑</button>
+                        <button class="btn btn-default" onclick="deleteRole(this);" data-real="@item.Id" data-text="@item.Name">删除</button>
+                        <button class="btn btn-default" onclick="showUpdateRoleMenuModal(this);" data-toggle="modal" data-target="#roleMenuModal" data-real="@item.Id" data-text="@item.Name">编辑权限</button>
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.SchoolName</td>
-                        <td>@item.CreateBy</td>
-                        <td>
-                            @if (item.CreateTime != null)
-                            {
-                                @item.CreateTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
-                            }
-                        </td>
-                        <td>@item.ModifyBy</td>
-                        <td>
-                            @if (item.ModifyTime != null)
-                            {
-                                @item.ModifyTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
-                            }
-                        </td>
-                        <td>
-                            <button class="btn btn-default" onclick="showUpdateRoleModal(this);" data-toggle="modal" data-target="#updateRoleModal" data-real="@item.Id" data-text="@item.Name" data-tag="@item.Description">编辑</button>
-                            <button class="btn btn-default" onclick="deleteRole(this);" data-real="@item.Id" data-text="@item.Name">删除</button>
-                            <button class="btn btn-default" onclick="showUpdateRoleMenuModal(this);" data-toggle="modal" data-target="#roleMenuModal" data-real="@item.Id" data-text="@item.Name">编辑权限</button>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-            <!-- 模态框（Modal）编辑角色 -->
-            <div class="modal fade" id="updateRoleModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" data-backdrop="false">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h5 class="modal-title" id="updateModalLabel"></h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="col-md-12">
-                                <div class="form-horizontal" role="form" id="updateForm">
-                                    <div class="form-group">
-                                        <label for="txtUpdateName" class="col-sm-2 control-label">名称</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtUpdateName" name="txtUpdateName" placeholder="请输入名称">
-                                        </div>
+            }
+            </tbody>
+        </table>
+        <!-- 模态框（Modal）编辑角色 -->
+        <div class="modal fade" id="updateRoleModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="updateModalLabel"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-horizontal" role="form" id="updateForm">
+                                <div class="form-group">
+                                    <label for="txtUpdateName" class="col-sm-2 control-label">名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtUpdateName" name="txtUpdateName" placeholder="请输入名称">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="txtUpdateDescription" class="col-sm-2 control-label">描述</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" rows="3" id="txtUpdateDescription" placeholder="请输入描述"></textarea>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtUpdateDescription" class="col-sm-2 control-label">描述</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="3" id="txtUpdateDescription" placeholder="请输入描述"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
-                                关闭
-                            </button>
-                            <button type="button" class="btn btn-primary" id="btnUpdateRole">
-                                提交更改
-                            </button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal -->
-            </div>
-            <!-- 模态框（Modal）创建角色 -->
-            <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="false">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h5 class="modal-title" id="addModalLabel">创建角色</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="col-md-12">
-                                <div class="form-horizontal" id="addForm" role="form">
-                                    <div class="form-group">
-                                        <label for="txtName" class="col-sm-2 control-label">名称</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtName" name="txtName" placeholder="请输入名称">
-                                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnUpdateRole">
+                            提交更改
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- 模态框（Modal）创建角色 -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="addModalLabel">创建角色</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-horizontal" id="addForm" role="form">
+                                <div class="form-group">
+                                    <label for="txtName" class="col-sm-2 control-label">名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtName" name="txtName" placeholder="请输入名称">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="txtDescription" class="col-sm-2 control-label">描述</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" rows="3" id="txtDescription" name="txtDescription" placeholder="请输入描述"></textarea>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtDescription" class="col-sm-2 control-label">描述</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="3" id="txtDescription" name="txtDescription" placeholder="请输入描述"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
-                                关闭
-                            </button>
-                            <button type="submit" class="btn btn-primary" id="btnAddRole">
-                                提交
-                            </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnAddRole">
+                            提交
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- 模态框（Modal）编辑角色权限 -->
+        <div class="modal fade" id="roleMenuModal" tabindex="-1" role="dialog" aria-labelledby="roleMenuModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="roleMenuModalLabel"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <ul id="treeDemo" class="ztree"></ul>
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal -->
-            </div>
-            <!-- 模态框（Modal）编辑角色权限 -->
-            <div class="modal fade" id="roleMenuModal" tabindex="-1" role="dialog" aria-labelledby="roleMenuModalLabel" aria-hidden="true" data-backdrop="false">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h5 class="modal-title" id="roleMenuModalLabel"></h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="col-md-12">
-                                <ul id="treeDemo" class="ztree"></ul>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
-                                关闭
-                            </button>
-                            <button type="button" class="btn btn-primary" onclick="commitRoleMenuData();">
-                                提交更改
-                            </button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal -->
-            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="commitRoleMenuData();">
+                            提交更改
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
         </div>
     </div>
 </div>

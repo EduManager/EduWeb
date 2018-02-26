@@ -30,7 +30,7 @@ namespace Edu.Repository
             }
         }
 
-        public QueryResult<UserLite> GetUserInfoByLoginInAccount(GetObjectByIdArgs args)
+        public QueryResult<UserLite> GetUserInfoByUserId(GetObjectByIdArgs args)
         {
             try
             {

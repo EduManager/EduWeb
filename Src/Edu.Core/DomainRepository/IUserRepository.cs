@@ -23,6 +23,6 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        QueryResult<UserLite> GetUserInfoByLoginInAccount(GetObjectByIdArgs args);
+        QueryResult<UserLite> GetUserInfoByUserId(GetObjectByIdArgs args);
     }
 }

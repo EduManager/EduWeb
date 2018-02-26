@@ -14,6 +14,7 @@ using Edu.Infrastructure.Common;
 using Edu.Infrastructure.Helper;
 using Edu.Model;
 using Edu.Model.Args;
+using Edu.Model.Core;
 using Edu.Services;
 
 namespace Edu.Controller.Controller
@@ -26,12 +27,29 @@ namespace Edu.Controller.Controller
             return View();
         }
 
+        [AuthFilter]
         public ViewResult Update()
         {
             var userId = ApplicationContext.UserId;
+            var userInfoResult = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
+            {
+                Id = userId
+            });
+            var userInfo = new UserLite();
+            if (userInfoResult.Code == 200)
+            {
+                userInfo = userInfoResult.Items.FirstOrDefault();
+            }
+            
+            return View(userInfo);
+        }
+        
+        [HttpPut]
+        public string UpdateUser(string parameter)
+        {
 
 
-            return View();
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
 
         public ActionResult SignOut()

@@ -1,26 +1,117 @@
-﻿@model Edu.Model.Core.User
+﻿@model Edu.Model.Core.UserLite
 @{
-    ViewBag.Title = "Update";
+    ViewBag.Title = "我的信息";
 }
 
 
-<div class="container body-content">
-    <div class="row">
-        <div class="col-md-12">
-            <form class="form-control" role="form" id="updateForm" method="post">
-                <div class="form-group">
-                    <label class="sr-only" for="txtName">姓名</label>
-                    <input type="text" class="form-control" id="txtName" value="@Model.Name" pattern="^([\u4e00-\u9fa5]|[0-9]|[,]|[，]){0,100}$" />
-                </div>
-                <div class="form-group">
-                    <label class="sr-only" for="txtEmail">邮箱</label>
-                    <input type="email" class="form-control" id="txtEmail" value="@Model.Email"/>
-                </div>
-                <div class="form-group">
-                    <label class="sr-only" for="txtPhone">手机号</label>
-                    <input type="tel" class="form-control" id="txtPhone" value="@Model.Phone" pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}"/>
-                </div>
-            </form>
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrapValidator.js"></script>
+
+<ol class="breadcrumb">
+    <li>个人信息</li>
+</ol>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3" id="updateForm" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="txtName">姓名</label>
+            <input type="text" class="form-control" id="txtName" name="txtName" value="@Model.Name" />
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="txtEmail">邮箱</label>
+            <input type="text" class="form-control" id="txtEmail" name="txtEmail" value="@Model.Email" />
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="txtPhone">手机号</label>
+            <input type="tel" class="form-control" id="txtPhone" name="txtPhone" value="@Model.Phone" />
         </div>
     </div>
+    <div class="col-lg-4 col-md-offset-4">
+        <button type="button" id="btnCommit" class="btn btn-primary">
+            提交更改
+        </button>
+    </div>
 </div>
+<script>
+    $(document)
+        .ready(function() {
+            $('#updateForm')
+                .bootstrapValidator({
+                    message: '值不能为空',
+                    submitButtons: '#btnCommit',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        txtName: {
+                            message: '用户名验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '用户名称不能为空'
+                                }
+                            }
+                        },
+                        txtEmail: {
+                            message: '邮箱验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '邮箱不能为空'
+                                },
+                                callback: {
+                                    message: '邮箱无效',
+                                    callback: function(value, validator) {
+                                        var reg2 =
+                                            /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+                                        return reg2.test(value);
+                                    }
+                                }
+                            }
+                        },
+                        txtPhone: {
+                            message: '手机号验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '手机号不能为空'
+                                },
+                                callback: {
+                                    message: '手机号无效',
+                                    callback: function(value, validator) {
+                                        var reg =
+                                            /^134[0-8]\d{7}$|^13[^4]\d{8}$|^14[5-9]\d{8}$|^15[^4]\d{8}$|^16[6]\d{8}$|^17[0-8]\d{8}$|^18[\d]{9}$|^19[8,9]\d{8}$/;
+                                        return reg.test(value);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            $("#btnCommit")
+                .click(function() {
+                    $("#updateForm").bootstrapValidator('validate'); //提交验证  
+                    if ($("#updateForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码  
+                        //验证成功后的操作，如ajax 
+                        var name = $("#txtName").val();
+                        var email = $("#txtEmail").val();
+                        var phone = $("#txtPhone").val();
+                        var model = {
+                            Name: name,
+                            Email: email,
+                            Phone: phone
+                        };
+                        $.ajax({
+                            url: "UpdateUser",
+                            type: "put",
+                            data: JSON.stringify({ "parametes": JSON.stringify(model) }),
+                            contentType: 'application/json',
+                            success: function(data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
+                });
+        });
+</script>
