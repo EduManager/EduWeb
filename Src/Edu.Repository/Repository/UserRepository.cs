@@ -20,7 +20,7 @@ namespace Edu.Repository
             {
                 var result =
                     ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<User>(
-                        "get_user_info_by_account", args);
+                        "get_userinfo_by_account", args);
                 return result;
             }
             catch (Exception e)

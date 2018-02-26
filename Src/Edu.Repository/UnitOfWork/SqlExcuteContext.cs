@@ -14,7 +14,7 @@ namespace Edu.Repository.UnitOfWork
 {
     public class SqlExcuteContext : ISqlExcuteContext
     {
-        private readonly string _strConn = "Server=mxgumwcmyyqv.mysql.sae.sina.com.cn;Port=10270;Database=edu; User=wangjj;Password=123456;";
+        private readonly string _strConn = "Server=mxgumwcmyyqv.mysql.sae.sina.com.cn;Port=10270;Database=edu; User=wangjj;Password=jerry123;";
         
 
         public QueryResult<T> Query<T>(string sqlStr, object paras = null) where T : DomainEntity
