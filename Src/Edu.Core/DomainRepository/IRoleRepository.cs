@@ -16,7 +16,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        QueryResult<Role> GetRoleBySchoolId(GetRoleBySchoolIdArgs args);
+        QueryResult<Role> GetRoleBySchoolId(GetObjectByIdArgs args);
 
         /// <summary>
         /// 添加角色

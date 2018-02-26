@@ -21,9 +21,9 @@ namespace Edu.Controller.Controller
         public ViewResult List()
         {
             var schoolId = 1;
-            var result = RoleService.Instance.GetRoleBySchoolId(new GetRoleBySchoolIdArgs()
+            var result = RoleService.Instance.GetRoleBySchoolId(new GetObjectByIdArgs()
             {
-                SchoolId = schoolId
+                Id = schoolId
             });
             var roles = new List<Role>();
             if (result.Code == 200)
@@ -111,9 +111,9 @@ namespace Edu.Controller.Controller
             //获取菜单
             var menuResult = MenuService.Instance.GetMenu();
             //获取角色对应的菜单
-            var roleMenuResult = RoleMenuService.Instance.GetRoleMenuByRoleId(new GetRoleMenuByRoleIdArgs()
+            var roleMenuResult = RoleMenuService.Instance.GetRoleMenuByRoleId(new GetObjectByIdArgs()
             {
-                RoleId = roleId
+                Id = roleId
             });
             if (menuResult.Code == 200 && roleMenuResult.Code == 200)
             {

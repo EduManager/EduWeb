@@ -13,7 +13,7 @@ namespace Edu.Repository
 {
     internal class RoleRepository : BaseRepository, IRoleRepository
     {
-        public QueryResult<Role> GetRoleBySchoolId(GetRoleBySchoolIdArgs args)
+        public QueryResult<Role> GetRoleBySchoolId(GetObjectByIdArgs args)
         {
             try
             {

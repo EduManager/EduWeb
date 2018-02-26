@@ -16,7 +16,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetRoleMenuByRoleIdArgs args);
+        QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetObjectByIdArgs args);
 
         /// <summary>
         /// 通过角色清除角色权限（需要重设置）

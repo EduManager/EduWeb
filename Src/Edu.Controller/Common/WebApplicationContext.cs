@@ -20,9 +20,9 @@ namespace Edu.Controller.Common
             {
                 if (ApplicationContext.RoleId == 0)
                     return JsonHelper.Serialize(new List<RoleMenuItem>());
-                var result = RoleMenuService.Instance.GetRoleMenuByRoleId(new GetRoleMenuByRoleIdArgs()
+                var result = RoleMenuService.Instance.GetRoleMenuByRoleId(new GetObjectByIdArgs()
                 {
-                    RoleId = ApplicationContext.RoleId
+                    Id = ApplicationContext.RoleId
                 });
                 var model = result.Code == 200 ? result.Items : new List<RoleMenuItem>();
                 return JsonHelper.Serialize(model);

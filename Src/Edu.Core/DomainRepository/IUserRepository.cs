@@ -18,5 +18,11 @@ namespace Edu.Core.DomainRepository
         /// <returns></returns>
         QueryResult<User> GetUserInfoByLoginInAccount(LoginInArgs args);
 
+        /// <summary>
+        /// 通过userid获取用户信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        QueryResult<UserLite> GetUserInfoByLoginInAccount(GetObjectByIdArgs args);
     }
 }

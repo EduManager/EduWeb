@@ -32,9 +32,9 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetRoleMenuByRoleIdArgs args)
+        public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetObjectByIdArgs args)
         {
-            ArgumentHelper.Require(args.RoleId, "RoleId",Arguments.Positive);
+            ArgumentHelper.Require(args.Id, "RoleId",Arguments.Positive);
 
             return ContainerFactory<IRoleMenuRepository>.Instance.GetRoleMenuByRoleId(args);
         }

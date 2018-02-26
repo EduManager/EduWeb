@@ -14,7 +14,7 @@ namespace Edu.Repository
 {
     internal class RoleMenuRepository : BaseRepository, IRoleMenuRepository
     {
-        public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetRoleMenuByRoleIdArgs args)
+        public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetObjectByIdArgs args)
         {
             try
             {

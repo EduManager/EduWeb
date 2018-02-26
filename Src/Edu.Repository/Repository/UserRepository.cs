@@ -25,8 +25,24 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "登陆模块--通过角色ID获取角色权限列表失败", e);
+                LogHelper.Error(this.GetType(), "登陆模块--通过角色邮箱或手机号获取角色权限列表失败", e);
                 return QueryResult.Failure<User>(e.ToString());
+            }
+        }
+
+        public QueryResult<UserLite> GetUserInfoByLoginInAccount(GetObjectByIdArgs args)
+        {
+            try
+            {
+                var result =
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<UserLite>(
+                        "get_userinfo_by_id", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "用户模块--通过角色ID获取角色权限列表失败", e);
+                return QueryResult.Failure<UserLite>(e.ToString());
             }
         }
     }
