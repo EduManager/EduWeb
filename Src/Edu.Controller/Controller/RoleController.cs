@@ -20,7 +20,7 @@ namespace Edu.Controller.Controller
     {
         public ViewResult List()
         {
-            var schoolId = 1;
+            var schoolId = ApplicationContext.SchoolId;
             var result = RoleService.Instance.GetRoleBySchoolId(new GetObjectByIdArgs()
             {
                 Id = schoolId

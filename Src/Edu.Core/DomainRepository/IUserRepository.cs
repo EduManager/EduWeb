@@ -24,5 +24,19 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         QueryResult<UserLite> GetUserInfoByUserId(GetObjectByIdArgs args);
+
+        /// <summary>
+        /// 编辑用户信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> UpdateUserInfo(UpdateUserArgs args);
+
+        /// <summary>
+        /// 编辑用户信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> UpdateUserPassword(UpdatePasswordArgs args);
     }
 }

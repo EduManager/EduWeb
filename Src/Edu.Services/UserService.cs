@@ -51,5 +51,33 @@ namespace Edu.Services
             return ContainerFactory<IUserRepository>.Instance.GetUserInfoByUserId(args);
         }
 
+        /// <summary>
+        /// 编辑用户信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateUserInfo(UpdateUserArgs args)
+        {
+            ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            ArgumentHelper.Require(args.Email, "Email", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Phone, "Phone", Arguments.NotEmptyOrWhitespace);
+
+            return ContainerFactory<IUserRepository>.Instance.UpdateUserInfo(args);
+        }
+
+        /// <summary>
+        /// 编辑用户信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateUserPassword(UpdatePasswordArgs args)
+        {
+            ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            ArgumentHelper.Require(args.Password, "Password", Arguments.NotEmptyOrWhitespace);
+
+            return ContainerFactory<IUserRepository>.Instance.UpdateUserPassword(args);
+        }
     }
 }

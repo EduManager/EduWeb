@@ -45,5 +45,33 @@ namespace Edu.Repository
                 return QueryResult.Failure<UserLite>(e.ToString());
             }
         }
+
+        public CommandResult<int> UpdateUserInfo(UpdateUserArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("update_userinfo", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "用户模块--通过角色ID获取角色权限列表失败", e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
+        public CommandResult<int> UpdateUserPassword(UpdatePasswordArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("update_userinfo_password", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "用户模块--修改密码失败", e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Edu.Model.Core
 {
@@ -25,5 +26,13 @@ namespace Edu.Model.Core
         [DataMember]
         public string Email { get; set; }
         
+        [JsonIgnore]
+        [DataMember]
+        public string Token { get; set; }
+
+        [JsonIgnore]
+        [DataMember]
+        public string Password { get; set; }
+
     }
 }
