@@ -58,6 +58,7 @@ namespace Edu.Controller.Controller
             ApplicationContext.RoleId = 0;
             ApplicationContext.SchoolId = 0;
             ApplicationContext.UserName = null;
+            SetToken();
             return View("Login");
         }
 

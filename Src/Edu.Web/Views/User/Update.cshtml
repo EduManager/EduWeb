@@ -6,23 +6,45 @@
 
 <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrapValidator.js"></script>
+<style>
+    .form-horizontal .form-control{
+        padding: 0 10px 0 30px;
+    }
+    .form-horizontal .form-group i{
+        position: absolute;
+        top: 7px;
+        left: 22px;
+        font-size: 17px;
+        color: #c8c8c8;
+        transition : all 0.5s ease 0s;
+    }
+    .form-horizontal .form-control:focus + i{
+        color: #00b4ef;
+    }
+</style>
 
 <ol class="breadcrumb">
     <li>个人信息</li>
 </ol>
 <div class="row">
-    <div class="col-md-6 col-md-offset-3" id="updateForm" role="form">
+    <div class="col-md-6 col-md-offset-3 form-horizontal" id="updateForm" role="form">
         <div class="form-group">
             <label class="col-sm-2 control-label" for="txtName">姓名</label>
-            <input type="text" class="form-control" id="txtName" name="txtName" value="@Model.Name" />
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="txtName" name="txtName" value="@Model.Name" />
+            </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="txtEmail">邮箱</label>
-            <input type="text" class="form-control" id="txtEmail" name="txtEmail" value="@Model.Email" />
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="txtEmail" name="txtEmail" value="@Model.Email" />
+            </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="txtPhone">手机号</label>
-            <input type="tel" class="form-control" id="txtPhone" name="txtPhone" value="@Model.Phone" />
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="txtPhone" name="txtPhone" value="@Model.Phone" />
+            </div>
         </div>
     </div>
     <div class="col-lg-4 col-md-offset-4">
