@@ -21,12 +21,140 @@ namespace Edu.Controller.Controller
 {
     public class UserController : System.Web.Mvc.Controller
     {
+        #region 登陆相关
+
         public ViewResult Login()
         {
             SetToken();
             return View();
         }
-        
+
+        public ActionResult SignOut()
+        {
+            ApplicationContext.UserId = 0;
+            ApplicationContext.RoleId = 0;
+            ApplicationContext.SchoolId = 0;
+            ApplicationContext.UserName = null;
+            SetToken();
+            return View("Login");
+        }
+
+        [HttpPost]
+        public ActionResult SignIn()
+        {
+            var from = Request.UrlReferrer != null && Request.UrlReferrer.AbsoluteUri.Contains("from")
+                ? Request.UrlReferrer.AbsoluteUri.Substring(Request.UrlReferrer.AbsoluteUri.IndexOf('=') + 1)
+                : "";
+            try
+            {
+                if (Request.Cookies.AllKeys.Contains("TOKEN") && Request.Form.AllKeys.Contains("Account") &&
+                    Request.Form.AllKeys.Contains("Password"))
+                {
+                    var accoutS = Request["Account"];
+                    var passwordS = Request["Password"];
+                    var key = Request.Cookies["TOKEN"];
+                    var iv = Request.Cookies["IV"];
+                    var loginInfo = new LoginUserInfo()
+                    {
+                        Account = accoutS,
+                        Password = passwordS
+                    };
+                    if (key != null && iv != null)
+                    {
+                        var account = DesEncryptHelper.Decrypt3Des(loginInfo.Account, key.Value, CipherMode.CBC,
+                            iv.Value);
+                        var password = DesEncryptHelper.Decrypt3Des(loginInfo.Password, key.Value, CipherMode.CBC,
+                            iv.Value);
+                        //获取用户信息
+                        var userInfo = UserService.Instance.GetUserInfoByLoginInAccount(new LoginInArgs()
+                        {
+                            Account = account
+                        });
+                        if (userInfo.Code == 200)
+                        {
+                            var user = userInfo.Items.FirstOrDefault();
+                            if (user != null)
+                            {
+                                //通过用户的token解密用户密码，然后跟此次输入密码比对
+                                var userToken = user.Token.Substring(0, 24);
+                                var userIv = user.Token.Substring(24, 8);
+                                var userPassword = DesEncryptHelper.Decrypt3Des(user.Password, userToken, CipherMode.ECB,
+                                    userIv);
+                                if (userPassword == password)
+                                {
+                                    ApplicationContext.RoleId = user.RoleId;
+                                    ApplicationContext.SchoolId = user.SchoolId;
+                                    ApplicationContext.UserId = user.UserId;
+                                    ApplicationContext.UserName = user.Name;
+                                    var Ip = GetHostAddress();
+                                    //记录登陆信息
+                                    var addLogResult = Task.Factory.StartNew(obj =>
+                                    {
+                                        var o = (dynamic) obj;
+                                        //存入数据库
+                                        return UserService.Instance.AddUserLoginLog(new AddUserLoginLogArgs()
+                                        {
+                                            UserId = o.UserId,
+                                            LoginIp = o.Ip
+                                        });
+                                    }, new {Ip, user.UserId}).Result;
+
+                                    if (!string.IsNullOrEmpty(from))
+                                        return Redirect(HttpUtility.UrlDecode(from));
+                                    return RedirectToAction("Index", "Home");
+                                }
+                                ViewBag.Msg = "用户密码错误";
+                            }
+                            else
+                            {
+                                ViewBag.Msg = "用户不存在";
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.Msg = "服务器异常，请稍后重试";
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "页面数据异常，请刷新页面";
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "令牌格式错误";
+                }
+
+                SetToken();
+                return View("Login");
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), e.ToString(), e);
+                ViewBag.Msg = "用户登录异常";
+                SetToken();
+                return View("Login");
+            }
+        }
+
+        #endregion
+
+        #region 功能相关
+
+        [AuthFilter]
+        public ViewResult List()
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var strWhere = " where u.school_id = " + schoolId;
+            var result = UserService.Instance.GetUserInfoByPaging(new GetUserInfoByPagingArgs()
+            {
+
+                WhereStr = strWhere,
+                OrderBy = ""
+            });
+            return View();
+        }
+
         [AuthFilter]
         public ViewResult Password()
         {
@@ -35,6 +163,7 @@ namespace Edu.Controller.Controller
         }
 
         [HttpPut]
+        [AuthFilter]
         public string ChangePassword(string parameter)
         {
             try
@@ -122,6 +251,7 @@ namespace Edu.Controller.Controller
         }
 
         [HttpPut]
+        [AuthFilter]
         public string UpdateUser(string parameter)
         {
             var userId = ApplicationContext.UserId;
@@ -136,113 +266,8 @@ namespace Edu.Controller.Controller
             return JsonHelper.Serialize(CommandResult.Failure());
         }
 
-        public ActionResult SignOut()
-        {
-            ApplicationContext.UserId = 0;
-            ApplicationContext.RoleId = 0;
-            ApplicationContext.SchoolId = 0;
-            ApplicationContext.UserName = null;
-            SetToken();
-            return View("Login");
-        }
+        #endregion
 
-        [HttpPost]
-        public ActionResult SignIn()
-        {
-            var from = Request.UrlReferrer != null && Request.UrlReferrer.AbsoluteUri.Contains("from")
-                ? Request.UrlReferrer.AbsoluteUri.Substring(Request.UrlReferrer.AbsoluteUri.IndexOf('=') + 1)
-                : "";
-            try
-            {
-                if (Request.Cookies.AllKeys.Contains("TOKEN") && Request.Form.AllKeys.Contains("Account") &&
-                    Request.Form.AllKeys.Contains("Password"))
-                {
-                    var accoutS = Request["Account"];
-                    var passwordS = Request["Password"];
-                    var key = Request.Cookies["TOKEN"];
-                    var iv = Request.Cookies["IV"];
-                    var loginInfo = new LoginUserInfo()
-                    {
-                        Account = accoutS,
-                        Password = passwordS
-                    };
-                    if (key != null && iv != null)
-                    {
-                        var account = DesEncryptHelper.Decrypt3Des(loginInfo.Account, key.Value, CipherMode.CBC,
-                            iv.Value);
-                        var password = DesEncryptHelper.Decrypt3Des(loginInfo.Password, key.Value, CipherMode.CBC,
-                            iv.Value);
-                        //获取用户信息
-                        var userInfo = UserService.Instance.GetUserInfoByLoginInAccount(new LoginInArgs()
-                        {
-                            Account = account
-                        });
-                        if (userInfo.Code == 200)
-                        {
-                            var user = userInfo.Items.FirstOrDefault();
-                            if (user != null)
-                            {
-                                //通过用户的token解密用户密码，然后跟此次输入密码比对
-                                var userToken = user.Token.Substring(0, 24);
-                                var userIv = user.Token.Substring(24, 8);
-                                var userPassword = DesEncryptHelper.Decrypt3Des(user.Password, userToken, CipherMode.ECB,
-                                    userIv);
-                                if (userPassword == password)
-                                {
-                                    ApplicationContext.RoleId = user.RoleId;
-                                    ApplicationContext.SchoolId = user.SchoolId;
-                                    ApplicationContext.UserId = user.UserId;
-                                    ApplicationContext.UserName = user.Name;
-                                    var Ip = GetHostAddress();
-                                    //记录登陆信息
-                                   var addLogResult = Task.Factory.StartNew(obj =>
-                                    {
-                                        var o = (dynamic) obj;
-                                        //存入数据库
-                                       return UserService.Instance.AddUserLoginLog(new AddUserLoginLogArgs()
-                                        {
-                                            UserId = o.UserId,
-                                            LoginIp = o.Ip
-                                        });
-                                    }, new {Ip, user.UserId}).Result;
-
-                                    if (!string.IsNullOrEmpty(from))
-                                        return Redirect(HttpUtility.UrlDecode(from));
-                                    return RedirectToAction("Index", "Home");
-                                }
-                                ViewBag.Msg = "用户密码错误";
-                            }
-                            else
-                            {
-                                ViewBag.Msg = "用户不存在";
-                            }
-                        }
-                        else
-                        {
-                            ViewBag.Msg = "服务器异常，请稍后重试";
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.Msg = "页面数据异常，请刷新页面";
-                    }
-                }
-                else
-                {
-                    ViewBag.Msg = "令牌格式错误";
-                }
-
-                SetToken();
-                return View("Login");
-            }
-            catch (Exception e)
-            {
-                LogHelper.Error(this.GetType(), e.ToString(), e);
-                ViewBag.Msg = "用户登录异常";
-                SetToken();
-                return View("Login");
-            }
-        }
 
         private void SetToken()
         {

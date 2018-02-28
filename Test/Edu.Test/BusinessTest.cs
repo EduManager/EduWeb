@@ -27,12 +27,12 @@ namespace Edu.Test
         [Test]
         public void GetUserInfoByPagingTest()
         {
-            UserService.Instance.GetUserInfoByPaging(new GetUserInfoByPagingArgs()
+            var t = UserService.Instance.GetUserInfoByPaging(new GetUserInfoByPagingArgs()
             {
                 PageIndex = 1,
                 PageSize = 10,
                 OrderBy = "",
-                WhereStr = ""
+                WhereStr = " where u.school_id  = 1"
             });
         }
     }
