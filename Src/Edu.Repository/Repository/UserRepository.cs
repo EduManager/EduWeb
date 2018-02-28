@@ -14,19 +14,19 @@ namespace Edu.Repository
 {
     internal class UserRepository : BaseRepository, IUserRepository
     {
-        public QueryResult<User> GetUserInfoByLoginInAccount(LoginInArgs args)
+        public QueryResult<UserForLogin> GetUserInfoByLoginInAccount(LoginInArgs args)
         {
             try
             {
                 var result =
-                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<User>(
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<UserForLogin>(
                         "get_userinfo_by_account", args);
                 return result;
             }
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "登陆模块--通过角色邮箱或手机号获取角色权限列表失败", e);
-                return QueryResult.Failure<User>(e.ToString());
+                return QueryResult.Failure<UserForLogin>(e.ToString());
             }
         }
 
@@ -43,6 +43,19 @@ namespace Edu.Repository
             {
                 LogHelper.Error(this.GetType(), "用户模块--通过角色ID获取角色权限列表失败", e);
                 return QueryResult.Failure<UserLite>(e.ToString());
+            }
+        }
+
+        public QueryResult<User> GetUserInfoByPaging(GetUserInfoByPagingArgs args)
+        {
+            try
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "用户模块--通过角色ID获取角色权限列表失败", e);
+                return QueryResult.Failure<User>(e.ToString());
             }
         }
 
@@ -71,6 +84,20 @@ namespace Edu.Repository
             {
                 LogHelper.Error(this.GetType(), "用户模块--修改密码失败", e);
                 return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
+        public CommandResult<object> AddUserLoginLog(AddUserLoginLogArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure("add_user_log", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "用户模块--添加用户登陆日志失败", e);
+                return CommandResult.Failure<object>(e.ToString());
             }
         }
     }

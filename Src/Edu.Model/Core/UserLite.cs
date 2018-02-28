@@ -34,5 +34,7 @@ namespace Edu.Model.Core
         [DataMember]
         public string Password { get; set; }
 
+        [DataMember]
+        public string DoorCardNum { get; set; }
     }
 }

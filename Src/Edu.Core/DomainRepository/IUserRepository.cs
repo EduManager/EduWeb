@@ -16,7 +16,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        QueryResult<User> GetUserInfoByLoginInAccount(LoginInArgs args);
+        QueryResult<UserForLogin> GetUserInfoByLoginInAccount(LoginInArgs args);
 
         /// <summary>
         /// 通过userid获取用户信息
@@ -26,6 +26,12 @@ namespace Edu.Core.DomainRepository
         QueryResult<UserLite> GetUserInfoByUserId(GetObjectByIdArgs args);
 
         /// <summary>
+        /// 分页获取用户信息
+        /// </summary>
+        /// <returns></returns>
+        QueryResult<User> GetUserInfoByPaging(GetUserInfoByPagingArgs args);
+
+            /// <summary>
         /// 编辑用户信息
         /// </summary>
         /// <param name="args"></param>
@@ -38,5 +44,12 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         CommandResult<int> UpdateUserPassword(UpdatePasswordArgs args);
+
+        /// <summary>
+        /// 添加用户登陆日志
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<object> AddUserLoginLog(AddUserLoginLogArgs args);
     }
 }

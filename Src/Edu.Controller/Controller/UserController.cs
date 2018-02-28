@@ -26,8 +26,7 @@ namespace Edu.Controller.Controller
             SetToken();
             return View();
         }
-
-
+        
         [AuthFilter]
         public ViewResult Password()
         {
@@ -101,7 +100,7 @@ namespace Edu.Controller.Controller
             }
             catch (Exception e)
             {
-                return JsonHelper.Serialize(CommandResult.Failure("服务器异常："+e.ToString()));
+                return JsonHelper.Serialize(CommandResult.Failure("服务器异常：" + e.ToString()));
             }
         }
 
@@ -118,7 +117,7 @@ namespace Edu.Controller.Controller
             {
                 userInfo = userInfoResult.Items.FirstOrDefault();
             }
-            
+
             return View(userInfo);
         }
 
@@ -151,7 +150,7 @@ namespace Edu.Controller.Controller
         public ActionResult SignIn()
         {
             var from = Request.UrlReferrer != null && Request.UrlReferrer.AbsoluteUri.Contains("from")
-                ? Request.UrlReferrer.AbsoluteUri.Substring(Request.UrlReferrer.AbsoluteUri.IndexOf('=')+1)
+                ? Request.UrlReferrer.AbsoluteUri.Substring(Request.UrlReferrer.AbsoluteUri.IndexOf('=') + 1)
                 : "";
             try
             {
@@ -194,6 +193,19 @@ namespace Edu.Controller.Controller
                                     ApplicationContext.SchoolId = user.SchoolId;
                                     ApplicationContext.UserId = user.UserId;
                                     ApplicationContext.UserName = user.Name;
+                                    var Ip = GetHostAddress();
+                                    //记录登陆信息
+                                   var addLogResult = Task.Factory.StartNew(obj =>
+                                    {
+                                        var o = (dynamic) obj;
+                                        //存入数据库
+                                       return UserService.Instance.AddUserLoginLog(new AddUserLoginLogArgs()
+                                        {
+                                            UserId = o.UserId,
+                                            LoginIp = o.Ip
+                                        });
+                                    }, new {Ip, user.UserId}).Result;
+
                                     if (!string.IsNullOrEmpty(from))
                                         return Redirect(HttpUtility.UrlDecode(from));
                                     return RedirectToAction("Index", "Home");
@@ -245,6 +257,38 @@ namespace Edu.Controller.Controller
             tokenCookie.Expires = DateTime.Now.AddHours(1);
             Response.Cookies.Add(tokenCookie);
             Response.Cookies.Add(keyCookie);
+        }
+
+        /// <summary>
+        /// 获取客户端IP地址（无视代理）
+        /// </summary>
+        /// <returns>若失败则返回回送地址</returns>
+        public static string GetHostAddress()
+        {
+            string userHostAddress = System.Web.HttpContext.Current.Request.UserHostAddress;
+
+            if (string.IsNullOrEmpty(userHostAddress))
+            {
+                userHostAddress = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            }
+
+            //最后判断获取是否成功，并检查IP地址的格式（检查其格式非常重要）
+            if (!string.IsNullOrEmpty(userHostAddress) && IsIP(userHostAddress))
+            {
+                return userHostAddress;
+            }
+            return "127.0.0.1";
+        }
+
+        /// <summary>
+        /// 检查IP地址格式
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public static bool IsIP(string ip)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(ip,
+                @"^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$");
         }
     }
 }

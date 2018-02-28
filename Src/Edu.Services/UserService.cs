@@ -32,7 +32,7 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public QueryResult<User> GetUserInfoByLoginInAccount(LoginInArgs args)
+        public QueryResult<UserForLogin> GetUserInfoByLoginInAccount(LoginInArgs args)
         {
             ArgumentHelper.Require(args.Account, "RoleId",Arguments.NotEmptyOrWhitespace);
 
@@ -78,6 +78,19 @@ namespace Edu.Services
             ArgumentHelper.Require(args.Password, "Password", Arguments.NotEmptyOrWhitespace);
 
             return ContainerFactory<IUserRepository>.Instance.UpdateUserPassword(args);
+        }
+
+        /// <summary>
+        /// 添加用户登陆日志
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<object> AddUserLoginLog(AddUserLoginLogArgs args)
+        {
+            ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.LoginIp, "LoginIp", Arguments.NotEmptyOrWhitespace);
+
+            return ContainerFactory<IUserRepository>.Instance.AddUserLoginLog(args);
         }
     }
 }
