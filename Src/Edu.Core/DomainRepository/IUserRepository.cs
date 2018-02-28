@@ -31,7 +31,7 @@ namespace Edu.Core.DomainRepository
         /// <returns></returns>
         QueryResult<User> GetUserInfoByPaging(GetUserInfoByPagingArgs args);
 
-            /// <summary>
+        /// <summary>
         /// 编辑用户信息
         /// </summary>
         /// <param name="args"></param>

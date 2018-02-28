@@ -52,6 +52,18 @@ namespace Edu.Services
         }
 
         /// <summary>
+        /// 分页获取用户信息
+        /// </summary>
+        /// <returns></returns>
+        public QueryResult<User> GetUserInfoByPaging(GetUserInfoByPagingArgs args)
+        {
+            ArgumentHelper.Require(args.PageSize, "PageSize", Arguments.Positive);
+            ArgumentHelper.Require(args.PageIndex, "PageIndex", Arguments.Positive);
+
+            return ContainerFactory<IUserRepository>.Instance.GetUserInfoByPaging(args);
+        }
+
+        /// <summary>
         /// 编辑用户信息
         /// </summary>
         /// <param name="args"></param>

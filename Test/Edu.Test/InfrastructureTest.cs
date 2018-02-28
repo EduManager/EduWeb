@@ -26,16 +26,5 @@ namespace Edu.Test
             var id = token.Substring(24, 8);
             var s2 = DesEncryptHelper.Decrypt3Des("F+C/TtcK6W4=", key,CipherMode.ECB,id);
         }
-        [Test]
-        public void Test()
-        {
-            RoleMenuService.Instance.AddRoleMenu(new AddRoleMenuArgs()
-            {
-                RoleId = 1,
-                CreateBy = 1,
-                ModifyBy = 1,
-                MenuId = 1
-            });
-        }
     }
 }
