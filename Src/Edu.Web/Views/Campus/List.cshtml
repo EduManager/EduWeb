@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Edu.Model.Core.Campus>
+@{
+    ViewBag.Title = "校区列表";
+}
+
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+<link href="~/Content/ztree/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/ztree/jquery.ztree.core.min.js"></script>
+<script src="~/Scripts/ztree/jquery.ztree.excheck.min.js"></script>
+<script src="~/Scripts/bootstrapValidator.js"></script>
+
+<ol class="breadcrumb">
+    <li>校区管理</li>
+</ol>
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">添加校区</button>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>校区名称</th>
+                    <th>校区类型</th>
+                    <th>创建人</th>
+                    <th>创建时间</th>
+                    <th>修改人</th>
+                    <th>修改时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CampusName</td>
+                        <td>@item.CampusType</td>
+                        <td>@item.CreateBy</td>
+                        <td>
+                            @if (item.CreateTime != null)
+                            {
+                                @item.CreateTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                            }
+                        </td>
+                        <td>@item.ModifyBy</td>
+                        <td>
+                            @if (item.ModifyTime != null)
+                            {
+                                @item.ModifyTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                            }
+                        </td>
+                        <td>
+                            <button class="btn btn-default" onclick="showUpdateRoleModal(this);" data-toggle="modal" data-target="#updateRoleModal" data-real="@item.Id" data-text="@item.CampusName" data-tag="@item.CampusType">编辑</button>
+                            <button class="btn btn-default" onclick="deleteRole(this);" data-real="@item.Id" data-text="@item.CampusName">删除</button>
+                            <button class="btn btn-default" onclick="showUpdateRoleMenuModal(this);" data-toggle="modal" data-target="#roleMenuModal" data-real="@item.Id" data-text="@item.CampusName">编辑权限</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
