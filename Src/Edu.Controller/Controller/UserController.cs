@@ -142,17 +142,23 @@ namespace Edu.Controller.Controller
         #region 功能相关
 
         [AuthFilter]
-        public ViewResult List()
+        public ViewResult List(int pageIndex = 1)
         {
             var schoolId = ApplicationContext.SchoolId;
             var strWhere = " where u.school_id = " + schoolId;
-            var result = UserService.Instance.GetUserInfoByPaging(new GetUserInfoByPagingArgs()
+            var args = new GetUserInfoByPagingArgs()
             {
-
+                PageSize = 10,
+                PageIndex = pageIndex,
                 WhereStr = strWhere,
                 OrderBy = ""
-            });
-            return View();
+            };
+            var result = UserService.Instance.GetUserInfoByPaging(args);
+            ViewBag.PageCount = args.RowsCount / args.PageSize + 1;
+            ViewBag.PageSize = args.PageSize;
+            ViewBag.PageIndex = args.PageIndex;
+
+            return View(result.Items);
         }
 
         [AuthFilter]

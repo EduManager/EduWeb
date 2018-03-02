@@ -1,7 +1,107 @@
-﻿
+﻿@model IEnumerable<Edu.Model.Core.User>
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "员工管理";
 }
 
-<h2>List</h2>
+<script src="~/Scripts/bootstrap-paginator.js"></script>
+<style>
+    .paging {
+        margin-top: -10px;
+    }
+</style>
 
+<ol class="breadcrumb">
+    <li>员工管理</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">新增员工</button>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>姓名</th>
+                <th>校区</th>
+                <th>邮箱</th>
+                <th>手机号</th>
+                <th>门卡号</th>
+                <th>创建人</th>
+                <th>创建时间</th>
+                <th>修改人</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Campname</td>
+                    <td>@item.Email</td>
+                    <td>@item.Phone</td>
+                    <td>@item.DoorCardNum</td>
+                    <td>@item.CreateBy</td>
+                    <td>
+                        @if (item.CreateTime != null)
+                        {
+                            @item.CreateTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                        }
+                    </td>
+                    <td>@item.ModifyBy</td>
+                    <td>
+                        @if (item.ModifyTime != null)
+                        {
+                            @item.ModifyTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-default" data-toggle="modal" data-target="#updateRoleModal">编辑</button>
+                        <button class="btn btn-default" data-toggle="modal" data-target="#roleMenuModal">编辑权限</button>
+                        <button class="btn btn-default">删除</button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <ul class="pagination" id="ulPaging"></ul>
+    </div>
+</div>
+<script>
+    var pageInfo = {
+        pageIndex: @ViewBag.PageIndex,
+        pageCount: @ViewBag.PageCount,
+        pageSize: @ViewBag.PageSize
+    };
+
+    $(document)
+        .ready(function() {
+            $('#ulPaging')
+                .bootstrapPaginator({
+                    currentPage: pageInfo.pageIndex, //当前的请求页面。
+                    totalPages: 15,//pageInfo.pageCount, //一共多少页。
+                    size: "normal", //应该是页眉的大小。
+                    bootstrapMajorVersion: 3, //bootstrap的版本要求。
+                    alignment: "right",
+                    numberOfPages: 5, //一页列出多少数据。
+                    itemTexts: function(type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
+                        switch (type) {
+                            case "first":
+                                return "首页";
+                            case "prev":
+                                return "上一页";
+                            case "next":
+                                return "下一页";
+                            case "last":
+                                return "末页";
+                            case "page":
+                                return page;
+                        }
+                    },onPageClicked: function(event, originalEvent, type, page) {
+                        window.location.href="List?pageIndex="+page;
+                    }
+                });
+        });
+</script>
