@@ -273,6 +273,19 @@ namespace Edu.Controller.Controller
             return JsonHelper.Serialize(CommandResult.Failure());
         }
 
+        [HttpDelete]
+        [AuthFilter]
+        public string Delete(int userId)
+        {
+            var args = new DeleteUserArgs()
+            {
+                UserId = userId,
+                ModifyBy = ApplicationContext.UserId,
+                SchoolId = ApplicationContext.SchoolId
+            };
+            var result = UserService.Instance.DeleteUser(args);
+            return JsonHelper.Serialize(result);
+        }
 
         [HttpPut]
         [AuthFilter]

@@ -77,7 +77,7 @@
                     <td>
                         <button class="btn btn-default" data-toggle="modal" id="btnUpdateUserLoad" data-target="#updateUserModal" data-real="@item.UserId">编辑</button>
                         <button class="btn btn-default" data-toggle="modal" id="btnUpdateUserRoleLoad" data-target="#updateUserRole" data-real="@item.UserId" data-uname="@item.Name" data-role="@item.RoleId">编辑角色</button>
-                        <button class="btn btn-default">删除</button>
+                        <button class="btn btn-default" data-real="@item.UserId" id="btnDeleteUser">删除</button>
                     </td>
                 </tr>
             }
@@ -265,6 +265,23 @@
                         url: "UpdateUserRole",
                         type: "put",
                         data: JSON.stringify(postData),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            if (result.code === 200) {
+                                window.location.reload();
+                            }
+                        }
+                    });
+                });
+
+            $('#btnDeleteUser')
+                .click(function() {
+                    var userId = this.dataset.real;
+                    $.ajax({
+                        url: "Delete",
+                        type: "delete",
+                        data: JSON.stringify({ "userId": userId }),
                         contentType: 'application/json; charset=utf-8',
                         success: function (data) {
                             var result = JSON.parse(data);

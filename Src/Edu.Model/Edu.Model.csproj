@@ -51,6 +51,7 @@
     <Compile Include="Args\AddUserLoginLogArgs.cs" />
     <Compile Include="Args\DeleteCampusArgs.cs" />
     <Compile Include="Args\DeleteRoleArgs.cs" />
+    <Compile Include="Args\DeleteUserArgs.cs" />
     <Compile Include="Args\GetObjectByIdArgs.cs" />
     <Compile Include="Args\GetUserInfoByPagingArgs.cs" />
     <Compile Include="Args\LoginInArgs.cs" />

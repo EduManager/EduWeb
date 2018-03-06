@@ -125,5 +125,19 @@ namespace Edu.Services
 
             return ContainerFactory<IUserRepository>.Instance.UpdateUserRole(args);
         }
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> DeleteUser(DeleteUserArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IUserRepository>.Instance.DeleteUser(args);
+        }
     }
 }

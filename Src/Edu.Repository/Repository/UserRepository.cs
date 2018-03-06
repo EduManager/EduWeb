@@ -127,5 +127,19 @@ namespace Edu.Repository
                 return CommandResult.Failure<object>(e.ToString());
             }
         }
+
+        public CommandResult<int> DeleteUser(DeleteUserArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("delete_user", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "删除用户失败，UserId:" + args.UserId, e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
     }
 }
