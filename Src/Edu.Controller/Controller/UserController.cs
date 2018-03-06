@@ -85,7 +85,7 @@ namespace Edu.Controller.Controller
                                     ApplicationContext.SchoolId = user.SchoolId;
                                     ApplicationContext.UserId = user.UserId;
                                     ApplicationContext.UserName = user.Name;
-                                    var Ip = GetHostAddress();
+                                    var Ip = ApplicationContext.GetHostAddress();
                                     //记录登陆信息
                                     var addLogResult = Task.Factory.StartNew(obj =>
                                     {
@@ -319,37 +319,6 @@ namespace Edu.Controller.Controller
             Response.Cookies.Add(tokenCookie);
             Response.Cookies.Add(keyCookie);
         }
-
-        /// <summary>
-        /// 获取客户端IP地址（无视代理）
-        /// </summary>
-        /// <returns>若失败则返回回送地址</returns>
-        public static string GetHostAddress()
-        {
-            string userHostAddress = System.Web.HttpContext.Current.Request.UserHostAddress;
-
-            if (string.IsNullOrEmpty(userHostAddress))
-            {
-                userHostAddress = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
-            }
-
-            //最后判断获取是否成功，并检查IP地址的格式（检查其格式非常重要）
-            if (!string.IsNullOrEmpty(userHostAddress) && IsIP(userHostAddress))
-            {
-                return userHostAddress;
-            }
-            return "127.0.0.1";
-        }
-
-        /// <summary>
-        /// 检查IP地址格式
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <returns></returns>
-        public static bool IsIP(string ip)
-        {
-            return System.Text.RegularExpressions.Regex.IsMatch(ip,
-                @"^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$");
-        }
+        
     }
 }

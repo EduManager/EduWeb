@@ -27,7 +27,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "登陆模块--通过角色邮箱或手机号获取角色权限列表失败", e);
+                LogHelper.Error(this.GetType(), "用户登陆模块--通过角色邮箱或手机号获取角色权限列表失败", e);
                 return QueryResult.Failure<UserForLogin>(e.ToString());
             }
         }
@@ -137,7 +137,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "删除用户失败，UserId:" + args.UserId, e);
+                LogHelper.Error(this.GetType(), "用户模块-删除用户失败，UserId:" + args.UserId, e);
                 return CommandResult.Failure<int>(e.ToString());
             }
         }
