@@ -170,71 +170,66 @@ namespace Edu.Controller.Controller
 
         [HttpPut]
         [AuthFilter]
-        public string ChangePassword(string parameter)
+        public string ChangePassword(PasswordInfo passwordInfo)
         {
             try
             {
-                if (!string.IsNullOrEmpty(parameter))
+                var userId = ApplicationContext.UserId;
+                var schoolId = ApplicationContext.SchoolId;
+                if (passwordInfo != null && Request.Cookies.AllKeys.Contains("TOKEN"))
                 {
-                    var userId = ApplicationContext.UserId;
-                    var schoolId = ApplicationContext.SchoolId;
-                    var passwordInfo = JsonHelper.Deserialize<PasswordInfo>(parameter);
-                    if (passwordInfo != null && Request.Cookies.AllKeys.Contains("TOKEN"))
+                    var key = Request.Cookies["TOKEN"];
+                    var iv = Request.Cookies["IV"];
+                    if (key != null && iv != null)
                     {
-                        var key = Request.Cookies["TOKEN"];
-                        var iv = Request.Cookies["IV"];
-                        if (key != null && iv != null)
+                        //先解密码，然后比对系统中的密码
+                        var originalPassword = DesEncryptHelper.Decrypt3Des(passwordInfo.OriginalPassword, key.Value,
+                            CipherMode.CBC,
+                            iv.Value);
+                        var newPassword = DesEncryptHelper.Decrypt3Des(passwordInfo.NewPassword, key.Value,
+                            CipherMode.CBC,
+                            iv.Value);
+
+                        var userInfo = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
                         {
-                            //先解密码，然后比对系统中的密码
-                            var originalPassword = DesEncryptHelper.Decrypt3Des(passwordInfo.OriginalPassword, key.Value,
-                                CipherMode.CBC,
-                                iv.Value);
-                            var newPassword = DesEncryptHelper.Decrypt3Des(passwordInfo.NewPassword, key.Value,
-                                CipherMode.CBC,
-                                iv.Value);
+                            Id = userId,
+                            SchoolId = schoolId
+                        });
 
-                            var userInfo = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
+                        if (userInfo.Code == 200)
+                        {
+                            var user = userInfo.Items.FirstOrDefault();
+                            if (user != null)
                             {
-                                Id = userId,
-                                SchoolId = schoolId
-                            });
-
-                            if (userInfo.Code == 200)
-                            {
-                                var user = userInfo.Items.FirstOrDefault();
-                                if (user != null)
+                                //通过用户的token解密用户密码，然后跟此次输入密码比对
+                                var userToken = user.Token.Substring(0, 24);
+                                var userIv = user.Token.Substring(24, 8);
+                                var userPassword = DesEncryptHelper.Decrypt3Des(user.Password, userToken,
+                                    CipherMode.ECB,
+                                    userIv);
+                                //对比原始密码
+                                if (userPassword == originalPassword)
                                 {
-                                    //通过用户的token解密用户密码，然后跟此次输入密码比对
-                                    var userToken = user.Token.Substring(0, 24);
-                                    var userIv = user.Token.Substring(24, 8);
-                                    var userPassword = DesEncryptHelper.Decrypt3Des(user.Password, userToken,
-                                        CipherMode.ECB,
-                                        userIv);
-                                    //对比原始密码
-                                    if (userPassword == originalPassword)
+                                    //开始修改密码
+                                    var newPasswordEncrypt = DesEncryptHelper.Encrypt3Des(newPassword, userToken,
+                                        CipherMode.ECB, userIv);
+                                    var result = UserService.Instance.UpdateUserPassword(new UpdatePasswordArgs()
                                     {
-                                        //开始修改密码
-                                        var newPasswordEncrypt = DesEncryptHelper.Encrypt3Des(newPassword, userToken,
-                                            CipherMode.ECB, userIv);
-                                        var result = UserService.Instance.UpdateUserPassword(new UpdatePasswordArgs()
-                                        {
-                                            ModifyBy = userId,
-                                            SchoolId = schoolId,
-                                            Password = newPasswordEncrypt,
-                                            UserId = userId
-                                        });
-                                        return JsonHelper.Serialize(result);
-                                    }
-                                    return JsonHelper.Serialize(CommandResult.Failure("原始密码错误"));
+                                        ModifyBy = userId,
+                                        SchoolId = schoolId,
+                                        Password = newPasswordEncrypt,
+                                        UserId = userId
+                                    });
+                                    return JsonHelper.Serialize(result);
                                 }
-                                return JsonHelper.Serialize(CommandResult.Failure("用户不存在"));
+                                return JsonHelper.Serialize(CommandResult.Failure("原始密码错误"));
                             }
-                            return JsonHelper.Serialize(CommandResult.Failure("服务器异常，请稍后重试"));
+                            return JsonHelper.Serialize(CommandResult.Failure("用户不存在"));
                         }
+                        return JsonHelper.Serialize(CommandResult.Failure("服务器异常，请稍后重试"));
                     }
-                    return JsonHelper.Serialize(CommandResult.Failure("页面数据异常，请刷新页面"));
                 }
-                return JsonHelper.Serialize(CommandResult.Failure("表单参数数据有误，请重试"));
+                return JsonHelper.Serialize(CommandResult.Failure("页面数据异常，请刷新页面"));
             }
             catch (Exception e)
             {
@@ -263,11 +258,10 @@ namespace Edu.Controller.Controller
 
         [HttpPut]
         [AuthFilter]
-        public string UpdateUser(string parameter)
+        public string UpdateUser(UpdateUserArgs args)
         {
             var userId = ApplicationContext.UserId;
             var schoolId = ApplicationContext.SchoolId;
-            var args = JsonHelper.Deserialize<UpdateUserArgs>(parameter);
             if (args != null)
             {
                 args.UserId = userId;

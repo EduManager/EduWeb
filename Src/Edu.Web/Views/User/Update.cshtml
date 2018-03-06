@@ -131,8 +131,8 @@
                         $.ajax({
                             url: "UpdateUser",
                             type: "put",
-                            data: JSON.stringify({ "parameter": JSON.stringify(model) }),
-                            contentType: 'application/json',
+                            data: JSON.stringify(model),
+                            contentType: 'application/json; charset=utf-8',
                             success: function(data) {
                                 var result = JSON.parse(data);
                                 if (result.code === 200) {
