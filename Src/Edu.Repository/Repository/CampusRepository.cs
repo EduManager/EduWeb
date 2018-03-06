@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Edu.Repository.Repository
+namespace Edu.Repository
 {
     internal class CampusRepository : BaseRepository, ICampusRepository
     {

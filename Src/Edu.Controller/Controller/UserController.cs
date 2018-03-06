@@ -141,15 +141,15 @@ namespace Edu.Controller.Controller
         #endregion
 
         #region 功能相关
-
+        
         [AuthFilter]
         public ViewResult List(int pageIndex = 1)
         {
             var schoolId = ApplicationContext.SchoolId;
             var args = new GetUserInfoByPagingArgs()
             {
-                SchoolId = schoolId,
                 PageSize = 10,
+                SchoolId = ApplicationContext.SchoolId,
                 PageIndex = pageIndex,
                 WhereStr = "",
                 OrderBy = ""

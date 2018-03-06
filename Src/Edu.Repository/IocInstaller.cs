@@ -26,7 +26,10 @@ namespace Edu.Repository
                     .LifeStyle.Singleton,
                 Component.For(typeof(IMenuRepository))
                     .ImplementedBy<MenuRepository>()
-                    .LifeStyle.Singleton, 
+                    .LifeStyle.Singleton,
+                Component.For(typeof(ICampusRepository))
+                    .ImplementedBy<CampusRepository>()
+                    .LifeStyle.Singleton,
                 Component.For(typeof(IUserRepository))
                     .ImplementedBy<UserRepository>()
                     .LifeStyle.Singleton);
