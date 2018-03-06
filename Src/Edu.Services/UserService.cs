@@ -109,5 +109,21 @@ namespace Edu.Services
 
             return ContainerFactory<IUserRepository>.Instance.AddUserLoginLog(args);
         }
+
+        /// <summary>
+        /// 编辑用户角色
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<object> UpdateUserRole(UpdateUserRoleArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
+            ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IUserRepository>.Instance.UpdateUserRole(args);
+        }
     }
 }

@@ -186,7 +186,7 @@
         var account = $("#txtAccount").val();
         var secret = $("#txtPassword").val();
         var data = {
-            account: encryptByDES(account, tokenInfo.secret, tokenInfo.iv),
+            account: account,
             secret_password: encryptByDES(secret, tokenInfo.secret, tokenInfo.iv)
         };
         $("#txtAccount").val(data.account);

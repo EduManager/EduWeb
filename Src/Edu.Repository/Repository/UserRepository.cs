@@ -112,5 +112,20 @@ namespace Edu.Repository
                 return CommandResult.Failure<object>(e.ToString());
             }
         }
+
+        public CommandResult<object> UpdateUserRole(UpdateUserRoleArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure("create_or_update_userrole",
+                    args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "用户模块-编辑用户角色信息失败", e);
+                return CommandResult.Failure<object>(e.ToString());
+            }
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure("add_role_menu",
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure("create_or_update_role_menu",
                     args);
                 return result;
             }

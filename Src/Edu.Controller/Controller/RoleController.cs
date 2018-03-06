@@ -31,6 +31,18 @@ namespace Edu.Controller.Controller
             return View(roles);
         }
 
+        [HttpGet]
+        [ActionName("SchoolRoles")]
+        public string Roles()
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var result = RoleService.Instance.GetRoleBySchoolId(new GetObjectByIdArgs()
+            {
+                Id = schoolId
+            });
+            return JsonHelper.Serialize(result);
+        }
+        
         [HttpDelete]
         public string Delete(int roleId)
         {
@@ -44,10 +56,8 @@ namespace Edu.Controller.Controller
         }
 
         [HttpPut]
-        public string Update(string parametes)
+        public string Update(UpdateRoleArgs model)
         {
-            //序列化数据
-            var model = JsonHelper.Deserialize<UpdateRoleArgs>(parametes);
             if (model != null)
             {
                 model.ModifyBy = ApplicationContext.UserId;
@@ -59,10 +69,8 @@ namespace Edu.Controller.Controller
         }
 
         [HttpPost]
-        public string Add(string parametes)
+        public string Add(AddRoleArgs model)
         {
-            //序列化数据
-            var model = JsonHelper.Deserialize<AddRoleArgs>(parametes);
             if (model != null)
             {
                 model.CreateBy = ApplicationContext.UserId;
@@ -76,7 +84,7 @@ namespace Edu.Controller.Controller
         }
 
         [HttpPost]
-        public string Commit(string parametes)
+        public string Commit(int roleId,string parametes)
         {
             var nodes = JsonHelper.Deserialize<List<TreeNode>>(parametes);
             if (nodes != null)
@@ -84,7 +92,7 @@ namespace Edu.Controller.Controller
                 //先清除原有角色权限
                 RoleMenuService.Instance.ClearRoleMenuByRoleId(new ClearRoleMenuByRoleIdArgs()
                 {
-                    RoleId = ApplicationContext.RoleId,
+                    RoleId = roleId,
                     SchoolId = ApplicationContext.SchoolId,
                     ModifyBy = ApplicationContext.UserId
                 });
@@ -96,7 +104,7 @@ namespace Edu.Controller.Controller
                     RoleMenuService.Instance.AddRoleMenu(new AddRoleMenuArgs()
                     {
                         SchoolId = ApplicationContext.SchoolId,
-                        RoleId = ApplicationContext.RoleId,
+                        RoleId = roleId,
                         CreateBy = ApplicationContext.UserId,
                         ModifyBy = ApplicationContext.UserId,
                         MenuId = selectNode.Id

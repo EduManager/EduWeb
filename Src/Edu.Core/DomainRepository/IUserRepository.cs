@@ -51,5 +51,12 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         CommandResult<object> AddUserLoginLog(AddUserLoginLogArgs args);
+
+        /// <summary>
+        /// 编辑用户角色
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<object> UpdateUserRole(UpdateUserRoleArgs args);
     }
 }

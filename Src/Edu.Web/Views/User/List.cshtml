@@ -20,19 +20,7 @@
         pageSize: @ViewBag.PageSize
     };
 
-    function loadUpdateUserInfo(e) {
-        var userId = e.dataset.real;
-        $.get("",function(data) {
-            
-        });
-    }
-
-    function loadUpdateUserRole(e) {
-        var userId = e.dataset.real;
-        var username = e.dataset.uname;
-        $('#txtUpdateUserRoleName').val(username);
-    }
-
+    var updUserId = 0;
 </script>
 
 <h2>List</h2>
@@ -87,8 +75,8 @@
                         }
                     </td>
                     <td>
-                        <button class="btn btn-default" data-toggle="modal" data-target="#updateUserModal" data-real="@item.UserId">编辑</button>
-                        <button class="btn btn-default" data-toggle="modal" onclick="loadUpdateUserRole(this);" data-target="#updateUserRole" data-real="@item.UserId" data-uname="@item.Name">编辑角色</button>
+                        <button class="btn btn-default" data-toggle="modal" id="btnUpdateUserLoad" data-target="#updateUserModal" data-real="@item.UserId">编辑</button>
+                        <button class="btn btn-default" data-toggle="modal" id="btnUpdateUserRoleLoad" data-target="#updateUserRole" data-real="@item.UserId" data-uname="@item.Name" data-role="@item.RoleId">编辑角色</button>
                         <button class="btn btn-default">删除</button>
                     </td>
                 </tr>
@@ -227,6 +215,64 @@
                         if(page!=pageInfo.pageIndex)
                             window.location.href="List?pageIndex="+page;
                     }
+                });
+
+            $('#btnUpdateUserLoad')
+                .click(function() {
+                    var userId = this.dataset.real;
+                    updUserId = userId;
+                    $.get("",function(data) {
+            
+                    });
+                });
+
+            $('#btnUpdateUserRoleLoad')
+                .click(function() {
+                    var userId = this.dataset.real;
+                    updUserId = userId;
+                    var username = this.dataset.uname;
+                    var roleId = this.dataset.role;
+                    $('#txtUpdateUserRoleName').val(username);
+                    $.get("../Role/SchoolRoles",
+                        function(data) {
+                            var result = JSON.parse(data);
+                            if (result.code == 200 && result.items.length > 0) {
+                                for (var index = 0; index < result.items.length; index++) {
+                                    var item = result.items[index];
+                                    if (item.id == roleId) {
+                                        $('#selectRole')
+                                            .append("<option selected value='" + item.id + "'>" + item.name + "</option>");
+                                    } else {
+                                        $('#selectRole')
+                                            .append("<option value='" + item.id + "'>" + item.name + "</option>");
+                                    }
+                                }
+
+                            }
+                        });
+                });
+
+            $('#btnUpdateUserRole')
+                .click(function() {
+                    if (updUserId == 0)
+                        return;
+                    var roleId = $("#selectRole option:selected").val();
+                    var postData = {
+                        UserId: updUserId,
+                        RoleId: roleId
+                    };
+                    $.ajax({
+                        url: "UpdateUserRole",
+                        type: "put",
+                        data: JSON.stringify(postData),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            if (result.code === 200) {
+                                window.location.reload();
+                            }
+                        }
+                    });
                 });
         });
 </script>

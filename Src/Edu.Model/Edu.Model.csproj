@@ -58,6 +58,7 @@
     <Compile Include="Args\UpdateCampusArgs.cs" />
     <Compile Include="Args\UpdateRoleArgs.cs" />
     <Compile Include="Args\UpdateUserArgs.cs" />
+    <Compile Include="Args\UpdateUserRoleArgs.cs" />
     <Compile Include="Core\Campus.cs" />
     <Compile Include="Core\UserForLogin.cs" />
     <Compile Include="Core\UserLite.cs" />

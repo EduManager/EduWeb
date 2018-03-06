@@ -61,8 +61,7 @@ namespace Edu.Controller.Controller
                     };
                     if (key != null && iv != null)
                     {
-                        var account = DesEncryptHelper.Decrypt3Des(loginInfo.Account, key.Value, CipherMode.CBC,
-                            iv.Value);
+                        var account = loginInfo.Account;
                         var password = DesEncryptHelper.Decrypt3Des(loginInfo.Password, key.Value, CipherMode.CBC,
                             iv.Value);
                         //获取用户信息
@@ -278,6 +277,22 @@ namespace Edu.Controller.Controller
                 return JsonHelper.Serialize(result);
             }
             return JsonHelper.Serialize(CommandResult.Failure());
+        }
+
+
+        [HttpPut]
+        [AuthFilter]
+        public string UpdateUserRole(UpdateUserRoleArgs model)
+        {
+            if (model != null)
+            {
+                model.CreateBy = ApplicationContext.UserId;
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+                var result = UserService.Instance.UpdateUserRole(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure("数据格式错误"));
         }
 
         #endregion

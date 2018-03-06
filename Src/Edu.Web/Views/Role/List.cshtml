@@ -131,6 +131,7 @@
         //{ id: 23, pId: 2, name: "禁止勾选 2-3", open: true }
         //];
         var roleId = $(e).attr("data-real");
+        currentRoleId = roleId;
         var roleName = $(e).attr("data-text");
         $("#roleMenuModalLabel").html(roleName + "-菜单权限编辑");
         $.get("GetList?roleId=" + roleId,
@@ -157,13 +158,13 @@
         var node = treeObj.getNodes();
         var nodes = treeObj.transformToArray(node);
         var params = JSON.stringify(nodes);
-        $.post("Commit",{"parametes":params},
-            function (data) {
-                var result = JSON.parse(data);
-                if(result.code === 200){
-                    $('#roleMenuModal').modal('hide');
-                }
-            });
+        $.post("Commit", { "roleId" :currentRoleId, "parametes": params },
+             function (data) {
+                 var result = JSON.parse(data);
+                 if(result.code === 200){
+                     $('#roleMenuModal').modal('hide');
+                 }
+             });
     }
 
     function showUpdateRoleModal(e) {
@@ -399,10 +400,16 @@
                         var name = $("#txtName").val();
                         var desc = $("#txtDescription").val();
                         var role = { Name: name, Description: desc };
-                        $.post("Add", { "parametes": JSON.stringify(role) }, function (data) {
-                            var result = JSON.parse(data);
-                            if (result.code === 200) {
-                                window.location.reload();
+                        $.ajax({
+                            url: "Add",
+                            type: "post",
+                            data: JSON.stringify(role),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function(data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
                             }
                         });
                     }
@@ -422,9 +429,9 @@
                         $.ajax({
                             url: "Update",
                             type: "put",
-                            data: JSON.stringify({ "parametes": JSON.stringify(model) }),
-                            contentType: 'application/json',
-                            success: function (data) {
+                            data: JSON.stringify(model),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function(data) {
                                 var result = JSON.parse(data);
                                 if (result.code === 200) {
                                     window.location.reload();
