@@ -95,10 +95,10 @@ namespace Edu.Controller.Controller
                                         return UserService.Instance.AddUserLoginLog(new AddUserLoginLogArgs()
                                         {
                                             UserId = o.UserId,
-                                            SchoolId = user.SchoolId,
+                                            SchoolId = o.SchoolId,
                                             LoginIp = o.Ip
                                         });
-                                    }, new {Ip, user.UserId}).Result;
+                                    }, new {Ip, user.UserId,user.SchoolId}).Result;
 
                                     if (!string.IsNullOrEmpty(from))
                                         return Redirect(HttpUtility.UrlDecode(from));

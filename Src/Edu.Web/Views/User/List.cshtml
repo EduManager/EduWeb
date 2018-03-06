@@ -3,6 +3,38 @@
     ViewBag.Title = "List";
 }
 
+<style>
+    .modal-dialog {
+        right: auto;
+        left: 50%;
+        width: 40%;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+</style>
+<script src="~/Scripts/bootstrap-paginator.js"></script>
+<script>
+    var pageInfo = {
+        pageIndex: @ViewBag.PageIndex,
+        pageCount: @ViewBag.PageCount,
+        pageSize: @ViewBag.PageSize
+    };
+
+    function loadUpdateUserInfo(e) {
+        var userId = e.dataset.real;
+        $.get("",function(data) {
+            
+        });
+    }
+
+    function loadUpdateUserRole(e) {
+        var userId = e.dataset.real;
+        var username = e.dataset.uname;
+        $('#txtUpdateUserRoleName').val(username);
+    }
+
+</script>
+
 <h2>List</h2>
 
 <ol class="breadcrumb">
@@ -19,6 +51,7 @@
             <tr>
                 <th>姓名</th>
                 <th>校区</th>
+                <th>角色</th>
                 <th>邮箱</th>
                 <th>手机号</th>
                 <th>门卡号</th>
@@ -35,6 +68,7 @@
                 <tr>
                     <td>@item.Name</td>
                     <td>@item.Campname</td>
+                    <td>@item.RoleName</td>
                     <td>@item.Email</td>
                     <td>@item.Phone</td>
                     <td>@item.DoorCardNum</td>
@@ -53,8 +87,8 @@
                         }
                     </td>
                     <td>
-                        <button class="btn btn-default" data-toggle="modal" data-target="#updateUserModal">编辑</button>
-                        <button class="btn btn-default" data-toggle="modal" data-target="#roleMenuModal">编辑权限</button>
+                        <button class="btn btn-default" data-toggle="modal" data-target="#updateUserModal" data-real="@item.UserId">编辑</button>
+                        <button class="btn btn-default" data-toggle="modal" onclick="loadUpdateUserRole(this);" data-target="#updateUserRole" data-real="@item.UserId" data-uname="@item.Name">编辑角色</button>
                         <button class="btn btn-default">删除</button>
                     </td>
                 </tr>
@@ -62,15 +96,15 @@
             </tbody>
         </table>
         <ul class="pagination" id="ulPaging"></ul>
-        <!-- 模态框（Modal）编辑角色 -->
-        <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" data-backdrop="false">
+        <!-- 模态框（Modal）编辑用户 -->
+        <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true" data-backdrop="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
-                        <h5 class="modal-title" id="updateModalLabel"></h5>
+                        <h5 class="modal-title" id="updateUserModalLabel">编辑用户</h5>
                     </div>
                     <div class="modal-body">
                         <div class="col-md-12">
@@ -119,15 +153,49 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
+        
+        <!-- 模态框（Modal）编辑用户角色 -->
+        <div class="modal fade" id="updateUserRole" tabindex="-1" role="dialog" aria-labelledby="updateUserRoleModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="updateUserRoleModalLabel">编辑用户角色</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-horizontal" role="form" id="updateUserRoleForm">
+                                <div class="form-group">
+                                    <label for="txtUpdateUserRoleName" class="col-sm-2 control-label">姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtUpdateUserRoleName" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">角色</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="selectRole"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnUpdateUserRole">
+                            提交更改
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
     </div>
 </div>
 <script>
-    var pageInfo = {
-        pageIndex: @ViewBag.PageIndex,
-        pageCount: @ViewBag.PageCount,
-        pageSize: @ViewBag.PageSize
-    };
-
     $(document)
         .ready(function() {
             var numberOfPage = pageInfo.pageCount;
@@ -144,20 +212,20 @@
                     numberOfPages: numberOfPage, //一页列出多少数据。
                     itemTexts: function(type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
                         switch (type) {
-                            case "first":
-                                return "首页";
-                            case "prev":
-                                return "上一页";
-                            case "next":
-                                return "下一页";
-                            case "last":
-                                return "末页";
-                            case "page":
-                                return page;
+                        case "first":
+                            return "首页";
+                        case "prev":
+                            return "上一页";
+                        case "next":
+                            return "下一页";
+                        case "last":
+                            return "末页";
+                        case "page":
+                            return page;
                         }
                     },onPageClicked: function(event, originalEvent, type, page) {
                         if(page!=pageInfo.pageIndex)
-                        window.location.href="List?pageIndex="+page;
+                            window.location.href="List?pageIndex="+page;
                     }
                 });
         });

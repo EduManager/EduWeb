@@ -41,5 +41,7 @@ namespace Edu.Model.Core
         [DataMember]
         public int RoleId { get; set; }
 
+        [DataMember]
+        public string RoleName { get; set; }
     }
 }
