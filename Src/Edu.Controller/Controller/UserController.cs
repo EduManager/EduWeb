@@ -149,7 +149,7 @@ namespace Edu.Controller.Controller
             var args = new GetUserInfoByPagingArgs()
             {
                 PageSize = 10,
-                SchoolId = ApplicationContext.SchoolId,
+                SchoolId = schoolId,
                 PageIndex = pageIndex,
                 WhereStr = "",
                 OrderBy = ""
