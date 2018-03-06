@@ -35,6 +35,7 @@ namespace Edu.Services
         public QueryResult<RoleMenuItem> GetRoleMenuByRoleId(GetObjectByIdArgs args)
         {
             ArgumentHelper.Require(args.Id, "RoleId",Arguments.Positive);
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
 
             return ContainerFactory<IRoleMenuRepository>.Instance.GetRoleMenuByRoleId(args);
         }
@@ -48,6 +49,7 @@ namespace Edu.Services
         public CommandResult<int> ClearRoleMenuByRoleId(ClearRoleMenuByRoleIdArgs args)
         {
             ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<IRoleMenuRepository>.Instance.ClearRoleMenuByRoleId(args);
@@ -61,6 +63,7 @@ namespace Edu.Services
         public CommandResult<object> AddRoleMenu(AddRoleMenuArgs args)
         {
             ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.MenuId, "MenuId", Arguments.Positive);
             ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);

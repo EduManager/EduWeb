@@ -95,6 +95,7 @@ namespace Edu.Controller.Controller
                                         return UserService.Instance.AddUserLoginLog(new AddUserLoginLogArgs()
                                         {
                                             UserId = o.UserId,
+                                            SchoolId = user.SchoolId,
                                             LoginIp = o.Ip
                                         });
                                     }, new {Ip, user.UserId}).Result;
@@ -145,12 +146,12 @@ namespace Edu.Controller.Controller
         public ViewResult List(int pageIndex = 1)
         {
             var schoolId = ApplicationContext.SchoolId;
-            var strWhere = " where u.school_id = " + schoolId;
             var args = new GetUserInfoByPagingArgs()
             {
+                SchoolId = schoolId,
                 PageSize = 10,
                 PageIndex = pageIndex,
-                WhereStr = strWhere,
+                WhereStr = "",
                 OrderBy = ""
             };
             var result = UserService.Instance.GetUserInfoByPaging(args);
@@ -177,6 +178,7 @@ namespace Edu.Controller.Controller
                 if (!string.IsNullOrEmpty(parameter))
                 {
                     var userId = ApplicationContext.UserId;
+                    var schoolId = ApplicationContext.SchoolId;
                     var passwordInfo = JsonHelper.Deserialize<PasswordInfo>(parameter);
                     if (passwordInfo != null && Request.Cookies.AllKeys.Contains("TOKEN"))
                     {
@@ -194,7 +196,8 @@ namespace Edu.Controller.Controller
 
                             var userInfo = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
                             {
-                                Id = userId
+                                Id = userId,
+                                SchoolId = schoolId
                             });
 
                             if (userInfo.Code == 200)
@@ -217,6 +220,7 @@ namespace Edu.Controller.Controller
                                         var result = UserService.Instance.UpdateUserPassword(new UpdatePasswordArgs()
                                         {
                                             ModifyBy = userId,
+                                            SchoolId = schoolId,
                                             Password = newPasswordEncrypt,
                                             UserId = userId
                                         });
@@ -243,9 +247,11 @@ namespace Edu.Controller.Controller
         public ViewResult Update()
         {
             var userId = ApplicationContext.UserId;
+            var schoolId = ApplicationContext.SchoolId;
             var userInfoResult = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
             {
-                Id = userId
+                Id = userId,
+                SchoolId = ApplicationContext.SchoolId
             });
             var userInfo = new UserLite();
             if (userInfoResult.Code == 200)
@@ -261,10 +267,12 @@ namespace Edu.Controller.Controller
         public string UpdateUser(string parameter)
         {
             var userId = ApplicationContext.UserId;
+            var schoolId = ApplicationContext.SchoolId;
             var args = JsonHelper.Deserialize<UpdateUserArgs>(parameter);
             if (args != null)
             {
                 args.UserId = userId;
+                args.SchoolId = schoolId;
                 args.ModifyBy = userId;
                 var result = UserService.Instance.UpdateUserInfo(args);
                 return JsonHelper.Serialize(result);

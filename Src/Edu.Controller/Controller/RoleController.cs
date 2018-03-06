@@ -36,6 +36,7 @@ namespace Edu.Controller.Controller
         {
             var result = RoleService.Instance.DeleteRole(new DeleteRoleArgs()
             {
+                SchoolId = ApplicationContext.SchoolId,
                 RoleId = roleId,
                 ModifyBy = ApplicationContext.UserId
             });
@@ -50,6 +51,7 @@ namespace Edu.Controller.Controller
             if (model != null)
             {
                 model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
                 var result = RoleService.Instance.UpdateRole(model);
                 return JsonHelper.Serialize(result);
             }
@@ -83,6 +85,7 @@ namespace Edu.Controller.Controller
                 RoleMenuService.Instance.ClearRoleMenuByRoleId(new ClearRoleMenuByRoleIdArgs()
                 {
                     RoleId = ApplicationContext.RoleId,
+                    SchoolId = ApplicationContext.SchoolId,
                     ModifyBy = ApplicationContext.UserId
                 });
                 var selectNodes = nodes.Where(p => p.Checked);
@@ -92,6 +95,7 @@ namespace Edu.Controller.Controller
                 {
                     RoleMenuService.Instance.AddRoleMenu(new AddRoleMenuArgs()
                     {
+                        SchoolId = ApplicationContext.SchoolId,
                         RoleId = ApplicationContext.RoleId,
                         CreateBy = ApplicationContext.UserId,
                         ModifyBy = ApplicationContext.UserId,
@@ -113,7 +117,8 @@ namespace Edu.Controller.Controller
             //获取角色对应的菜单
             var roleMenuResult = RoleMenuService.Instance.GetRoleMenuByRoleId(new GetObjectByIdArgs()
             {
-                Id = roleId
+                Id = roleId,
+                SchoolId = ApplicationContext.SchoolId
             });
             if (menuResult.Code == 200 && roleMenuResult.Code == 200)
             {

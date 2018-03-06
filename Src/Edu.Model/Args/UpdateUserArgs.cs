@@ -10,9 +10,12 @@ namespace Edu.Model.Args
     [DataContract]
     public class UpdateUserArgs
     {
+
+        [DataMember]
+        public int SchoolId { get; set; }
+
         [DataMember]
         public int UserId { get; set; }
-
         [DataMember]
         public string Name { get; set; }
         

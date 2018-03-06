@@ -8,8 +8,10 @@ namespace Edu.Model.Args
 {
     public class UpdatePasswordArgs
     {
-        public int UserId { get; set; }
+        public int SchoolId { get; set; }
 
+        public int UserId { get; set; }
+        
         public string Password { get; set; }
 
         public int ModifyBy { get; set; }

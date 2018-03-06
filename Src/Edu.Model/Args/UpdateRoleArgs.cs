@@ -8,6 +8,7 @@ namespace Edu.Model.Args
 {
     public class UpdateRoleArgs
     {
+        public int SchoolId { get; set; }
         public int  RoleId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

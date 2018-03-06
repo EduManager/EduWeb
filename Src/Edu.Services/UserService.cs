@@ -47,6 +47,7 @@ namespace Edu.Services
         public QueryResult<UserLite> GetUserInfoByUserId(GetObjectByIdArgs args)
         {
             ArgumentHelper.Require(args.Id, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
 
             return ContainerFactory<IUserRepository>.Instance.GetUserInfoByUserId(args);
         }
@@ -57,6 +58,7 @@ namespace Edu.Services
         /// <returns></returns>
         public QueryResult<User> GetUserInfoByPaging(GetUserInfoByPagingArgs args)
         {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.PageSize, "PageSize", Arguments.Positive);
             ArgumentHelper.Require(args.PageIndex, "PageIndex", Arguments.Positive);
 
@@ -71,6 +73,7 @@ namespace Edu.Services
         public CommandResult<int> UpdateUserInfo(UpdateUserArgs args)
         {
             ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
             ArgumentHelper.Require(args.Email, "Email", Arguments.NotEmptyOrWhitespace);
             ArgumentHelper.Require(args.Phone, "Phone", Arguments.NotEmptyOrWhitespace);
@@ -85,6 +88,7 @@ namespace Edu.Services
         /// <returns></returns>
         public CommandResult<int> UpdateUserPassword(UpdatePasswordArgs args)
         {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
             ArgumentHelper.Require(args.Password, "Password", Arguments.NotEmptyOrWhitespace);
@@ -99,6 +103,7 @@ namespace Edu.Services
         /// <returns></returns>
         public CommandResult<object> AddUserLoginLog(AddUserLoginLogArgs args)
         {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
             ArgumentHelper.Require(args.LoginIp, "LoginIp", Arguments.NotEmptyOrWhitespace);
 

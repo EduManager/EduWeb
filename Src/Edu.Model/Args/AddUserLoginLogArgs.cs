@@ -8,6 +8,8 @@ namespace Edu.Model.Args
 {
     public class AddUserLoginLogArgs
     {
+        public int SchoolId { get; set; }
+
         public int UserId { get; set; }
 
         public string LoginIp { get; set; }

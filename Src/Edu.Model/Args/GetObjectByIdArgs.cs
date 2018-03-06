@@ -8,6 +8,8 @@ namespace Edu.Model.Args
 {
     public class GetObjectByIdArgs
     {
+        public int SchoolId { get; set; }
         public int Id { get; set; }
+
     }
 }

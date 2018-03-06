@@ -8,6 +8,8 @@ namespace Edu.Model.Args
 {
     public class GetUserInfoByPagingArgs
     {
+        public int SchoolId { get; set; }
+
         public int PageIndex { get; set; }
 
         public int PageSize { get; set; }

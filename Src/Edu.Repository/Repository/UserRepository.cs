@@ -53,6 +53,7 @@ namespace Edu.Repository
             try
             {
                 DynamicParameters p = new DynamicParameters();
+                p.Add("@p_school_id",args.SchoolId);
                 p.Add("@p_page_size", args.PageSize);
                 p.Add("@p_page_now", args.PageIndex);
                 p.Add("@p_order_string", args.OrderBy);
