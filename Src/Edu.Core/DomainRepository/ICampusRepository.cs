@@ -37,6 +37,6 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<int> UpdateCampus(UpdateCampusArgs args);
+        CommandResult<int> UpdateCampus(UpdateCampusArgs args); 
     }
 }
