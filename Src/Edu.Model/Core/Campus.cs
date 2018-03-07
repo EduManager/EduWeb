@@ -36,6 +36,5 @@ namespace Edu.Model.Core
 
         [DataMember]
         public string SchoolName { get; set; }
-        
-    }
+            }
 }
