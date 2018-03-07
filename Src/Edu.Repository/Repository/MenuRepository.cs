@@ -16,7 +16,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Menu>("get_menu");
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Menu>(0, "get_menu");
                 return result;
             }
             catch (Exception e)

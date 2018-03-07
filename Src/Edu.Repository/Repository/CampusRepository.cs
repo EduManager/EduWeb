@@ -28,7 +28,7 @@ namespace Edu.Repository
             try
             {
                 var result =
-                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Campus>("get_campus_by_school_id",
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Campus>(args.SchoolId,"get_campus_by_school_id",
                         args);
                 return result;
             }

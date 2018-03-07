@@ -18,7 +18,7 @@ namespace Edu.Repository
             try
             {
                 var result =
-                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Role>("get_role_by_school_id",
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Role>(0, "get_role_by_school_id",
                         args);
                 return result;
             }
@@ -33,7 +33,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>("add_role", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>(0, "add_role", args);
                 if (result.Code == 200 && result.Items.Count > 0)
                 {
                     return CommandResult.Success(result.Items[0]);
@@ -51,7 +51,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("delete_role", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "delete_role", args);
                 return result;
             }
             catch (Exception e)
@@ -65,7 +65,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("update_role", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "update_role", args);
                 return result;
             }
             catch (Exception e)

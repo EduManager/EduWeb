@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Edu.Core.DomainRepository;
+using Edu.Infrastructure.Database;
 using Edu.Infrastructure.Sql;
 using Edu.Model;
 using MySql.Data.MySqlClient;
@@ -14,13 +15,13 @@ namespace Edu.Repository.UnitOfWork
 {
     public class SqlExcuteContext : ISqlExcuteContext
     {
-        private readonly string _strConn = "Server=mxgumwcmyyqv.mysql.sae.sina.com.cn;Port=10270;Database=edu; User=wangjj;Password=jerry123;";
+        //private readonly string _strConn = "Server=mxgumwcmyyqv.mysql.sae.sina.com.cn;Port=10270;Database=edu; User=wangjj;Password=jerry123;";
         
 
-        public QueryResult<T> Query<T>(string sqlStr, object paras = null) where T : DomainEntity
+        public QueryResult<T> Query<T>(int schoolId, string sqlStr, object paras = null) where T : DomainEntity
         {
             List<T> result = new List<T>();
-            using (IDbConnection connection = new MySqlConnection(_strConn))
+            using (IDbConnection connection = DatabaseManager.GetConnectionString(schoolId))
             {
                 connection.Open();
                 result = connection.Query<T>(sqlStr, param: paras)
@@ -29,10 +30,10 @@ namespace Edu.Repository.UnitOfWork
             return QueryResult.Success<T>(result);
         }
 
-        public QueryResult<T> ExcuteQueryProcedure<T>(string procName, object paras = null)
+        public QueryResult<T> ExcuteQueryProcedure<T>(int schoolId, string procName, object paras = null)
         {
             List<T> result = new List<T>();
-            using (IDbConnection connection = new MySqlConnection(_strConn))
+            using (IDbConnection connection = DatabaseManager.GetConnectionString(schoolId))
             {
                 connection.Open();
                 result = connection.Query<T>(procName, param: paras, commandType: CommandType.StoredProcedure)
@@ -41,10 +42,10 @@ namespace Edu.Repository.UnitOfWork
             return QueryResult.Success<T>(result);
         }
 
-        public CommandResult<object> ExcuteScalarProceDure(string procName, object paras = null)
+        public CommandResult<object> ExcuteScalarProceDure(int schoolId, string procName, object paras = null)
         {
             object result;
-            using (IDbConnection connection = new MySqlConnection(_strConn))
+            using (IDbConnection connection = DatabaseManager.GetConnectionString(schoolId))
             {
                 connection.Open();
                 result = connection.ExecuteScalar(procName, param: paras, commandType: CommandType.StoredProcedure);
@@ -52,10 +53,10 @@ namespace Edu.Repository.UnitOfWork
             return CommandResult.Success(result);
         }
 
-        public CommandResult<int> ExcuteProceDure(string procName, object paras = null)
+        public CommandResult<int> ExcuteProceDure(int schoolId, string procName, object paras = null)
         {
             int result = -1;
-            using (IDbConnection connection = new MySqlConnection(_strConn))
+            using (IDbConnection connection = DatabaseManager.GetConnectionString(schoolId))
             {
                 connection.Open();
                 result = connection.Execute(procName, param: paras, commandType: CommandType.StoredProcedure);

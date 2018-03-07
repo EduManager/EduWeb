@@ -21,7 +21,7 @@ namespace Edu.Repository
             try
             {
                 var result =
-                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<UserForLogin>(
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<UserForLogin>(0,
                         "get_userinfo_by_account", args);
                 return result;
             }
@@ -37,7 +37,7 @@ namespace Edu.Repository
             try
             {
                 var result =
-                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<UserLite>(
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<UserLite>(0,
                         "get_userinfo_by_id", args);
                 return result;
             }
@@ -60,7 +60,7 @@ namespace Edu.Repository
                 p.Add("@p_where_string", args.WhereStr);
                 p.Add("@p_out_rows", null, DbType.Int32, ParameterDirection.Output);
                 var result =
-                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<User>("get_users_by_paging", p);
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<User>(0, "get_users_by_paging", p);
                 args.RowsCount = p.Get<int>("@p_out_rows");
                 return result;
             }
@@ -75,7 +75,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("update_userinfo", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "update_userinfo", args);
                 return result;
             }
             catch (Exception e)
@@ -89,7 +89,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("update_userinfo_password", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "update_userinfo_password", args);
                 return result;
             }
             catch (Exception e)
@@ -103,7 +103,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure("add_user_log", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure(0, "add_user_log", args);
                 return result;
             }
             catch (Exception e)
@@ -117,7 +117,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure("create_or_update_userrole",
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure(0, "create_or_update_userrole",
                     args);
                 return result;
             }
@@ -132,7 +132,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("delete_user", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "delete_user", args);
                 return result;
             }
             catch (Exception e)

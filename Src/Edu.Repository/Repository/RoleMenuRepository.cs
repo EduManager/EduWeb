@@ -19,7 +19,7 @@ namespace Edu.Repository
             try
             {
                 var result =
-                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<RoleMenuItem>(
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<RoleMenuItem>(0,
                         "get_role_menu_by_role_id", args);
                 return result;
             }
@@ -34,7 +34,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure("clear_role_menu_by_role_id",
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "clear_role_menu_by_role_id",
                     args);
                 return result;
             }
@@ -49,7 +49,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure("create_or_update_role_menu",
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure(0, "create_or_update_role_menu",
                     args);
                 return result;
             }

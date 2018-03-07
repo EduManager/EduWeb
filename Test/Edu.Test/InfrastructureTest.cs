@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Edu.Infrastructure.Database;
 using Edu.Infrastructure.Helper;
 using Edu.Model.Args;
 using Edu.Services;
@@ -25,6 +26,11 @@ namespace Edu.Test
             var key = token.Substring(0, 24);
             var id = token.Substring(24, 8);
             var s2 = DesEncryptHelper.Decrypt3Des("F+C/TtcK6W4=", key,CipherMode.ECB,id);
+        }
+        [Test]
+        public void DbTest()
+        {
+           
         }
     }
 }
