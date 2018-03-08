@@ -35,7 +35,13 @@ namespace Edu.Controller.Controller
             ApplicationContext.RoleId = 0;
             ApplicationContext.SchoolId = 0;
             ApplicationContext.UserName = null;
-            Response.Cookies.Clear();
+            //清除cookie
+            HttpCookie loginCookie = new HttpCookie("LoginToken", "");
+            loginCookie.Expires = DateTime.Now.AddDays(1);
+            Response.Cookies.Add(loginCookie);
+            HttpCookie userCookie = new HttpCookie("UserCookie", "");
+            loginCookie.Expires = DateTime.Now.AddDays(1);
+            Response.Cookies.Add(userCookie);
             SetToken();
             return View("Login");
         }
