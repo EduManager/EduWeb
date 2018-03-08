@@ -11,7 +11,7 @@ namespace Edu.Infrastructure.Database
     {
         private static string GetDefaultDatabase()
         {
-            return "Server=mxgumwcmyyqv.mysql.sae.sina.com.cn;Port=10270;Database=edu; User=wangjj;Password=jerry123;";
+            return "Server=rm-2zelu0bwe56072w78xo.mysql.rds.aliyuncs.com;Port=3306;Database=edu; User=huxum;Password=lird*654852;";
         }
 
         private static string GetDatabase(int schoolId)
@@ -19,7 +19,7 @@ namespace Edu.Infrastructure.Database
             string db = "edu";
             var rule = (schoolId%10+1).ToString().PadLeft(2,'0');
             db = db + rule;
-            return $"Server=mxgumwcmyyqv.mysql.sae.sina.com.cn;Port=10270;Database={db}; User=wangjj;Password=jerry123;";
+            return $"Server=rm-2zelu0bwe56072w78xo.mysql.rds.aliyuncs.com;Port=3306;Database={db}; User=huxum;Password=lird*654852;";
         }
 
         public static MySqlConnection GetConnectionString(int schoolId)
