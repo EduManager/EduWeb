@@ -272,6 +272,8 @@
 
             this.$element.addClass("pagination");
 
+            this.$element.addClass("paging");
+
             switch (size.toLowerCase()) {
                 case "large":
                 case "small":

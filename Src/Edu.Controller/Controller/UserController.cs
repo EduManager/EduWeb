@@ -35,6 +35,7 @@ namespace Edu.Controller.Controller
             ApplicationContext.RoleId = 0;
             ApplicationContext.SchoolId = 0;
             ApplicationContext.UserName = null;
+            Response.Cookies.Clear();
             SetToken();
             return View("Login");
         }
@@ -53,7 +54,7 @@ namespace Edu.Controller.Controller
                     var accoutS = Request["Account"];
                     var passwordS = Request["Password"];
                     var key = Request.Cookies["TOKEN"];
-                    var iv = Request.Cookies["IV"];
+                    var iv = Request.Cookies["Timespan"];
                     var loginInfo = new LoginUserInfo()
                     {
                         Account = accoutS,
@@ -86,6 +87,27 @@ namespace Edu.Controller.Controller
                                     ApplicationContext.UserId = user.UserId;
                                     ApplicationContext.UserName = user.Name;
                                     var Ip = ApplicationContext.GetHostAddress();
+                                    //登陆信息是否记录cookie中
+                                    if (Request.Form.AllKeys.Contains("ckRemeber"))
+                                    {
+                                        var ck = Request["ckRemeber"];
+                                        if (ck == "None")
+                                        {
+                                            var login = user.RoleId + "&" + user.SchoolId + "&" + user.UserId;
+                                            var loginToken = DesEncryptHelper.Encrypt3Des(login, userToken,
+                                                CipherMode.ECB, userIv);
+                                            //存储登陆信息到cookie中
+                                            HttpCookie loginCookie = new HttpCookie("LoginToken", loginToken);
+                                            loginCookie.Expires = DateTime.Now.AddDays(1);
+                                            Response.Cookies.Add(loginCookie);
+                                            //存储userid、schoolid到cookie中
+                                            var userSchool = user.UserId + "&" + user.SchoolId;
+                                            HttpCookie userCookie = new HttpCookie("UserCookie", userSchool);
+                                            loginCookie.Expires = DateTime.Now.AddDays(1);
+                                            Response.Cookies.Add(userCookie);
+                                        }
+                                    }
+
                                     //记录登陆信息
                                     var addLogResult = Task.Factory.StartNew(obj =>
                                     {
@@ -179,7 +201,7 @@ namespace Edu.Controller.Controller
                 if (passwordInfo != null && Request.Cookies.AllKeys.Contains("TOKEN"))
                 {
                     var key = Request.Cookies["TOKEN"];
-                    var iv = Request.Cookies["IV"];
+                    var iv = Request.Cookies["Timespan"];
                     if (key != null && iv != null)
                     {
                         //先解密码，然后比对系统中的密码
@@ -314,7 +336,7 @@ namespace Edu.Controller.Controller
             ViewBag.Secret = key;
             ViewBag.IV = iv;
             HttpCookie tokenCookie = new HttpCookie("TOKEN", key);
-            HttpCookie keyCookie = new HttpCookie("IV", iv);
+            HttpCookie keyCookie = new HttpCookie("Timespan", iv);
             tokenCookie.Expires = DateTime.Now.AddHours(1);
             Response.Cookies.Add(tokenCookie);
             Response.Cookies.Add(keyCookie);
