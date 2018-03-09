@@ -130,9 +130,9 @@
         //{ id: 222, pId: 22, name: "禁止勾选 2-2-2", open: true },
         //{ id: 23, pId: 2, name: "禁止勾选 2-3", open: true }
         //];
-        var roleId = $(e).attr("data-val");
+        var roleId = e.dataset.val;;
         currentRoleId = roleId;
-        var roleName = $(e).attr("data-text");
+        var roleName = e.dataset.text;
         $("#roleMenuModalLabel").html(roleName + "-菜单权限编辑");
         $.get("GetList?roleId=" + roleId,
             function (data) {
@@ -168,9 +168,9 @@
     }
 
     function showUpdateRoleModal(e) {
-        var roleId = $(e).attr("data-val");
-        var roleName = $(e).attr("data-text");
-        var desc = $(e).attr("data-tag");
+        var roleId = e.dataset.val;
+        var roleName =e.dataset.text;
+        var desc = e.dataset.tag;
         $("#updateModalLabel").html(roleName + "-编辑");
         $("#txtUpdateName").val(roleName);
         $("#txtUpdateDescription").val(desc);
@@ -178,7 +178,7 @@
     }
     
     function deleteRole(e) {
-        var roleId = $(e).attr("data-val");
+        var roleId = e.dataset.val;
         $.ajax({
             url: "Delete",
             type: "delete",
