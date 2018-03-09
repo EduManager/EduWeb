@@ -130,7 +130,7 @@
         //{ id: 222, pId: 22, name: "禁止勾选 2-2-2", open: true },
         //{ id: 23, pId: 2, name: "禁止勾选 2-3", open: true }
         //];
-        var roleId = $(e).attr("data-real");
+        var roleId = $(e).attr("data-val");
         currentRoleId = roleId;
         var roleName = $(e).attr("data-text");
         $("#roleMenuModalLabel").html(roleName + "-菜单权限编辑");
@@ -168,7 +168,7 @@
     }
 
     function showUpdateRoleModal(e) {
-        var roleId = $(e).attr("data-real");
+        var roleId = $(e).attr("data-val");
         var roleName = $(e).attr("data-text");
         var desc = $(e).attr("data-tag");
         $("#updateModalLabel").html(roleName + "-编辑");
@@ -178,7 +178,7 @@
     }
     
     function deleteRole(e) {
-        var roleId = $(e).attr("data-real");
+        var roleId = $(e).attr("data-val");
         $.ajax({
             url: "Delete",
             type: "delete",
@@ -211,7 +211,7 @@
                 <th>创建时间</th>
                 <th>修改人</th>
                 <th>修改时间</th>
-                <th>操作</th>
+                <th><span class="glyphicon glyphicon-align-justify"></span></th>
             </tr>
             </thead>
             <tbody>
@@ -235,9 +235,16 @@
                         }
                     </td>
                     <td>
-                        <button class="btn btn-default" onclick="showUpdateRoleModal(this);" data-toggle="modal" data-target="#updateRoleModal" data-real="@item.Id" data-text="@item.Name" data-tag="@item.Description">编辑</button>
-                        <button class="btn btn-default" onclick="deleteRole(this);" data-real="@item.Id" data-text="@item.Name">删除</button>
-                        <button class="btn btn-default" onclick="showUpdateRoleMenuModal(this);" data-toggle="modal" data-target="#roleMenuModal" data-real="@item.Id" data-text="@item.Name">编辑权限</button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                操作 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a onclick="showUpdateRoleModal(this);" data-toggle="modal" data-target="#updateRoleModal" data-val="@item.Id" data-text="@item.Name" data-tag="@item.Description">编辑</a></li>
+                                <li><a onclick="deleteRole(this);" data-val="@item.Id" data-text="@item.Name">删除</a></li>
+                                <li><a onclick="showUpdateRoleMenuModal(this);" data-toggle="modal" data-target="#roleMenuModal" data-val="@item.Id" data-text="@item.Name">编辑权限</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             }
