@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Common\WebApplicationContext.cs" />
     <Compile Include="Common\AuthAttribute.cs" />
+    <Compile Include="Controller\CourseController.cs" />
     <Compile Include="Controller\CampusController.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\RoleController.cs" />

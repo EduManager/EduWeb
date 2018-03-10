@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Edu.Model.Core.CourseType>
+@{
+    ViewBag.Title = "课程类别列表";
+}
+
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+<link href="~/Content/ztree/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/ztree/jquery.ztree.core.min.js"></script>
+<script src="~/Scripts/ztree/jquery.ztree.excheck.min.js"></script>
+<script src="~/Scripts/bootstrapValidator.js"></script>
+
+<ol class="breadcrumb">
+    <li>课程类别管理</li>
+</ol>
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">添加课程类别</button>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>课程类别</th>
+                    <th>描述</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>@item.CourseTypeName</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    操作 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.CourseTypeName">编辑</a></li>
+                                    <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.CourseTypeName">删除</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
