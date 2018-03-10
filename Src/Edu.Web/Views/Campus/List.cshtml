@@ -46,7 +46,7 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.CampusName" data-type="@item.CampusType" data-contract="@item.Contract" data-contracttel="@item.ContractTel" data-tel="@item.Tel" data-address="@item.Address">编辑</a></li>
-                            <li><a data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.CampusName">删除</a></li>
+                            <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.CampusName">删除</a></li>
                         </ul>
                     </div>
                 </td>
@@ -135,15 +135,15 @@
                         <div class="col-md-12">
                             <div class="form-horizontal" role="form" id="updateForm">
                                 <div class="form-group">
-                                    <label for="txtCampusName" class="col-sm-3 control-label">校区名称</label>
+                                    <label for="txtCampusName_edit" class="col-sm-3 control-label">校区名称</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="txtCampusName" name="txtCampusName" placeholder="请输入名称">
+                                        <input type="text" class="form-control" id="txtCampusName_edit" name="txtCampusName_edit" placeholder="请输入名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="selectCampusType" class="col-sm-3 control-label">校区类型</label>
+                                    <label for="selectCampusType_edit" class="col-sm-3 control-label">校区类型</label>
                                     <div class="col-sm-9">
-                                        <select id="selectCampusType" class="form-control">
+                                        <select id="selectCampusType_edit" class="form-control">
                                             <option>直营</option>
                                             <option>加盟</option>
                                             <option>合作</option>
@@ -151,27 +151,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtContract" class="col-sm-3 control-label">负责人</label>
+                                    <label for="txtContract_edit" class="col-sm-3 control-label">负责人</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="txtContract" name="txtContract" placeholder="请输入负责人姓名">
+                                        <input type="text" class="form-control" id="txtContract_edit" name="txtContract_edit" placeholder="请输入负责人姓名">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtContractTel" class="col-sm-3 control-label">联系电话</label>
+                                    <label for="txtContractTel_edit" class="col-sm-3 control-label">联系电话</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="txtContractTel" name="txtContractTel" placeholder="请输入负责人联系电话">
+                                        <input type="text" class="form-control" id="txtContractTel_edit" name="txtContractTel_edit" placeholder="请输入负责人联系电话">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtTel" class="col-sm-3 control-label">校区总机</label>
+                                    <label for="txtTel_edit" class="col-sm-3 control-label">校区总机</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="txtTel" name="txtTel" placeholder="请输入校区总机">
+                                        <input type="text" class="form-control" id="txtTel_edit" name="txtTel_edit" placeholder="请输入校区总机">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtAddress" class="col-sm-3 control-label">地址</label>
+                                    <label for="txtAddress_edit" class="col-sm-3 control-label">地址</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" placeholder="请输入地址"></textarea>
+                                        <textarea class="form-control" rows="3" id="txtAddress_edit" name="txtAddress_edit" placeholder="请输入地址"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -181,7 +181,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             关闭
                         </button>
-                        <button type="button" class="btn btn-primary" id="btnUpdateRole">
+                        <button type="button" class="btn btn-primary" id="btnUpdateCampus">
                             提交更改
                         </button>
                     </div>
@@ -205,7 +205,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             取消
                         </button>
-                        <button type="button" class="btn btn-primary" id="btnDeleteCampus"  onclick="deleteCampus(this);" >
+                        <button type="button" class="btn btn-primary" id="btnDeleteCampus"  onclick="deleteCampus();" >
                             确定
                         </button>
                     </div>
@@ -215,22 +215,33 @@
     </div>
 </div>
 <script>
+    var currentCampusId = 0;
     function showUpdateCampusModal(e) {
         var campusId = e.dataset.val;
-        var campusName = e.dataset.text;
-        var desc = e.dataset.tag;
+        var campusName = e.dataset.name;
+        var campusType = e.dataset.type;
+        var tel = e.dataset.tel;
+        var address = e.dataset.address;
+        var contract = e.dataset.contract;
+        var contract_tel = e.dataset.contracttel;
         $("#updateModalLabel").html(campusName + "-编辑");
-        $("#txtUpdateName").val(roleName);
-        $("#txtUpdateDescription").val(desc);
-        currentRoleId = roleId;
+        $("#txtCampusName_edit").val(campusName);
+        $("#selectCampusType_edit").val(campusType);
+        $("#txtContract_edit").val(contract);
+        $("#txtContractTel_edit").val(contract_tel);
+        $("#txtTel_edit").val(tel);
+        $("#txtAddress_edit").val(address);
+        currentCampusId = campusId;
     }
-
-    function deleteCampus(e) {
+    function showDeleteCampusAlert(e) {
         var campusId = e.dataset.val;
+        currentCampusId = campusId;
+    }
+    function deleteCampus() {
         $.ajax({
             url: "Delete",
             type: "delete",
-            data: JSON.stringify({ "campusId": campusId }),
+            data: JSON.stringify({ "campusId": currentCampusId }),
             contentType: 'application/json',
             success: function (data) {
                 var result = JSON.parse(data);
@@ -315,13 +326,13 @@
                     $("#updateForm").bootstrapValidator('validate'); //提交验证
                     if ($("#updateForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
                         //验证成功后的操作，如ajax
-                        var campusname = $("#txtCampusName").val();
-                        var campustype = $("#selectCampusType").val();
-                        var contract = $("#txtContract").val();
-                        var contracttel = $("#txtContractTel").val();
-                        var tel = $("#txtTel").val();
-                        var address = $("#txtAddress").val();
-                        var campus = { CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
+                        var campusname = $("#txtCampusName_edit").val();
+                        var campustype = $("#selectCampusType_edit").val();
+                        var contract = $("#txtContract_edit").val();
+                        var contracttel = $("#txtContractTel_edit").val();
+                        var tel = $("#txtTel_edit").val();
+                        var address = $("#txtAddress_edit").val();
+                        var campus = { CampusId: currentCampusId, CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
                         $.ajax({
                             url: "Update",
                             type: "put",
