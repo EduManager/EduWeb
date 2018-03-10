@@ -8,8 +8,8 @@ namespace Edu.Model.Args
 {
     public class DeleteCampusArgs
     {
+        public int SchoolId { get; set; }
         public int CampusId { get; set; }
-
         public int ModifyBy { get; set; }
     }
 }

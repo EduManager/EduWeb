@@ -17,7 +17,7 @@ namespace Edu.Model.Core
         public string CampusName { get; set; }
 
         [DataMember]
-        public int CampusType { get; set; }
+        public string CampusType { get; set; }
 
         [DataMember]
         public string Tel { get; set; }

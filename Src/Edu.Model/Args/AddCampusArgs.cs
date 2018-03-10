@@ -12,7 +12,7 @@ namespace Edu.Model.Args
 
         public string CampusName { get; set; }
 
-        public int CampusType { get; set; }
+        public string CampusType { get; set; }
 
         public string Tel { get; set; }
 

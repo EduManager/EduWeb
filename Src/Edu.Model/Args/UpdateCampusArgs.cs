@@ -8,17 +8,17 @@ namespace Edu.Model.Args
 {
     public class UpdateCampusArgs
     {
-        public int  CampusId { get; set; }
-       
+        public int SchoolId { get; set; }
+        public int CampusId { get; set; }
         public string CampusName { get; set; }
-        public int CampusType { get; set; }
+        public string CampusType { get; set; }
         public string Tel { get; set; }
         public string Address { get; set; }
         public string Contract { get; set; }
         public string ContractTel { get; set; }
-        
+
         public int ModifyBy { get; set; }
 
-        
+
     }
 }

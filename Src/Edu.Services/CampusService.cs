@@ -39,5 +39,58 @@ namespace Edu.Services
             return ContainerFactory<ICampusRepository>.Instance.GetCampusBySchoolId(args);
         }
 
+        /// <summary>
+        /// 添加校区
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> AddCampus(AddCampusArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CampusType, "CampusType", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.CampusName, "CampusName", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Contract, "Contract", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.ContractTel, "ContractTel", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Address, "Address", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Tel, "Tel", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<ICampusRepository>.Instance.AddCampus(args);
+        }
+
+        /// <summary>
+        /// 删除校区
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> DeleteCampus(DeleteCampusArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CampusId, "CampusId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<ICampusRepository>.Instance.DeleteCampus(args);
+        }
+
+        /// <summary>
+        /// 编辑校区
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateCampus(UpdateCampusArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CampusType, "CampusType", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.CampusName, "CampusName", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Contract, "Contract", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.ContractTel, "ContractTel", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Address, "Address", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Tel, "Tel", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<ICampusRepository>.Instance.UpdateCampus(args);
+        }
+
     }
 }
