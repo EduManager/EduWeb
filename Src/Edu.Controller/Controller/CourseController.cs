@@ -28,6 +28,18 @@ namespace Edu.Controller.Controller
             return View(cts);
         }
 
+        public ViewResult CourseList()
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var result = CourseService.Instance.GetCourseBySchoolId(new GetObjectByIdArgs()
+            {
+                SchoolId = schoolId
+            });
+            var cts = new List<Course>();
+            if (result.Code == 200)
+                cts = result.Items;
+            return View(cts);
+        }
         [HttpPost]
         public string AddCourseType(AddCourseTypeArgs model)
         {
@@ -68,5 +80,59 @@ namespace Edu.Controller.Controller
             return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
 
+        [HttpPost]
+        public string AddCourse(AddCourseArgs model)
+        {
+            if (model != null)
+            {
+                model.CreateBy = ApplicationContext.UserId;
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+
+                var result = CourseService.Instance.AddCourse(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+
+        [HttpDelete]
+        public string DeleteCourse(int ctId)
+        {
+            var result = CourseService.Instance.DeleteCourse(new DeleteCourseArgs()
+            {
+                SchoolId = ApplicationContext.SchoolId,
+                CourseId = ctId,
+                ModifyBy = ApplicationContext.UserId
+            });
+            return JsonHelper.Serialize(result);
+        }
+
+        [HttpPut]
+        public string UpdateCourse(UpdateCourseArgs model)
+        {
+            if (model != null)
+            {
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+                var result = CourseService.Instance.UpdateCourse(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+
+
+        [HttpPut]
+        public string getAllCourseTypes()
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var result = CourseService.Instance.GetCourseBySchoolId(new GetObjectByIdArgs()
+            {
+                SchoolId = schoolId
+            });
+            var cts = new List<Course>();
+            if (result.Code == 200)
+                cts = result.Items;
+            return JsonHelper.Serialize(cts);
+        }
     }
 }
