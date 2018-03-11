@@ -17,7 +17,7 @@ namespace Edu.Infrastructure.Database
         private static string GetDatabase(int schoolId)
         {
             string db = "edu";
-            var rule = (schoolId%10+1).ToString().PadLeft(2,'0');
+            var rule = (schoolId%10).ToString().PadLeft(2,'0');//(schoolId%10+1)改为(schoolId%10) lird 20180311
             db = db + rule;
             return $"Server=rm-2zelu0bwe56072w78xo.mysql.rds.aliyuncs.com;Port=3306;Database={db}; User=huxum;Password=lird*654852;";
         }

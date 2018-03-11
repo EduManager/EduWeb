@@ -37,8 +37,8 @@
                                     操作 <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.CourseTypeName">编辑</a></li>
-                                    <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.CourseTypeName">删除</a></li>
+                                    <li><a onclick="showUpdateObjModal(this);" data-toggle="modal" data-target="#updateCourseTypeModal" data-val="@item.Id" data-name="@item.CourseTypeName" data-descp="@item.Description">编辑</a></li>
+                                    <li><a onclick="showDeleteObjAlert(this);" data-toggle="modal" data-target="#deleteObjModal" data-val="@item.Id" data-text="@item.CourseTypeName">删除</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -46,5 +46,230 @@
                 }
             </tbody>
         </table>
+        <!-- 模态框（Modal）编辑课程类别 -->
+        <div class="modal fade" id="updateCourseTypeModal" tabindex="-1" CourseType="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="updateModalLabel"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-horizontal" CourseType="form" id="updateForm">
+                                <div class="form-group">
+                                    <label for="txtUpdateName" class="col-sm-2 control-label">名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtUpdateName" name="txtUpdateName" placeholder="请输入课程类别">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtUpdateDescription" class="col-sm-2 control-label">描述</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="3" id="txtUpdateDescription" placeholder="请输入描述"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnUpdateCourseType">
+                            提交更改
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- 模态框（Modal）创建课程类别 -->
+        <div class="modal fade" id="addModal" tabindex="-1" CourseType="dialog" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="addModalLabel">创建课程类别</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-horizontal" id="addForm" CourseType="form">
+                                <div class="form-group">
+                                    <label for="txtName" class="col-sm-2 control-label">类别名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtName" name="txtName" placeholder="请输入课程类别名称">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtDescription" class="col-sm-2 control-label">描述</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="3" id="txtDescription" name="txtDescription" placeholder="请输入描述"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnAddCourseType">
+                            提交
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- 模态框（Modal）是否确定删除 -->
+        <div class="modal fade" id="deleteObjModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="updateModalLabel">提示</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>确认要删除该数据吗？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnDeleteObj" onclick="deleteObj();">
+                            确定
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
     </div>
 </div>
+<script>
+    var currentCourseTypeId = 0;
+    function showDeleteObjAlert(e) {
+        var ctId = e.dataset.val;
+        currentCourseTypeId = ctId;
+    }
+    function showUpdateObjModal(e) {
+        var ctId = e.dataset.val;
+        var ctName = e.dataset.name;
+        var desc = e.dataset.descp;
+        $("#updateModalLabel").html(ctName + "-编辑");
+        $("#txtUpdateName").val(ctName);
+        $("#txtUpdateDescription").val(desc);
+        currentCourseTypeId = ctId;
+    }
+    function deleteObj() {
+        $.ajax({
+            url: "DeleteCourseType",
+            type: "delete",
+            data: JSON.stringify({ "ctId": currentCourseTypeId }),
+            contentType: 'application/json',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.code === 200) {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+ $(document)
+        .ready(function() {
+            $('#addForm')
+                .bootstrapValidator({
+                    message: '值不能为空',
+                    submitButtons: '#btnAddCourseType',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        txtName: {
+                            message: '用户名验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '角色名称不能为空'
+                                }
+                            }
+                        }
+                    }
+                });
+            $('#updateForm')
+                .bootstrapValidator({
+                    message: '值不能为空',
+                    submitButtons: '#btnAddCourseType',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        txtUpdateName: {
+                            message: '用户名验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '角色名称不能为空'
+                                }
+                            }
+                        }
+                    }
+                });
+            $("#btnAddCourseType")
+                .click(function() {
+                    $("#addForm").bootstrapValidator('validate'); //提交验证
+                    if ($("#addForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
+                        //验证成功后的操作，如ajax
+                        var name = $("#txtName").val();
+                        var desc = $("#txtDescription").val();
+                        var CourseType = { CourseType: name, Description: desc };
+                        $.ajax({
+                            url: "AddCourseType",
+                            type: "post",
+                            data: JSON.stringify(CourseType),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function(data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
+                });
+            $("#btnUpdateCourseType")
+                .click(function() {
+                    $("#updateForm").bootstrapValidator('validate'); //提交验证
+                    if ($("#updateForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
+                        //验证成功后的操作，如ajax
+                        var name = $("#txtUpdateName").val();
+                        var desc = $("#txtUpdateDescription").val();
+                        var model = {
+                            CourseTypeId: currentCourseTypeId,
+                            CourseType: name,
+                            Description: desc
+                        };
+                        $.ajax({
+                            url: "UpdateCourseType",
+                            type: "put",
+                            data: JSON.stringify(model),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function(data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
+                });
+        });
+</script>
+

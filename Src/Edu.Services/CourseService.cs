@@ -62,7 +62,6 @@ namespace Edu.Services
         public CommandResult<int> DeleteCourseType(DeleteCourseTypeArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-            ArgumentHelper.Require(args.CourseTypeId, "CourseTypeId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<ICourseRepository>.Instance.DeleteCourseType(args);
