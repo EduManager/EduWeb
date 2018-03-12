@@ -157,5 +157,23 @@ namespace Edu.Services
 
             return ContainerFactory<IUserRepository>.Instance.UpdateUserByAdmin(args);
         }
+
+        /// <summary>
+        /// 创建用户
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<object> AddUser(AddUserArgs args)
+        {
+            ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.RegionId, "RegionId", Arguments.Positive);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.Email, "Email", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Name, "Name", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Phone, "Phone", Arguments.NotEmptyOrWhitespace);
+
+            return ContainerFactory<IUserRepository>.Instance.AddUser(args);
+        }
     }
 }

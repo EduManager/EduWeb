@@ -23,7 +23,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<int> AddRole(AddRoleArgs args);
+        CommandResult<object> AddRole(AddRoleArgs args);
 
         /// <summary>
         /// 删除角色

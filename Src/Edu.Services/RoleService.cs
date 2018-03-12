@@ -44,7 +44,7 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult<int> AddRole(AddRoleArgs args)
+        public CommandResult<object> AddRole(AddRoleArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);

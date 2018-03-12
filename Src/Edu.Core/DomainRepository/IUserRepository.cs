@@ -72,5 +72,12 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         CommandResult<int> UpdateUserByAdmin(UpdateUserByAdminArgs args);
+
+        /// <summary>
+        /// 创建用户
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<object> AddUser(AddUserArgs args);
     }
 }

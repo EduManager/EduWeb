@@ -308,6 +308,20 @@ namespace Edu.Controller.Controller
             return JsonHelper.Serialize(result);
         }
 
+        [HttpPost]
+        [AuthFilter]
+        public string Add(AddUserArgs model)
+        {
+            if (model != null)
+            {
+                model.SchoolId = ApplicationContext.SchoolId;
+                model.CreateBy = ApplicationContext.UserId;
+                var result = UserService.Instance.AddUser(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure());
+        }
+
         [HttpPut]
         [AuthFilter]
         public string UpdateUserRole(UpdateUserRoleArgs model)

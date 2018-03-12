@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Edu.Core.DomainRepository;
+using Edu.Infrastructure.Common;
 using Edu.Infrastructure.Helper;
 using Edu.Infrastructure.Sql;
 using Edu.Model;
@@ -154,6 +156,28 @@ namespace Edu.Repository
             {
                 LogHelper.Error(this.GetType(), "用户模块-删除用户失败，UserId:" + args.UserId, e);
                 return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
+        public CommandResult<object> AddUser(AddUserArgs args)
+        {
+            try
+            {
+                //生成密钥，密码
+                var timespan = DateTime.Now.ToLongTime().ToString();
+                var token = Guid.NewGuid().ToString().Replace("-", "");
+                var key = token.Substring(0, 24);
+                var iv = timespan.Substring(2, 8);
+                args.UserKey = key + iv;
+                args.Password = DesEncryptHelper.Encrypt3Des("123456", key, CipherMode.ECB, iv);
+
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure(0, "add_user", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "用户模块-创建用户失败，SchoolId:" + args.SchoolId + ",用户名称:" + args.Name, e);
+                return CommandResult.Failure<object>(e.ToString());
             }
         }
     }

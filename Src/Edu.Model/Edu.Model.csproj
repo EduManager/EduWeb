@@ -50,6 +50,7 @@
     <Compile Include="Args\AddCourseTypeArgs.cs" />
     <Compile Include="Args\AddCampusArgs.cs" />
     <Compile Include="Args\AddRoleArgs.cs" />
+    <Compile Include="Args\AddUserArgs.cs" />
     <Compile Include="Args\AddUserLoginLogArgs.cs" />
     <Compile Include="Args\DeleteCourseArgs.cs" />
     <Compile Include="Args\DeleteCourseTypeArgs.cs" />
