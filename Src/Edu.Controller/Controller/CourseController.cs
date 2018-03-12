@@ -121,15 +121,15 @@ namespace Edu.Controller.Controller
         }
 
 
-        [HttpPut]
+        [HttpPost]
         public string getAllCourseTypes()
         {
             var schoolId = ApplicationContext.SchoolId;
-            var result = CourseService.Instance.GetCourseBySchoolId(new GetObjectByIdArgs()
+            var result = CourseService.Instance.GetCourseTypeBySchoolId(new GetObjectByIdArgs()
             {
                 SchoolId = schoolId
             });
-            var cts = new List<Course>();
+            var cts = new List<CourseType>();
             if (result.Code == 200)
                 cts = result.Items;
             return JsonHelper.Serialize(cts);
