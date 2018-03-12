@@ -112,13 +112,13 @@ namespace Edu.Controller.Controller
                                     {
                                         var o = (dynamic) obj;
                                         //存入数据库
-                                        return UserService.Instance.AddUserLoginLog(new AddUserLoginLogArgs()
+                                        UserService.Instance.AddUserLoginLog(new AddUserLoginLogArgs()
                                         {
                                             UserId = o.UserId,
                                             SchoolId = o.SchoolId,
                                             LoginIp = o.Ip
                                         });
-                                    }, new {Ip, user.UserId,user.SchoolId}).Result;
+                                    }, new {Ip, user.UserId,user.SchoolId});
 
                                     if (!string.IsNullOrEmpty(from))
                                         return Redirect(HttpUtility.UrlDecode(from));
