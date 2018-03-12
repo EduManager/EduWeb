@@ -23,7 +23,7 @@ namespace Edu.Model.Core
         public string Tel { get; set; }
 
         [DataMember]
-        public string Address{ get; set; }
+        public string Address { get; set; }
 
         [DataMember]
         public string Contract { get; set; }
@@ -36,5 +36,5 @@ namespace Edu.Model.Core
 
         [DataMember]
         public string SchoolName { get; set; }
-            }
+    }
 }

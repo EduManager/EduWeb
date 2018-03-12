@@ -68,5 +68,16 @@ namespace Edu.Controller.Controller
             return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
 
+        [HttpGet]
+        [ActionName("SchoolCampus")]
+        public string Campus()
+        {
+            int schoolId = ApplicationContext.SchoolId;
+            var result = CampusService.Instance.GetCampusBySchoolId(new GetObjectByIdArgs()
+            {
+                Id = schoolId
+            });
+            return JsonHelper.Serialize(result);
+        }
     }
 }

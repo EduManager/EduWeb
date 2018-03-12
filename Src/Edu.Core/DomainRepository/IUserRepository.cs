@@ -65,5 +65,12 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         CommandResult<int> DeleteUser(DeleteUserArgs args);
+
+        /// <summary>
+        /// 管理员身份修改用户信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> UpdateUserByAdmin(UpdateUserByAdminArgs args);
     }
 }

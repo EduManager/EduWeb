@@ -139,5 +139,23 @@ namespace Edu.Services
 
             return ContainerFactory<IUserRepository>.Instance.DeleteUser(args);
         }
+
+        /// <summary>
+        /// 管理员身份修改用户信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateUserByAdmin(UpdateUserByAdminArgs args)
+        {
+            ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.RegionId, "RegionId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            ArgumentHelper.Require(args.Email, "Email", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Name, "Name", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Phone, "Phone", Arguments.NotEmptyOrWhitespace);
+
+            return ContainerFactory<IUserRepository>.Instance.UpdateUserByAdmin(args);
+        }
     }
 }

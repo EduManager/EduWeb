@@ -128,6 +128,21 @@ namespace Edu.Repository
             }
         }
 
+        public CommandResult<int> UpdateUserByAdmin(UpdateUserByAdminArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "update_userinfo_by_admin",
+                    args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "用户模块-管理员编辑用户角色信息失败", e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
         public CommandResult<int> DeleteUser(DeleteUserArgs args)
         {
             try

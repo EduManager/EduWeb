@@ -318,6 +318,24 @@ namespace Edu.Controller.Controller
                 model.ModifyBy = ApplicationContext.UserId;
                 model.SchoolId = ApplicationContext.SchoolId;
                 var result = UserService.Instance.UpdateUserRole(model);
+                if (result.Code == 200)
+                {
+                    ApplicationContext.RoleId = model.RoleId;
+                }
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure("数据格式错误"));
+        }
+
+        [HttpPut]
+        [AuthFilter]
+        public string UpdateUserByAdmin(UpdateUserByAdminArgs model)
+        {
+            if (model != null)
+            {
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+                var result = UserService.Instance.UpdateUserByAdmin(model);
                 return JsonHelper.Serialize(result);
             }
             return JsonHelper.Serialize(CommandResult.Failure("数据格式错误"));

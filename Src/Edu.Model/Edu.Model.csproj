@@ -61,6 +61,7 @@
     <Compile Include="Args\UpdatePasswordArgs.cs" />
     <Compile Include="Args\UpdateCampusArgs.cs" />
     <Compile Include="Args\UpdateRoleArgs.cs" />
+    <Compile Include="Args\UpdateUserByAdminArgs.cs" />
     <Compile Include="Args\UpdateUserArgs.cs" />
     <Compile Include="Args\UpdateUserRoleArgs.cs" />
     <Compile Include="Core\Campus.cs" />
