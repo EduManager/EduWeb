@@ -28,45 +28,111 @@ namespace Edu.Controller.Controller
             return View(cts);
         }
 
-        [HttpPost]
-        public string Add(AddCourseTypeArgs model)
+        public ViewResult CourseList()
         {
-            //if (model != null)
-            //{
-            //    model.CreateBy = ApplicationContext.UserId;
-            //    model.ModifyBy = ApplicationContext.UserId;
-            //    model.SchoolId = ApplicationContext.SchoolId;
+            var schoolId = ApplicationContext.SchoolId;
+            var result = CourseService.Instance.GetCourseBySchoolId(new GetObjectByIdArgs()
+            {
+                SchoolId = schoolId
+            });
+            var cts = new List<Course>();
+            if (result.Code == 200)
+                cts = result.Items;
+            return View(cts);
+        }
+        [HttpPost]
+        public string AddCourseType(AddCourseTypeArgs model)
+        {
+            if (model != null)
+            {
+                model.CreateBy = ApplicationContext.UserId;
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
 
-            //    var result = CampusService.Instance.AddCampus(model);
-            //    return JsonHelper.Serialize(result);
-            //}
+                var result = CourseService.Instance.AddCourseType(model);
+                return JsonHelper.Serialize(result);
+            }
             return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
 
         [HttpDelete]
-        public string Delete(int campusId)
+        public string DeleteCourseType(int ctId)
         {
-            //var result = CampusService.Instance.DeleteCampus(new DeleteCampusArgs()
-            //{
-            //    SchoolId = ApplicationContext.SchoolId,
-            //    CampusId = campusId,
-            //    ModifyBy = ApplicationContext.UserId
-            //});
-            return "";// JsonHelper.Serialize(result);
+            var result = CourseService.Instance.DeleteCourseType(new DeleteCourseTypeArgs()
+            {
+                SchoolId = ApplicationContext.SchoolId,
+                CourseTypeId = ctId,
+                ModifyBy = ApplicationContext.UserId
+            });
+            return  JsonHelper.Serialize(result);
         }
 
         [HttpPut]
-        public string Update(UpdateCourseTypeArgs model)
+        public string UpdateCourseType(UpdateCourseTypeArgs model)
         {
-            //if (model != null)
-            //{
-            //    model.ModifyBy = ApplicationContext.UserId;
-            //    model.SchoolId = ApplicationContext.SchoolId;
-            //    var result = CampusService.Instance.UpdateCampus(model);
-            //    return JsonHelper.Serialize(result);
-            //}
+            if (model != null)
+            {
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+                var result = CourseService.Instance.UpdateCourseType(model);
+                return JsonHelper.Serialize(result);
+            }
             return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
 
+        [HttpPost]
+        public string AddCourse(AddCourseArgs model)
+        {
+            if (model != null)
+            {
+                model.CreateBy = ApplicationContext.UserId;
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+
+                var result = CourseService.Instance.AddCourse(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+
+        [HttpDelete]
+        public string DeleteCourse(int ctId)
+        {
+            var result = CourseService.Instance.DeleteCourse(new DeleteCourseArgs()
+            {
+                SchoolId = ApplicationContext.SchoolId,
+                CourseId = ctId,
+                ModifyBy = ApplicationContext.UserId
+            });
+            return JsonHelper.Serialize(result);
+        }
+
+        [HttpPut]
+        public string UpdateCourse(UpdateCourseArgs model)
+        {
+            if (model != null)
+            {
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+                var result = CourseService.Instance.UpdateCourse(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+
+
+        [HttpPut]
+        public string getAllCourseTypes()
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var result = CourseService.Instance.GetCourseBySchoolId(new GetObjectByIdArgs()
+            {
+                SchoolId = schoolId
+            });
+            var cts = new List<Course>();
+            if (result.Code == 200)
+                cts = result.Items;
+            return JsonHelper.Serialize(cts);
+        }
     }
 }

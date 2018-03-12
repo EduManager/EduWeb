@@ -40,6 +40,18 @@ namespace Edu.Services
         }
 
         /// <summary>
+        /// 获取课程列表
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public QueryResult<Course> GetCourseBySchoolId(GetObjectByIdArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+
+            return ContainerFactory<ICourseRepository>.Instance.GetCourseBySchoolId(args);
+        }
+
+        /// <summary>
         /// 添加课程类别
         /// </summary>
         /// <param name="args"></param>
@@ -62,7 +74,6 @@ namespace Edu.Services
         public CommandResult<int> DeleteCourseType(DeleteCourseTypeArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-            ArgumentHelper.Require(args.CourseTypeId, "CourseTypeId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<ICourseRepository>.Instance.DeleteCourseType(args);
@@ -81,6 +92,49 @@ namespace Edu.Services
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<ICourseRepository>.Instance.UpdateCourseType(args);
+        }
+
+        /// <summary>
+        /// 添加课程
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> AddCourse(AddCourseArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CourseTypeId, "CourseTypeId", Arguments.Positive);
+            ArgumentHelper.Require(args.CourseName, "CourseName", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            return ContainerFactory<ICourseRepository>.Instance.AddCourse(args);
+        }
+
+        /// <summary>
+        /// 删除课程
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> DeleteCourse(DeleteCourseArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<ICourseRepository>.Instance.DeleteCourse(args);
+        }
+
+        /// <summary>
+        /// 编辑课程
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateCourse(UpdateCourseArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CourseTypeId, "CourseType", Arguments.Positive);
+            ArgumentHelper.Require(args.CourseName, "Description", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<ICourseRepository>.Instance.UpdateCourse(args);
         }
 
     }

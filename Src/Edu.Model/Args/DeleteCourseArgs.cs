@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Edu.Model.Args
 {
-    public class DeleteCourseTypeArgs
+    public class DeleteCourseArgs
     {
-        public int CourseTypeId { get; set; }
+        public int CourseId { get; set; }
         public int SchoolId { get; set; }
         public int ModifyBy { get; set; }
     }
