@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using Edu.Core.DomainRepository;
@@ -29,21 +30,18 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult<int> AddRole(AddRoleArgs args)
+        public CommandResult<object> AddRole(AddRoleArgs args)
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>(0, "add_role", args);
-                if (result.Code == 200 && result.Items.Count > 0)
-                {
-                    return CommandResult.Success(result.Items[0]);
-                }
-                return CommandResult.Failure<int>();
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure(0, "add_role", args);
+                
+                return result;
             }
             catch (Exception e)
             {
                 LogHelper.Error(this.GetType(), "角色模块-创建角色失败，SchoolId:" + args.SchoolId + ",角色名称:" + args.Name, e);
-                return CommandResult.Failure<int>(e.ToString());
+                return CommandResult.Failure<object>(e.ToString());
             }
         }
 

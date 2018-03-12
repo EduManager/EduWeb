@@ -11,11 +11,51 @@
         pageIndex: @ViewBag.PageIndex,
         pageCount: @ViewBag.PageCount,
         pageSize: @ViewBag.PageSize
-        };
+    };
     
     var updUserId = 0;
 
+    function loadAddForm() {
+        $('#selectAddCampus').empty();
+        $('#selectAddRole').empty();
+        $.get("../Campus/SchoolCampus",
+            function(data) {
+                var result = JSON.parse(data);
+                if (result.code == 200 && result.items.length > 0) {
+                    for (var index = 0; index < result.items.length; index++) {
+                        var item = result.items[index];
+                        if (index == 0) {
+                            $('#selectAddCampus')
+                                .append("<option selected value='" + item.id + "'>" + item.campusName + "</option>");
+                        } else {
+                            $('#selectAddCampus')
+                                .append("<option value='" + item.id + "'>" + item.campusName + "</option>");
+                        }
+                    }
+                }
+            });
+        
+        $.get("../Role/SchoolRoles",
+            function(data) {
+                var result = JSON.parse(data);
+                if (result.code == 200 && result.items.length > 0) {
+                    for (var index = 0; index < result.items.length; index++) {
+                        var item = result.items[index];
+                        if (index == 0) {
+                            $('#selectAddRole')
+                                .append("<option selected value='" + item.id + "'>" + item.name + "</option>");
+                        } else {
+                            $('#selectAddRole')
+                                .append("<option value='" + item.id + "'>" + item.name + "</option>");
+                        }
+                    }
+
+                }
+            });
+    }
+
     function loadUserRole(e) {
+        $('#selectRole').empty();
         var userId = e.dataset.val;
         updUserId = userId;
         var username = e.dataset.uname;
@@ -41,6 +81,7 @@
     }
 
     function loadUser(e) {
+        $('#selectCampus').empty();
         var userId = e.dataset.val;
         var name = e.dataset.pname;
         var email = e.dataset.pemail;
@@ -97,17 +138,17 @@
         padding-top: 30px;
         padding-bottom: 30px;
     }
-    #updateUserModal .form-horizontal .form-control{
+    .usermodal .form-horizontal .form-control{
         background: #f0f0f0;
         border: none;  
         box-shadow: none;
         padding: 0 10px 0 30px;
     }
-   #updateUserModal input[type="text"]:focus {
+   .usermodal input[type="text"]:focus {
         background: #ffffff;
         border: 1px solid #cccccc;
     }
-   #updateUserModal .form-horizontal .form-group i{
+   .usermodal .form-horizontal .form-group i{
         position: absolute;
         top: 7px;
         left: 22px;
@@ -115,7 +156,7 @@
         color: #c8c8c8;
         transition : all 0.5s ease 0s;
     }
-   #updateUserModal .form-horizontal .form-control:focus + i{
+   .usermodal .form-horizontal .form-control:focus + i{
         color: #00b4ef;
     }
 </style>
@@ -125,165 +166,229 @@
 </ol>
 
 <div class="row">
-    <div class="col-md-12">
-        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">新增员工</button>
-    </div>
-    <div class="col-md-12">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>姓名</th>
-                <th>校区</th>
-                <th>角色</th>
-                <th>邮箱</th>
-                <th>手机号</th>
-                <th>门卡号</th>
-                <th>创建人</th>
-                <th>创建时间</th>
-                <th>修改人</th>
-                <th>修改时间</th>
-                <th><span class="glyphicon glyphicon-align-justify"></span></th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Campname</td>
-                    <td>@item.RoleName</td>
-                    <td>@item.Email</td>
-                    <td>@item.Phone</td>
-                    <td>@item.DoorCardNum</td>
-                    <td>@item.CreateBy</td>
-                    <td>
-                        @if (item.CreateTime != null)
-                        {
-                            @item.CreateTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
-                        }
-                    </td>
-                    <td>@item.ModifyBy</td>
-                    <td>
-                        @if (item.ModifyTime != null)
-                        {
-                            @item.ModifyTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
-                        }
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                操作 <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" onclick="loadUser(this);" data-target="#updateUserModal" data-val="@item.UserId" data-region="@item.RegionId" data-pname="@item.Name" data-pemail="@item.Email" data-pphone="@item.Phone" data-pcard="@item.DoorCardNum">编辑</a></li>
-                                <li><a data-toggle="modal" onclick="loadUserRole(this);" data-target="#updateUserRole" data-val="@item.UserId" data-uname="@item.Name" data-role="@item.RoleId">编辑角色</a></li>
-                                <li><a data-val="@item.UserId" onclick="deleteUser(this);">删除</a></li>
-                            </ul>
+<div class="col-md-12">
+    <button class="btn btn-default" data-toggle="modal" onclick="loadAddForm();" data-target="#addUserModal">新增员工</button>
+</div>
+<div class="col-md-12">
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>姓名</th>
+        <th>校区</th>
+        <th>角色</th>
+        <th>邮箱</th>
+        <th>手机号</th>
+        <th>门卡号</th>
+        <th>创建人</th>
+        <th>创建时间</th>
+        <th>修改人</th>
+        <th>修改时间</th>
+        <th><span class="glyphicon glyphicon-align-justify"></span></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Campname</td>
+            <td>@item.RoleName</td>
+            <td>@item.Email</td>
+            <td>@item.Phone</td>
+            <td>@item.DoorCardNum</td>
+            <td>@item.CreateBy</td>
+            <td>
+                @if (item.CreateTime != null)
+                {
+                    @item.CreateTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                }
+            </td>
+            <td>@item.ModifyBy</td>
+            <td>
+                @if (item.ModifyTime != null)
+                {
+                    @item.ModifyTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                }
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        操作 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a data-toggle="modal" onclick="loadUser(this);" data-target="#updateUserModal" data-val="@item.UserId" data-region="@item.RegionId" data-pname="@item.Name" data-pemail="@item.Email" data-pphone="@item.Phone" data-pcard="@item.DoorCardNum">编辑</a></li>
+                        <li><a data-toggle="modal" onclick="loadUserRole(this);" data-target="#updateUserRole" data-val="@item.UserId" data-uname="@item.Name" data-role="@item.RoleId">编辑角色</a></li>
+                        <li><a data-val="@item.UserId" onclick="deleteUser(this);">删除</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<ul class="pagination" id="ulPaging"></ul>
+<!-- 模态框（Modal）创建用户 -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="addUserModalLabel">新增用户</h5>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 usermodal">
+                    <div class="form-horizontal" role="form" id="addUserForm">
+                        <div class="form-group">
+                            <label for="txtUpdateName" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtAddName" name="txtAddName">
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-        <ul class="pagination" id="ulPaging"></ul>
-        <!-- 模态框（Modal）编辑用户 -->
-        <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true" data-backdrop="false">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h5 class="modal-title" id="updateUserModalLabel">编辑用户</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-md-12">
-                            <div class="form-horizontal" role="form" id="updateUserForm">
-                                <div class="form-group">
-                                    <label for="txtUpdateName" class="col-sm-2 control-label">姓名</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtUpdateName" name="txtUpdateName">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="txtUpdateUserEmail" class="col-sm-2 control-label">邮箱</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtUpdateUserEmail" name="txtUpdateUserEmail"/> 
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="txtUpdatePhone" class="col-sm-2 control-label">手机号</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtUpdatePhone" name="txtUpdatePhone"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="txtUpdateDoorCardNumber" class="col-sm-2 control-label">门卡号</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtUpdateDoorCardNumber" name="txtUpdateDoorCardNumber"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">所属校区</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" id="selectCampus"></select>
-                                    </div>
-                                </div>
+                        <div class="form-group">
+                            <label for="txtUpdateUserEmail" class="col-sm-2 control-label">邮箱</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtAddUserEmail" name="txtAddUserEmail" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtUpdatePhone" class="col-sm-2 control-label">手机号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtAddPhone" name="txtAddPhone" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtUpdateDoorCardNumber" class="col-sm-2 control-label">门卡号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtAddDoorCardNumber" name="txtAddDoorCardNumber" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">角色</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="selectAddRole"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属校区</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="selectAddCampus"></select>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            关闭
-                        </button>
-                        <button type="button" class="btn btn-primary" id="btnUpdateUser">
-                            提交更改
-                        </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="btnAddUser">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态框（Modal）编辑用户 -->
+<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="updateUserModalLabel">编辑用户</h5>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 usermodal">
+                    <div class="form-horizontal" role="form" id="updateUserForm">
+                        <div class="form-group">
+                            <label for="txtUpdateName" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtUpdateName" name="txtUpdateName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtUpdateUserEmail" class="col-sm-2 control-label">邮箱</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtUpdateUserEmail" name="txtUpdateUserEmail"/> 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtUpdatePhone" class="col-sm-2 control-label">手机号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtUpdatePhone" name="txtUpdatePhone"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtUpdateDoorCardNumber" class="col-sm-2 control-label">门卡号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtUpdateDoorCardNumber" name="txtUpdateDoorCardNumber"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属校区</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="selectCampus"></select>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="btnUpdateUser">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
         
-        <!-- 模态框（Modal）编辑用户角色 -->
-        <div class="modal fade" id="updateUserRole" tabindex="-1" role="dialog" aria-labelledby="updateUserRoleModalLabel" aria-hidden="true" data-backdrop="false">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h5 class="modal-title" id="updateUserRoleModalLabel">编辑用户角色</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-md-12">
-                            <div class="form-horizontal" role="form" id="updateUserRoleForm">
-                                <div class="form-group">
-                                    <label for="txtUpdateUserRoleName" class="col-sm-2 control-label">姓名</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtUpdateUserRoleName" readonly="readonly">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">角色</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" id="selectRole"></select>
-                                    </div>
-                                </div>
+<!-- 模态框（Modal）编辑用户角色 -->
+<div class="modal fade" id="updateUserRole" tabindex="-1" role="dialog" aria-labelledby="updateUserRoleModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="updateUserRoleModalLabel">编辑用户角色</h5>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="form-horizontal" role="form" id="updateUserRoleForm">
+                        <div class="form-group">
+                            <label for="txtUpdateUserRoleName" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtUpdateUserRoleName" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">角色</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="selectRole"></select>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            关闭
-                        </button>
-                        <button type="button" class="btn btn-primary" id="btnUpdateUserRole">
-                            提交更改
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="btnUpdateUserRole">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</div>
 </div>
 <script>
     $(document)
@@ -320,10 +425,96 @@
                     }
                 });
 
+            $('#addUserForm')
+                .bootstrapValidator({
+                    message: '值不能为空',
+                    submitButtons: '#btnAddUser',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        txtAddName: {
+                            message: '用户名验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '用户名称不能为空'
+                                }
+                            }
+                        },
+                        txtAddUserEmail: {
+                            message: '邮箱验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '邮箱不能为空'
+                                },
+                                callback: {
+                                    message: '邮箱无效',
+                                    callback: function(value, validator) {
+                                        var reg2 =
+                                            /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+                                        return reg2.test(value);
+                                    }
+                                }
+                            }
+                        },
+                        txtAddPhone: {
+                            message: '手机号验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '手机号不能为空'
+                                },
+                                callback: {
+                                    message: '手机号无效',
+                                    callback: function(value, validator) {
+                                        var reg =
+                                            /^134[0-8]\d{7}$|^13[^4]\d{8}$|^14[5-9]\d{8}$|^15[^4]\d{8}$|^16[6]\d{8}$|^17[0-8]\d{8}$|^18[\d]{9}$|^19[8,9]\d{8}$/;
+                                        return reg.test(value);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+            $('#btnAddUser')
+                .click(function() {
+                    $("#addUserForm").bootstrapValidator('validate'); //提交验证  
+                    if ($("#addUserForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码  
+                        var campusId = $("#selectAddCampus option:selected").val();
+                        var roleId = $("#selectAddRole option:selected").val();
+                        var name = $("#txtAddName").val();
+                        var email = $("#txtAddUserEmail").val();
+                        var phone = $("#txtAddPhone").val();
+                        var cardNum = $("#txtAddDoorCardNumber").val();
+                        var postData = {
+                            Name: name,
+                            Email: email,
+                            Phone: phone,
+                            DoorCardNumber: cardNum,
+                            RegionId: campusId,
+                            RoleId:roleId
+                        };
+                        $.ajax({
+                            url: "Add",
+                            type: "post",
+                            data: JSON.stringify(postData),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function(data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
+                });
+
             $('#updateUserForm')
                 .bootstrapValidator({
                     message: '值不能为空',
-                    submitButtons: '#btnCommit',
+                    submitButtons: '#btnUpdateUser',
                     feedbackIcons: {
                         valid: 'glyphicon glyphicon-ok',
                         invalid: 'glyphicon glyphicon-remove',
