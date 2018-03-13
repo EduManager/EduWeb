@@ -7,6 +7,9 @@ namespace Edu.Model
     public class DomainEntity : IDomainEntity
     {
         [DataMember]
+        public int SchoolId { get; set; }
+
+        [DataMember]
         public string CreateBy { get; set; }
 
         [DataMember]

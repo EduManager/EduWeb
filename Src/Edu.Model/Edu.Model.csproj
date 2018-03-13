@@ -57,6 +57,7 @@
     <Compile Include="Args\DeleteCampusArgs.cs" />
     <Compile Include="Args\DeleteRoleArgs.cs" />
     <Compile Include="Args\DeleteUserArgs.cs" />
+    <Compile Include="Args\GetSysConfigByUserIdArgs.cs" />
     <Compile Include="Args\GetObjectByIdArgs.cs" />
     <Compile Include="Args\GetUserInfoByPagingArgs.cs" />
     <Compile Include="Args\LoginInArgs.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Core\Campus.cs" />
     <Compile Include="Core\Course.cs" />
     <Compile Include="Core\CourseType.cs" />
+    <Compile Include="Core\SysConfig.cs" />
     <Compile Include="Core\UserForLogin.cs" />
     <Compile Include="Core\UserLite.cs" />
     <Compile Include="Core\User.cs" />

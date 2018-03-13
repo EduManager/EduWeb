@@ -44,6 +44,7 @@
     <Compile Include="CourseService.cs" />
     <Compile Include="CampusService.cs" />
     <Compile Include="MenuService.cs" />
+    <Compile Include="SysConfigService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="RoleService.cs" />
     <Compile Include="RoleMenuService.cs" />
