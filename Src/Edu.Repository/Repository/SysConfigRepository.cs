@@ -28,5 +28,19 @@ namespace Edu.Repository.Repository
                 return QueryResult.Failure<SysConfig>(e.ToString());
             }
         }
+
+        public CommandResult<int> CreateOrUpdateSysConfig(CreateOrUpdateSysConfigArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "create_or_update_sys_config", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "系统配置模块--创建或更新配置失败", e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
     }
 }

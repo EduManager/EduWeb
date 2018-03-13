@@ -330,14 +330,14 @@ namespace Edu.Controller.Controller
 
         [HttpPut]
         [AuthFilter]
-        public string UpdateUserRole(UpdateUserRoleArgs model)
+        public string UpdateUserRole(CreateOrUpdateUserRoleArgs model)
         {
             if (model != null)
             {
                 model.CreateBy = ApplicationContext.UserId;
                 model.ModifyBy = ApplicationContext.UserId;
                 model.SchoolId = ApplicationContext.SchoolId;
-                var result = UserService.Instance.UpdateUserRole(model);
+                var result = UserService.Instance.CreateOrUpdateUserRole(model);
                 if (result.Code == 200)
                 {
                     ApplicationContext.RoleId = model.RoleId;

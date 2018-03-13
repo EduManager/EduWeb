@@ -60,7 +60,7 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult<object> AddRoleMenu(AddRoleMenuArgs args)
+        public CommandResult<object> CreateOrUpdateRoleMenu(CreateOrUpdateRoleMenuArgs args)
         {
             ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
@@ -68,7 +68,7 @@ namespace Edu.Services
             ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
-            return ContainerFactory<IRoleMenuRepository>.Instance.AddRoleMenu(args);
+            return ContainerFactory<IRoleMenuRepository>.Instance.CreateOrUpdateRoleMenu(args);
         }
     }
 }

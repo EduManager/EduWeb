@@ -53,11 +53,11 @@ namespace Edu.Core.DomainRepository
         CommandResult<object> AddUserLoginLog(AddUserLoginLogArgs args);
 
         /// <summary>
-        /// 编辑用户角色
+        /// 创建或编辑用户角色
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<object> UpdateUserRole(UpdateUserRoleArgs args);
+        CommandResult<object> CreateOrUpdateUserRole(CreateOrUpdateUserRoleArgs args);
 
         /// <summary>
         /// 删除用户

@@ -1,6 +1,6 @@
 ﻿namespace Edu.Model.Args
 {
-    public class AddRoleMenuArgs
+    public class CreateOrUpdateRoleMenuArgs
     {
         public int SchoolId { get; set; }
 

@@ -17,6 +17,12 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         QueryResult<SysConfig> GetSysConfigByUserId(GetSysConfigByUserIdArgs args);
-        
+
+        /// <summary>
+        /// 创建或更新用户配置
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> CreateOrUpdateSysConfig(CreateOrUpdateSysConfigArgs args);
     }
 }

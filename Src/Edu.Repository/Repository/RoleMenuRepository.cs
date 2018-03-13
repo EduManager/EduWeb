@@ -45,7 +45,7 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult<object> AddRoleMenu(AddRoleMenuArgs args)
+        public CommandResult<object> CreateOrUpdateRoleMenu(CreateOrUpdateRoleMenuArgs args)
         {
             try
             {

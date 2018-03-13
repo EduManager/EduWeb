@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Edu.Model.Args
 {
-    public class UpdateUserRoleArgs
+    public class CreateOrUpdateUserRoleArgs
     {
         public int SchoolId { set; get; }
         public int UserId { get; set; }

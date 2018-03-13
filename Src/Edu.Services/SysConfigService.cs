@@ -39,5 +39,20 @@ namespace Edu.Services
 
             return ContainerFactory<ISysConfigRepository>.Instance.GetSysConfigByUserId(args);
         }
+
+        /// <summary>
+        /// 创建或更新用户配置
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public  CommandResult<int> CreateOrUpdateSysConfig(CreateOrUpdateSysConfigArgs args)
+        {
+            ArgumentHelper.Require(args.UserId, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.SKey, "SKey", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.SValue, "SValue", Arguments.NotEmptyOrWhitespace);
+
+            return ContainerFactory<ISysConfigRepository>.Instance.CreateOrUpdateSysConfig(args);
+        }
     }
 }
