@@ -189,6 +189,31 @@ namespace Edu.Controller.Controller
             return View();
         }
 
+        [AuthFilter]
+        public ViewResult Update()
+        {
+            var userId = ApplicationContext.UserId;
+            var schoolId = ApplicationContext.SchoolId;
+            var userInfoResult = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
+            {
+                Id = userId,
+                SchoolId = ApplicationContext.SchoolId
+            });
+            var userInfo = new UserLite();
+            if (userInfoResult.Code == 200)
+            {
+                userInfo = userInfoResult.Items.FirstOrDefault();
+            }
+
+            return View(userInfo);
+        }
+
+        [AuthFilter]
+        public ViewResult Log()
+        {
+            return View();
+        }
+
         [HttpPut]
         [AuthFilter]
         public string ChangePassword(PasswordInfo passwordInfo)
@@ -256,25 +281,6 @@ namespace Edu.Controller.Controller
             {
                 return JsonHelper.Serialize(CommandResult.Failure("服务器异常：" + e.ToString()));
             }
-        }
-
-        [AuthFilter]
-        public ViewResult Update()
-        {
-            var userId = ApplicationContext.UserId;
-            var schoolId = ApplicationContext.SchoolId;
-            var userInfoResult = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
-            {
-                Id = userId,
-                SchoolId = ApplicationContext.SchoolId
-            });
-            var userInfo = new UserLite();
-            if (userInfoResult.Code == 200)
-            {
-                userInfo = userInfoResult.Items.FirstOrDefault();
-            }
-
-            return View(userInfo);
         }
 
         [HttpPut]
