@@ -108,7 +108,7 @@ namespace Edu.Controller.Controller
                                     }
 
                                     //记录登陆信息
-                                    var addLogResult = Task.Factory.StartNew(obj =>
+                                    Task.Factory.StartNew(obj =>
                                     {
                                         var o = (dynamic) obj;
                                         //存入数据库
