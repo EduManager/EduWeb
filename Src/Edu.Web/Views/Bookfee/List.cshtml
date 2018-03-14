@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Edu.Model.Core.Bookfee>
+@{
+    ViewBag.Title = "教材杂费";
+}
+
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+<link href="~/Content/ztree/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/ztree/jquery.ztree.core.min.js"></script>
+<script src="~/Scripts/ztree/jquery.ztree.excheck.min.js"></script>
+<script src="~/Scripts/bootstrapValidator.js"></script>
+<ol class="breadcrumb">
+    <li>教材杂费</li>
+</ol>
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">添加教材项</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">添加杂费项</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                教材项
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>所属课程</th>
+                            <th>教材项名称</th>
+                            <th>价格</th>
+                            <th>所需积分</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            if (@item.FeeType == 1)
+                            { 
+                            <tr>
+                                <td>@item.CourseName</td>
+                                <td>@item.FeeName</td>
+                                <td>@item.Price</td>
+                                <td>@item.Integration</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            操作 <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.FeeName" data-type="@item.CourseName" data-price="@item.Price" data-intg="@item.Integration">编辑</a></li>
+                                            <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.FeeName">删除</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+               杂费项
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>所属课程</th>
+                            <th>杂费项名称</th>
+                            <th>价格</th>
+                            <th>所需积分</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            if (@item.FeeType == 2)
+                            { 
+                            <tr>
+                                <td>@item.CourseName</td>
+                                <td>@item.FeeName</td>
+                                <td>@item.Price</td>
+                                <td>@item.Integration</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            操作 <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.FeeName" data-type="@item.CourseName" data-price="@item.Price" data-intg="@item.Integration">编辑</a></li>
+                                            <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.FeeName">删除</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

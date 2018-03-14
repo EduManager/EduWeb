@@ -61,6 +61,7 @@
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="IocInstaller.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\BookfeeRepository.cs" />
     <Compile Include="Repository\CourseRepository.cs" />
     <Compile Include="Repository\CampusRepository.cs" />
     <Compile Include="Repository\SysConfigRepository.cs" />
