@@ -101,7 +101,7 @@ namespace Edu.Controller.Controller
                 //依次添加权限
                 foreach (var selectNode in selectNodes)
                 {
-                    RoleMenuService.Instance.AddRoleMenu(new AddRoleMenuArgs()
+                    RoleMenuService.Instance.CreateOrUpdateRoleMenu(new CreateOrUpdateRoleMenuArgs()
                     {
                         SchoolId = ApplicationContext.SchoolId,
                         RoleId = roleId,

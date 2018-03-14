@@ -72,6 +72,21 @@ namespace Edu.Controller.Common
                                                 ApplicationContext.UserId = userId;
                                                 ApplicationContext.RoleId = roleId2;
                                                 ApplicationContext.UserName = user.Name;
+
+                                                //记录登陆信息
+                                                var Ip = ApplicationContext.GetHostAddress();
+                                                Task.Factory.StartNew(obj =>
+                                                {
+                                                    var o = (dynamic)obj;
+                                                    //存入数据库
+                                                    UserService.Instance.AddUserLoginLog(new AddUserLoginLogArgs()
+                                                    {
+                                                        UserId = o.UserId,
+                                                        SchoolId = o.SchoolId,
+                                                        LoginIp = o.Ip
+                                                    });
+                                                }, new { Ip, user.UserId, ApplicationContext.SchoolId });
+
                                                 isRealRedirect = false;
                                                 base.OnActionExecuting(filterContext);
                                             }

@@ -115,7 +115,7 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult<object> UpdateUserRole(UpdateUserRoleArgs args)
+        public CommandResult<object> CreateOrUpdateUserRole(CreateOrUpdateUserRoleArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.RoleId, "RoleId", Arguments.Positive);
@@ -123,7 +123,7 @@ namespace Edu.Services
             ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
-            return ContainerFactory<IUserRepository>.Instance.UpdateUserRole(args);
+            return ContainerFactory<IUserRepository>.Instance.CreateOrUpdateUserRole(args);
         }
 
         /// <summary>

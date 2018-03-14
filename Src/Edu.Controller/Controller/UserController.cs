@@ -108,7 +108,7 @@ namespace Edu.Controller.Controller
                                     }
 
                                     //记录登陆信息
-                                    var addLogResult = Task.Factory.StartNew(obj =>
+                                    Task.Factory.StartNew(obj =>
                                     {
                                         var o = (dynamic) obj;
                                         //存入数据库
@@ -189,6 +189,31 @@ namespace Edu.Controller.Controller
             return View();
         }
 
+        [AuthFilter]
+        public ViewResult Update()
+        {
+            var userId = ApplicationContext.UserId;
+            var schoolId = ApplicationContext.SchoolId;
+            var userInfoResult = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
+            {
+                Id = userId,
+                SchoolId = ApplicationContext.SchoolId
+            });
+            var userInfo = new UserLite();
+            if (userInfoResult.Code == 200)
+            {
+                userInfo = userInfoResult.Items.FirstOrDefault();
+            }
+
+            return View(userInfo);
+        }
+
+        [AuthFilter]
+        public ViewResult Log()
+        {
+            return View();
+        }
+
         [HttpPut]
         [AuthFilter]
         public string ChangePassword(PasswordInfo passwordInfo)
@@ -258,25 +283,6 @@ namespace Edu.Controller.Controller
             }
         }
 
-        [AuthFilter]
-        public ViewResult Update()
-        {
-            var userId = ApplicationContext.UserId;
-            var schoolId = ApplicationContext.SchoolId;
-            var userInfoResult = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
-            {
-                Id = userId,
-                SchoolId = ApplicationContext.SchoolId
-            });
-            var userInfo = new UserLite();
-            if (userInfoResult.Code == 200)
-            {
-                userInfo = userInfoResult.Items.FirstOrDefault();
-            }
-
-            return View(userInfo);
-        }
-
         [HttpPut]
         [AuthFilter]
         public string UpdateUser(UpdateUserArgs args)
@@ -324,14 +330,14 @@ namespace Edu.Controller.Controller
 
         [HttpPut]
         [AuthFilter]
-        public string UpdateUserRole(UpdateUserRoleArgs model)
+        public string UpdateUserRole(CreateOrUpdateUserRoleArgs model)
         {
             if (model != null)
             {
                 model.CreateBy = ApplicationContext.UserId;
                 model.ModifyBy = ApplicationContext.UserId;
                 model.SchoolId = ApplicationContext.SchoolId;
-                var result = UserService.Instance.UpdateUserRole(model);
+                var result = UserService.Instance.CreateOrUpdateUserRole(model);
                 if (result.Code == 200)
                 {
                     ApplicationContext.RoleId = model.RoleId;

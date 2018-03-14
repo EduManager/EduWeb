@@ -115,7 +115,7 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult<object> UpdateUserRole(UpdateUserRoleArgs args)
+        public CommandResult<object> CreateOrUpdateUserRole(CreateOrUpdateUserRoleArgs args)
         {
             try
             {

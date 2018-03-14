@@ -52,11 +52,13 @@
     <Compile Include="Args\AddRoleArgs.cs" />
     <Compile Include="Args\AddUserArgs.cs" />
     <Compile Include="Args\AddUserLoginLogArgs.cs" />
+    <Compile Include="Args\CreateOrUpdateSysConfigArgs.cs" />
     <Compile Include="Args\DeleteCourseArgs.cs" />
     <Compile Include="Args\DeleteCourseTypeArgs.cs" />
     <Compile Include="Args\DeleteCampusArgs.cs" />
     <Compile Include="Args\DeleteRoleArgs.cs" />
     <Compile Include="Args\DeleteUserArgs.cs" />
+    <Compile Include="Args\GetSysConfigByUserIdArgs.cs" />
     <Compile Include="Args\GetObjectByIdArgs.cs" />
     <Compile Include="Args\GetUserInfoByPagingArgs.cs" />
     <Compile Include="Args\LoginInArgs.cs" />
@@ -67,10 +69,11 @@
     <Compile Include="Args\UpdateRoleArgs.cs" />
     <Compile Include="Args\UpdateUserByAdminArgs.cs" />
     <Compile Include="Args\UpdateUserArgs.cs" />
-    <Compile Include="Args\UpdateUserRoleArgs.cs" />
+    <Compile Include="Args\CreateOrUpdateUserRoleArgs.cs" />
     <Compile Include="Core\Campus.cs" />
     <Compile Include="Core\Course.cs" />
     <Compile Include="Core\CourseType.cs" />
+    <Compile Include="Core\SysConfig.cs" />
     <Compile Include="Core\UserForLogin.cs" />
     <Compile Include="Core\UserLite.cs" />
     <Compile Include="Core\User.cs" />
@@ -81,7 +84,7 @@
     <Compile Include="DomainEntity.cs" />
     <Compile Include="Core\Role.cs" />
     <Compile Include="IDomainEntity.cs" />
-    <Compile Include="Args\AddRoleMenuArgs.cs" />
+    <Compile Include="Args\CreateOrUpdateRoleMenuArgs.cs" />
     <Compile Include="Args\ClearRoleMenuByRoleIdArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryResult.cs" />

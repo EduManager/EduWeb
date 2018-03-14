@@ -30,6 +30,6 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<object> AddRoleMenu(AddRoleMenuArgs args);
+        CommandResult<object> CreateOrUpdateRoleMenu(CreateOrUpdateRoleMenuArgs args);
     }
 }

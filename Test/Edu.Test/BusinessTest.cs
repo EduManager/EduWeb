@@ -15,7 +15,7 @@ namespace Edu.Test
         [Test]
         public void AddRoleMenuArgsTest()
         {
-            RoleMenuService.Instance.AddRoleMenu(new AddRoleMenuArgs()
+            RoleMenuService.Instance.CreateOrUpdateRoleMenu(new CreateOrUpdateRoleMenuArgs()
             {
                 RoleId = 1,
                 CreateBy = 1,
