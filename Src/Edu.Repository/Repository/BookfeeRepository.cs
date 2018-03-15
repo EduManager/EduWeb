@@ -17,7 +17,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>(0, "add_fees", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>(1, "add_fees", args);
                 if (result.Code == 200 && result.Items.Count > 0)
                 {
                     return CommandResult.Success(result.Items[0]);
@@ -35,7 +35,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "delete_fees", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(1, "delete_fees", args);
                 return result;
             }
             catch (Exception e)
@@ -65,7 +65,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "update_fees", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(1, "update_fees", args);
                 return result;
             }
             catch (Exception e)

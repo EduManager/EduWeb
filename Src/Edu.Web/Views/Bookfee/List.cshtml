@@ -13,8 +13,8 @@
 </ol>
 <div class="row">
     <div class="col-md-12">
-        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">添加教材项</button>
-        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">添加杂费项</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal" onclick="showCreateObjModal('教材项');">添加教材项</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal" onclick="showCreateObjModal('杂费项');">添加杂费项</button>
     </div>
 </div>
 <div class="row">
@@ -50,9 +50,9 @@
                                             操作 <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.FeeName" data-type="@item.CourseName" data-price="@item.Price" data-intg="@item.Integration">编辑</a></li>
-                                            <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.FeeName">删除</a></li>
-                                        </ul>
+                                            <li><a onclick="showUpdateObjModal(this);" data-toggle="modal" data-target="#updateObjModal" data-val="@item.Id" data-name="@item.FeeName" data-typeid="@item.FeeType" data-courseid="@item.CourseId" data-type="@item.CourseName" data-price="@item.Price" data-intg="@item.Integration">编辑</a></li>
+                                            <li><a onclick="showDeleteObjAlert(this);" data-toggle="modal" data-target="#deleteObjModal" data-val="@item.Id" data-text="@item.FeeName">删除</a></li>
+                                         </ul>
                                     </div>
                                 </td>
                             </tr>
@@ -95,8 +95,8 @@
                                             操作 <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.FeeName" data-type="@item.CourseName" data-price="@item.Price" data-intg="@item.Integration">编辑</a></li>
-                                            <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.FeeName">删除</a></li>
+                                            <li><a onclick="showUpdateObjModal(this);" data-toggle="modal" data-target="#updateObjModal" data-val="@item.Id" data-name="@item.FeeName" data-type="@item.CourseName" data-price="@item.Price" data-intg="@item.Integration">编辑</a></li>
+                                            <li><a onclick="showDeleteObjAlert(this);" data-toggle="modal" data-target="#deleteObjModal" data-val="@item.Id" data-text="@item.FeeName">删除</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -109,4 +109,326 @@
             </div>
         </div>
     </div>
+    <!-- 模态框（Modal）编辑对象 -->
+    <div class="modal fade" id="updateObjModal" tabindex="-1" CourseType="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="updateModalLabel"></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="form-horizontal" CourseType="form" id="updateForm">
+                            <div class="form-group">
+                                <label for="selectCourseType_edit" class="col-sm-3 control-label">课程类别</label>
+                                <div class="col-sm-9">
+                                    <select id="selectCourseType_edit" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectCourse_edit" class="col-sm-3 control-label">所属课程</label>
+                                <div class="col-sm-9">
+                                    <select id="selectCourse_edit" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtUpdateName" class="col-sm-3 control-label"></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtUpdateName" name="txtUpdateName" placeholder="请输入教材项或杂费项名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtUpdatePrice" class="col-sm-3 control-label">价格</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtUpdatePrice" name="txtUpdatePrice" placeholder="请输入价格">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtUpdateIntegration" class="col-sm-3 control-label">积分</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtUpdateIntegration" name="txtUpdateIntegration" placeholder="请输入兑换积分">
+                                </div>
+                            </div>
+                         
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnUpdateObj">
+                        提交更改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 模态框（Modal）创建新对象 -->
+    <div class="modal fade" id="addModal" tabindex="-1" CourseType="dialog" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="addModalLabel"></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="form-horizontal" id="addForm" CourseType="form">
+                            <div class="form-group">
+                                <label for="selectCourseType_add" class="col-sm-3 control-label">课程类别</label>
+                                <div class="col-sm-9">
+                                    <select id="selectCourseType_add" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectCourse_add" class="col-sm-3 control-label">所属课程</label>
+                                <div class="col-sm-9">
+                                    <select id="selectCourse_add" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtName" class="col-sm-3 control-label" id="lblName"> </label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtName" name="txtName" placeholder="请输入课程类别名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtPrice" class="col-sm-3 control-label">价格</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtPrice" name="txtPrice" placeholder="请输入价格">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtIntegration" class="col-sm-3 control-label">积分</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtIntegration" name="txtIntegration" placeholder="请输入兑换积分">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="btnAddBookfee">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 模态框（Modal）是否确定删除 -->
+    <div class="modal fade" id="deleteObjModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="updateModalLabel">提示</h5>
+                </div>
+                <div class="modal-body">
+                    <p>确认要删除该数据吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnDeleteObj" onclick="deleteObj();">
+                        确定
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
 </div>
+<script>
+    var currentFeeId = 0;
+    var selectedCourseTypeId = 0;
+    var selectedCourseId = 0;
+    var currentFeeType = 0;
+    function showDeleteObjAlert(e) {
+        var ctId = e.dataset.val;
+        currentFeeId = ctId;
+    }
+    function showUpdateObjModal(e) {
+        currentFeeId = e.dataset.val;
+        var ctName = e.dataset.name;
+        currentFeeType = e.dataset.typeid;
+        var feeType = e.dataset.type;
+        var feePrice = e.dataset.price;
+        var integration = e.dataset.intg;
+        $("#updateModalLabel").html(ctName + "-编辑");
+        initCourseTypeList();
+        $("#txtUpdateName").val(ctName);
+        $("#selectCourse_edit").val(feeType);
+        $("#txtUpdatePrice").val(feePrice);
+        $("#txtUpdateIntegration").val(integration);
+    }
+    function showCreateObjModal(feeType) {
+        $("#addModalLabel").html("新增" + feeType);
+        $("#lblName").html(feeType + "名称");
+        currentFeeType = feeType === "教材项" ? 1 : 2;
+        initCourseTypeList();
+    }
+    function deleteObj() {
+        $.ajax({
+            url: "DeleteBookfeee",
+            type: "delete",
+            data: JSON.stringify({ "ctId": currentFeeId }),
+            contentType: 'application/json',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.code === 200) {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+    function initCourseTypeList() {
+        $.ajax({
+            url: "getAllCourseTypes",
+            type: "post",
+            //data: JSON.stringify(model),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.length > 0) {
+                    for (var index = 0; index < result.length; index++) {
+                        var item = result[index];
+                        $('#selectCourseType_add').append("<option selected value='" + item.id + "'>" + item.courseTypeName + "</option>");
+                        $('#selectCourseType_edit').append("<option selected value='" + item.id + "'>" + item.courseTypeName + "</option>");
+                    }
+                }
+            }
+        });
+    }
+
+    function initCourseList() {
+        //selectedCourseId = $('#selectCourseType_add').val();
+        var model = { CourseTypeId: selectedCourseId };
+        $.ajax({
+            url: "getCourses",
+            type: "post",
+            data: JSON.stringify(model),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.length > 0) {
+                    for (var index = 0; index < result.length; index++) {
+                        var item = result[index];
+                        $('#selectCourse_add').append("<option selected value='" + item.id + "'>" + item.courseName + "</option>");
+                        $('#selectCourse_edit').append("<option selected value='" + item.id + "'>" + item.courseName + "</option>");
+                    }
+                }
+            }
+        });
+    }
+    $(document)
+           .ready(function () {
+               $('#addForm')
+                   .bootstrapValidator({
+                       message: '值不能为空',
+                       submitButtons: '#btnAddCourse',
+                       feedbackIcons: {
+                           valid: 'glyphicon glyphicon-ok',
+                           invalid: 'glyphicon glyphicon-remove',
+                           validating: 'glyphicon glyphicon-refresh'
+                       },
+                       fields: {
+                           txtName: {
+                               message: '用户名验证失败',
+                               validators: {
+                                   notEmpty: {
+                                       message: '角色名称不能为空'
+                                   }
+                               }
+                           }
+                       }
+                   });
+               $('#updateForm')
+                   .bootstrapValidator({
+                       message: '值不能为空',
+                       submitButtons: '#btnAddCourse',
+                       feedbackIcons: {
+                           valid: 'glyphicon glyphicon-ok',
+                           invalid: 'glyphicon glyphicon-remove',
+                           validating: 'glyphicon glyphicon-refresh'
+                       },
+                       fields: {
+                           txtUpdateName: {
+                               message: '用户名验证失败',
+                               validators: {
+                                   notEmpty: {
+                                       message: '角色名称不能为空'
+                                   }
+                               }
+                           }
+                       }
+                   });
+               $("#btnAddBookfee")
+                   .click(function () {
+                       $("#addForm").bootstrapValidator('validate'); //提交验证
+                       if ($("#addForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
+                           //验证成功后的操作，如ajax
+                           var courseId = $("#selectCourse_add").val();
+                           var name = $("#txtName").val();
+                           var feePrise = $("#txtPrice").val();
+                           var integration = $("#txtIntegration").val();
+                           var CourseObj = { CourseId: courseId, FeeName: name, Price: feePrise, Feetype: currentFeeType, Integration: integration };
+                           $.ajax({
+                               url: "AddBookfee",
+                               type: "post",
+                               data: JSON.stringify(CourseObj),
+                               contentType: 'application/json; charset=utf-8',
+                               success: function (data) {
+                                   var result = JSON.parse(data);
+                                   if (result.code === 200) {
+                                       window.location.reload();
+                                   }
+                               }
+                           });
+                       }
+                   });
+               $("#btnUpdateObj")
+                   .click(function () {
+                       $("#updateForm").bootstrapValidator('validate'); //提交验证
+                       if ($("#updateForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
+                           //验证成功后的操作，如ajax
+                           var courseId = $("#selectCourse_edit").val();
+                           var name = $("#txtUpdateName").val();
+                           var feePrise = $("#txtUpdatePrice").val();
+                           var integration = $("#txtUpdateIntegration").val();
+                           var model = {FeeId:currentFeeId, CourseId: courseId, FeeName: name, Price: feePrise, Feetype: currentFeeType, Integration: integration };
+                           $.ajax({
+                               url: "UpdateBookfee",
+                               type: "put",
+                               data: JSON.stringify(model),
+                               contentType: 'application/json; charset=utf-8',
+                               success: function (data) {
+                                   var result = JSON.parse(data);
+                                   if (result.code === 200) {
+                                       window.location.reload();
+                                   }
+                               }
+                           });
+                       }
+                   });
+               $("#selectCourseType_add").change(function () {
+                   selectedCourseId = $(this).val();
+                   initCourseList();
+               });
+               $("#selectCourseType_edit").change(function () {
+                   selectedCourseId = $(this).val();
+                   initCourseList();
+               });
+
+           });
+</script>

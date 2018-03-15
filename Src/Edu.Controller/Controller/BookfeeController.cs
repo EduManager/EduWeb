@@ -13,11 +13,11 @@ using System.Web.Mvc;
 
 namespace Edu.Controller.Controller
 {
-   public class BookfeeController:System.Web.Mvc.Controller
+    public class BookfeeController : System.Web.Mvc.Controller
     {
         public ViewResult List()
-    {
-        var schoolId = ApplicationContext.SchoolId;
+        {
+            var schoolId = ApplicationContext.SchoolId;
             var result = BookfeeService.Instance.GetFeeBySchoolId(new GetObjectByIdArgs()
             {
                 SchoolId = schoolId
@@ -26,7 +26,7 @@ namespace Edu.Controller.Controller
             if (result.Code == 200)
                 fees = result.Items;
             return View(fees);
-    }
+        }
         [HttpPost]
         public string AddBookfee(AddBookfeeArgs model)
         {
@@ -84,13 +84,14 @@ namespace Edu.Controller.Controller
         public string getCourses(int CourseTypeId)
         {
             var schoolId = ApplicationContext.SchoolId;
-            var result = CourseService.Instance.GetCourseTypeBySchoolId(new GetObjectByIdArgs()
+            var result = CourseService.Instance.GetCourseBySchoolId(new GetObjectByIdArgs()
             {
                 SchoolId = schoolId
             });
-            var cts = new List<CourseType>();
+            var cts = new List<Course>();
             if (result.Code == 200)
                 cts = result.Items;
+            cts = cts.Where(a => a.CourseTypeId == CourseTypeId).ToList();
             return JsonHelper.Serialize(cts);
         }
     }
