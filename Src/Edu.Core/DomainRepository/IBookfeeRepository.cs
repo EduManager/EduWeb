@@ -12,31 +12,31 @@ namespace Edu.Core.DomainRepository
    public interface IBookfeeRepository : IRepository
     {
         /// <summary>
-        /// 获取校区列表
+        /// 获取全部教材杂费
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
         QueryResult<Bookfee> GetFeeBySchoolId(GetObjectByIdArgs args);
 
-        ///// <summary>
-        ///// 添加校区
-        ///// </summary>
-        ///// <param name="args"></param>
-        ///// <returns></returns>
-        //CommandResult<int> AddCampus(AddCampusArgs args);
+        /// <summary>
+        /// 添加教材杂费
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> AddBookfee(AddBookfeeArgs args);
 
-        ///// <summary>
-        ///// 删除校区
-        ///// </summary>
-        ///// <param name="args"></param>
-        ///// <returns></returns>
-        //CommandResult<int> DeleteCampus(DeleteCampusArgs args);
+        /// <summary>
+        /// 删除教材杂费
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> DeleteBookfee(DeleteBookfeeArgs args);
 
-        ///// <summary>
-        ///// 编辑校区
-        ///// </summary>
-        ///// <param name="args"></param>
-        ///// <returns></returns>
-        //CommandResult<int> UpdateCampus(UpdateCampusArgs args); 
+        /// <summary>
+        /// 编辑教材杂费
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> UpdateBookfee(UpdateBookfeeArgs args);
     }
 }

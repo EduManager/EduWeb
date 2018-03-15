@@ -28,7 +28,7 @@ namespace Edu.Services
         #endregion
 
         /// <summary>
-        /// 获取角色菜单列表
+        /// 获取全部教材杂费
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
@@ -39,58 +39,55 @@ namespace Edu.Services
             return ContainerFactory<IBookfeeRepository>.Instance.GetFeeBySchoolId(args);
         }
 
-        ///// <summary>
-        ///// 添加校区
-        ///// </summary>
-        ///// <param name="args"></param>
-        ///// <returns></returns>
-        //public CommandResult<int> AddCampus(AddCampusArgs args)
-        //{
-        //    ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-        //    ArgumentHelper.Require(args.CampusType, "CampusType", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.CampusName, "CampusName", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.Contract, "Contract", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.ContractTel, "ContractTel", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.Address, "Address", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.Tel, "Tel", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
-        //    ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+        /// <summary>
+        /// 添加教材杂费
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> AddBookfee(AddBookfeeArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CourseId, "CourseId", Arguments.Positive);
+            ArgumentHelper.Require(args.FeeName, "FeeName", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Feetype, "Feetype", Arguments.Positive);
+            ArgumentHelper.Require(args.Integration, "Integration", Arguments.Positive);
+            ArgumentHelper.Require(args.Price, "Price", Arguments.Positive);
 
-        //    return ContainerFactory<ICampusRepository>.Instance.AddCampus(args);
-        //}
+            return ContainerFactory<IBookfeeRepository>.Instance.AddBookfee(args);
+        }
 
-        ///// <summary>
-        ///// 删除校区
-        ///// </summary>
-        ///// <param name="args"></param>
-        ///// <returns></returns>
-        //public CommandResult<int> DeleteCampus(DeleteCampusArgs args)
-        //{
-        //    ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-        //    ArgumentHelper.Require(args.CampusId, "CampusId", Arguments.Positive);
-        //    ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+        /// <summary>
+        /// 删除教材杂费
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> DeleteBookfee(DeleteBookfeeArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.FeeId, "FeeId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
-        //    return ContainerFactory<ICampusRepository>.Instance.DeleteCampus(args);
-        //}
+            return ContainerFactory<IBookfeeRepository>.Instance.DeleteBookfee(args);
+        }
 
-        ///// <summary>
-        ///// 编辑校区
-        ///// </summary>
-        ///// <param name="args"></param>
-        ///// <returns></returns>
-        //public CommandResult<int> UpdateCampus(UpdateCampusArgs args)
-        //{
-        //    ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-        //    ArgumentHelper.Require(args.CampusType, "CampusType", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.CampusName, "CampusName", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.Contract, "Contract", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.ContractTel, "ContractTel", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.Address, "Address", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.Tel, "Tel", Arguments.NotEmptyOrWhitespace);
-        //    ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+        /// <summary>
+        /// 编辑教材杂费
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateBookfee(UpdateBookfeeArgs args)
+        {
+            ArgumentHelper.Require(args.FeeId, "FeeId", Arguments.Positive);
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CourseId, "CourseId", Arguments.Positive);
+            ArgumentHelper.Require(args.FeeName, "FeeName", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Feetype, "Feetype", Arguments.Positive);
+            ArgumentHelper.Require(args.Integration, "Integration", Arguments.Positive);
+            ArgumentHelper.Require(args.Price, "Price", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
-        //    return ContainerFactory<ICampusRepository>.Instance.UpdateCampus(args);
-        //}
+            return ContainerFactory<IBookfeeRepository>.Instance.UpdateBookfee(args);
+        }
 
     }
 }

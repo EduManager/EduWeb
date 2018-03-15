@@ -16,7 +16,12 @@ namespace Edu.Infrastructure.Common
                 ? null
                 : new ArgumentException("参数必须大于零", paramName);
         }
-
+        public static ArgumentException Positive(decimal value, string paramName)
+        {
+            return value > 0
+                ? null
+                : new ArgumentException("参数必须大于零", paramName);
+        }
         public static ArgumentException NotNull<T>(T value, string paramName)
             where T : class
         {
