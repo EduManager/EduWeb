@@ -10,9 +10,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Edu.Controller.Common;
 
 namespace Edu.Controller.Controller
 {
+    [AuthFilter]
     public class CampusController : System.Web.Mvc.Controller
     {
         public ViewResult List()
