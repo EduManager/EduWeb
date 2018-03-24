@@ -1,0 +1,356 @@
+﻿@model IEnumerable<Edu.Model.Core.Classes>
+@{
+    ViewBag.Title = "班级列表";
+}
+
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+<link href="~/Content/ztree/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/ztree/jquery.ztree.core.min.js"></script>
+<script src="~/Scripts/ztree/jquery.ztree.excheck.min.js"></script>
+<script src="~/Scripts/bootstrapValidator.js"></script>
+
+<ol class="breadcrumb">
+    <li>班级管理</li>
+</ol>
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">添加班级</button>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>所属校区</th>
+                    <th>课程名称</th>
+                    <th>班级名称</th>
+                    <th>计费方式</th>
+                    <th>单价</th>
+                    <th>教师</th>
+                    <th>开班日期</th>
+                    <th>额定学生数</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SchoolRegionName</td>
+                    <td>@item.CourseName</td>
+                    <td>@item.Name</td>
+                    <td>@item.FeeType</td>
+                    <td>@item.UnitPrice</td>
+                    <td>@item.Teacher</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.MaxCount</td>
+                    <td>@item.Status</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            操作 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.CampusName" data-type="@item.CampusType" data-contract="@item.Contract" data-contracttel="@item.ContractTel" data-tel="@item.Tel" data-address="@item.Address">编辑</a></li>
+                            <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.CampusName">删除</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+    }
+            </tbody>
+        </table>
+        <!-- 模态框（Modal）创建班级 -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="addModalLabel">添加校区</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-horizontal" id="addForm" role="form">
+                                <div class="form-group">
+                                    <label for="txtCampusName" class="col-sm-3 control-label">校区名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtCampusName" name="txtCampusName" placeholder="请输入名称">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="selectCampusType" class="col-sm-3 control-label">校区类型</label>
+                                    <div class="col-sm-9">
+                                        <select id="selectCampusType" class="form-control">
+                                            <option>直营</option>
+                                            <option>加盟</option>
+                                            <option>合作</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtContract" class="col-sm-3 control-label">负责人</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtContract" name="txtContract" placeholder="请输入负责人姓名">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtContractTel" class="col-sm-3 control-label">联系电话</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtContractTel" name="txtContractTel" placeholder="请输入负责人联系电话">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtTel" class="col-sm-3 control-label">校区总机</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtTel" name="txtTel" placeholder="请输入校区总机">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtAddress" class="col-sm-3 control-label">地址</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" placeholder="请输入地址"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnAddCampus">
+                            提交
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- 模态框（Modal）编辑班级信息 -->
+        <div class="modal fade" id="updateCampusModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="updateModalLabel"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-horizontal" role="form" id="updateForm">
+                                <div class="form-group">
+                                    <label for="txtCampusName_edit" class="col-sm-3 control-label">校区名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtCampusName_edit" name="txtCampusName_edit" placeholder="请输入名称">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="selectCampusType_edit" class="col-sm-3 control-label">校区类型</label>
+                                    <div class="col-sm-9">
+                                        <select id="selectCampusType_edit" class="form-control">
+                                            <option>直营</option>
+                                            <option>加盟</option>
+                                            <option>合作</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtContract_edit" class="col-sm-3 control-label">负责人</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtContract_edit" name="txtContract_edit" placeholder="请输入负责人姓名">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtContractTel_edit" class="col-sm-3 control-label">联系电话</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtContractTel_edit" name="txtContractTel_edit" placeholder="请输入负责人联系电话">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtTel_edit" class="col-sm-3 control-label">校区总机</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtTel_edit" name="txtTel_edit" placeholder="请输入校区总机">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtAddress_edit" class="col-sm-3 control-label">地址</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="3" id="txtAddress_edit" name="txtAddress_edit" placeholder="请输入地址"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnUpdateCampus">
+                            提交更改
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- 模态框（Modal）是否确定删除 -->
+        <div class="modal fade" id="deleteCampusModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="updateModalLabel">提示</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>确认要删除该数据吗？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnDeleteCampus"  onclick="deleteCampus();" >
+                            确定
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+</div>
+<script>
+    var currentCampusId = 0;
+    function showUpdateCampusModal(e) {
+        var campusId = e.dataset.val;
+        var campusName = e.dataset.name;
+        var campusType = e.dataset.type;
+        var tel = e.dataset.tel;
+        var address = e.dataset.address;
+        var contract = e.dataset.contract;
+        var contract_tel = e.dataset.contracttel;
+        $("#updateModalLabel").html(campusName + "-编辑");
+        $("#txtCampusName_edit").val(campusName);
+        $("#selectCampusType_edit").val(campusType);
+        $("#txtContract_edit").val(contract);
+        $("#txtContractTel_edit").val(contract_tel);
+        $("#txtTel_edit").val(tel);
+        $("#txtAddress_edit").val(address);
+        currentCampusId = campusId;
+    }
+    function showDeleteCampusAlert(e) {
+        var campusId = e.dataset.val;
+        currentCampusId = campusId;
+    }
+    function deleteCampus() {
+        $.ajax({
+            url: "Delete",
+            type: "delete",
+            data: JSON.stringify({ "campusId": currentCampusId }),
+            contentType: 'application/json',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.code === 200) {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+    $(document)
+        .ready(function () {
+            $('#addForm')
+                .bootstrapValidator({
+                    message: '值不能为空',
+                    submitButtons: '#btnAddCampus',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        txtName: {
+                            message: '用户名验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '角色名称不能为空'
+                                }
+                            }
+                        }
+                    }
+                });
+            $('#updateForm')
+                .bootstrapValidator({
+                    message: '值不能为空',
+                    submitButtons: '#btnAddRole',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        txtUpdateName: {
+                            message: '用户名验证失败',
+                            validators: {
+                                notEmpty: {
+                                    message: '角色名称不能为空'
+                                }
+                            }
+                        }
+                    }
+                });
+            $("#btnAddCampus")
+                .click(function () {
+                    $("#addForm").bootstrapValidator('validate'); //提交验证
+                    if ($("#addForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
+                        //验证成功后的操作，如ajax
+
+                        var campusname = $("#txtCampusName").val();
+                        var campustype = $("#selectCampusType").val();
+                        var contract = $("#txtContract").val();
+                        var contracttel = $("#txtContractTel").val();
+                        var tel = $("#txtTel").val();
+                        var address = $("#txtAddress").val();
+                        var campus = { CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
+                        $.ajax({
+                            url: "Add",
+                            type: "post",
+                            data: JSON.stringify(campus),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
+                });
+            $("#btnUpdateCampus")
+                .click(function () {
+                    $("#updateForm").bootstrapValidator('validate'); //提交验证
+                    if ($("#updateForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
+                        //验证成功后的操作，如ajax
+                        var campusname = $("#txtCampusName_edit").val();
+                        var campustype = $("#selectCampusType_edit").val();
+                        var contract = $("#txtContract_edit").val();
+                        var contracttel = $("#txtContractTel_edit").val();
+                        var tel = $("#txtTel_edit").val();
+                        var address = $("#txtAddress_edit").val();
+                        var campus = { CampusId: currentCampusId, CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
+                        $.ajax({
+                            url: "Update",
+                            type: "put",
+                            data: JSON.stringify(campus),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
+                });
+        });
+</script>

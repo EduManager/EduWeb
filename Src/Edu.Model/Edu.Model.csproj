@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Args\AddAttendClassArgs.cs" />
     <Compile Include="Args\AddBookfeeArgs.cs" />
+    <Compile Include="Args\AddClassesArgs.cs" />
     <Compile Include="Args\AddCourseArgs.cs" />
     <Compile Include="Args\AddCourseTypeArgs.cs" />
     <Compile Include="Args\AddCampusArgs.cs" />
@@ -73,8 +75,10 @@
     <Compile Include="Args\UpdateUserByAdminArgs.cs" />
     <Compile Include="Args\UpdateUserArgs.cs" />
     <Compile Include="Args\CreateOrUpdateUserRoleArgs.cs" />
+    <Compile Include="Core\AttendClass.cs" />
     <Compile Include="Core\Bookfee.cs" />
     <Compile Include="Core\Campus.cs" />
+    <Compile Include="Core\Classes.cs" />
     <Compile Include="Core\Course.cs" />
     <Compile Include="Core\CourseType.cs" />
     <Compile Include="Core\SysConfig.cs" />

@@ -29,7 +29,7 @@
                             <li class="dropdown">
                                 <a href="#" data-toggle="dropdown" class="dropdown-toggle" data-real="1">前台业务<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="~/Home/Contract"  data-real="5">学生咨询</a></li>
+                                    <li><a href="#" data-real="5" data-toggle="modal" data-target="#addConsultModal">学生咨询</a></li>
                                     <li><a href="~/Home/Index" data-real="6">咨询信息查询</a></li>
                                     <li><a href="~/Home/Index" data-real="7">学生报名</a></li>
                                     <li class="divider"></li>
@@ -95,6 +95,77 @@
                                 </ul>
                             </li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- 模态框（Modal）添加学生咨询 -->
+                    <div class="modal fade" id="addConsultModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <h5 class="modal-title" id="addModalLabel">学生咨询</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-md-12">
+                                        <div class="form-horizontal" id="addForm" role="form">
+                                            <div class="form-group">
+                                                <label for="txtCampusName" class="col-sm-3 control-label">学生名称</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="txtCampusName" name="txtCampusName" placeholder="请输入名称">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="selectCampusType" class="col-sm-3 control-label">校区类型</label>
+                                                <div class="col-sm-9">
+                                                    <select id="selectCampusType" class="form-control">
+                                                        <option>直营</option>
+                                                        <option>加盟</option>
+                                                        <option>合作</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="txtContract" class="col-sm-3 control-label">负责人</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="txtContract" name="txtContract" placeholder="请输入负责人姓名">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="txtContractTel" class="col-sm-3 control-label">联系电话</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="txtContractTel" name="txtContractTel" placeholder="请输入负责人联系电话">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="txtTel" class="col-sm-3 control-label">校区总机</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="txtTel" name="txtTel" placeholder="请输入校区总机">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="txtAddress" class="col-sm-3 control-label">地址</label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" placeholder="请输入地址"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        关闭
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="btnAddCampus">
+                                        提交
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
                     </div>
                 </div>
             </div>
