@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainRepository\IBookfeeRepository.cs" />
+    <Compile Include="DomainRepository\IClassesRepository.cs" />
     <Compile Include="DomainRepository\ICourseRepository.cs" />
     <Compile Include="DomainRepository\ICampusRepository.cs" />
     <Compile Include="DomainRepository\IMenuRepository.cs" />
