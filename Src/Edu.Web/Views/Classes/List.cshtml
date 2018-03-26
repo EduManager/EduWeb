@@ -61,7 +61,7 @@
         </table>
         <!-- 模态框（Modal）创建班级 -->
         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="false">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width:60%;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -70,99 +70,121 @@
                         <h5 class="modal-title" id="addModalLabel">添加班级</h5>
                     </div>
                     <div class="modal-body">
-                        <div class="col-lg-12">
                             <div class="form-horizontal" id="addForm" role="form">
-                                <div class="col-mb-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label for="txtCampusName" class="col-sm-3 control-label">班级名称</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="txtCampusName" name="txtCampusName" placeholder="请输入名称">
+                                <div class="row">
+                                    <div class="col-mb-5 col-sm-5">
+                                        <div class="form-group">
+                                            <label for="txtCampusName" class="col-sm-3 control-label">班级名称</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="txtCampusName" name="txtCampusName" placeholder="请输入名称">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="selectCampus_add" class="col-sm-3 control-label">所属校区</label>
-                                        <div class="col-sm-9">
-                                            <select id="selectCourseType_add" class="form-control"></select>
+                                        <div class="form-group">
+                                            <label for="selectCampus_add" class="col-sm-3 control-label">所属校区</label>
+                                            <div class="col-sm-9">
+                                                <select id="selectCourseType_add" class="form-control"></select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="selectCourseType_add" class="col-sm-3 control-label">课程类别</label>
-                                        <div class="col-sm-9">
-                                            <select id="selectCourseType_add" class="form-control"></select>
+                                        <div class="form-group">
+                                            <label for="selectCourseType_add" class="col-sm-3 control-label">课程类别</label>
+                                            <div class="col-sm-9">
+                                                <select id="selectCourseType_add" class="form-control"></select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="selectCourse_add" class="col-sm-3 control-label">所属课程</label>
-                                        <div class="col-sm-9">
-                                            <select id="selectCourse_add" class="form-control"></select>
+                                        <div class="form-group">
+                                            <label for="selectCourse_add" class="col-sm-3 control-label">所属课程</label>
+                                            <div class="col-sm-9">
+                                                <select id="selectCourse_add" class="form-control"></select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="selectCourse_add" class="col-sm-3 control-label">上课教师</label>
-                                        <div class="col-sm-9">
-                                            <select id="selectTeacher_add" class="form-control"></select>
+                                        <div class="form-group">
+                                            <label for="selectCourse_add" class="col-sm-3 control-label">上课教师</label>
+                                            <div class="col-sm-9">
+                                                <select id="selectTeacher_add" class="form-control"></select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txtAddress" class="col-sm-3 control-label">地址</label>
-                                        <div class="col-sm-9">
-                                            <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" placeholder="请输入地址"></textarea>
+                                        <div class="form-group">
+                                            <label for="txtAddress" class="col-sm-3 control-label">地址</label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" placeholder="请输入地址"></textarea>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                                <div class="col-mb-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label for="selectCourse_add" class="col-mb-3 col-sm-3 control-label">收费方式</label>
-                                        <div class="col-mb-9 col-sm-9">
-                                            <div class="tabbable" id="tabs-785877">
-                                                <ul class="nav nav-tabs">
-                                                    <li>
-                                                        <a href="#panel-921416" data-toggle="tab">第一部分</a>
-                                                    </li>
-                                                    <li class="active">
-                                                        <a href="#panel-201259" data-toggle="tab">第二部分</a>
-                                                    </li>
-                                                </ul>
-                                                <div class="tab-content">
-                                                    <div class="tab-pane" id="panel-921416">
-                                                        <p>
-                                                            第一部分内容.
-                                                        </p>
-                                                    </div>
-                                                    <div class="tab-pane active" id="panel-201259">
-                                                        <p>
-                                                            第二部分内容.
-                                                        </p>
-                                                        </br>
-                                                        <p>
-                                                            第二部分内容.
-                                                        </p>
+                                    </div>
+                                    <div class="col-mb-7 col-sm-7">
+                                        <div class="form-group">
+                                            <label for="selectCourse_add" class="col-mb-3 col-sm-3 control-label">收费方式</label>
+                                            <div class="col-mb-9 col-sm-9">
+                                                <div class="tabbable" id="tabs-785877">
+                                                    <ul class="nav nav-tabs">
+                                                        <li>
+                                                            <a href="#panel-921416" data-toggle="tab">按课时</a>
+                                                        </li>
+                                                        <li class="active">
+                                                            <a href="#panel-201259" data-toggle="tab">按时间</a>
+                                                        </li>
+                                                        <li class="active">
+                                                            <a href="#panel-201259" data-toggle="tab">按学期</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane" id="panel-921416">
+                                                            <div class="form-group">
+                                                                <label for="txtAddress" class="col-sm-3 control-label">收费标准</label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" class="form-control" id="txtAddress" name="txtAddress"></>
+                                                                </div>
+                                                                <label for="txtAddress" class="col-sm-3 control-label">元/课时</label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="txtAddress" class="col-sm-3 control-label">收费标准</label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" class="form-control" id="txtAddress" name="txtAddress" placeholder="请输入地址"></>
+                                                                </div>
+                                                                <label for="txtAddress" class="col-sm-3 control-label">元/课时</label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="txtAddress" class="col-sm-3 control-label">收费标准</label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" class="form-control" id="txtAddress" name="txtAddress" placeholder="请输入地址"></>
+                                                                </div>
+                                                                <label for="txtAddress" class="col-sm-3 control-label">元/课时</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane active" id="panel-201259">
+                                                            <p>
+                                                                第二部分内容.
+                                                            </p>
+                                                            </br>
+                                                            <p>
+                                                                第二部分内容.
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="selectCourse_add" class="col-mb-3 col-sm-3 control-label">上课时段</label>
-                                        <div class="col-mb-9 col-sm-9">
-                                            <ul class="list-group no-margn nicescroll todo-list" style="max-height: 288px" id="todo-list"></ul>
+                                        <div class="form-group">
+                                            <label for="selectCourse_add" class="col-mb-3 col-sm-3 control-label">上课时段</label>
+                                            <div class="col-mb-9 col-sm-9">
+                                                <ul class="list-group no-margn nicescroll todo-list" style="max-height: 288px" id="todo-list"></ul>
 
-                                            <form name="todo-form" id="todo-form" role="form" class="m-t-20">
-                                                <div class="row">
-                                                    <div class="col-sm-9 todo-inputbar">
-                                                        <input type="text" id="todo-input-text" name="todo-input-text" class="form-control" placeholder="Add new todo">
+                                                <form name="todo-form" id="todo-form" role="form" class="m-t-20">
+                                                    <div class="row">
+                                                        <div class="col-sm-9 todo-inputbar">
+                                                            <input type="text" id="todo-input-text" name="todo-input-text" class="form-control" placeholder="Add new todo">
+                                                        </div>
+                                                        <div class="col-sm-3 todo-send">
+                                                            <button class="btn-info btn-block btn waves-effect waves-light" type="button" id="todo-btn-submit">Add</button>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-3 todo-send">
-                                                        <button class="btn-info btn-block btn waves-effect waves-light" type="button" id="todo-btn-submit">Add</button>
-                                                    </div>
-                                                </div>
-                                            </form> 
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
