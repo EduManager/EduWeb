@@ -8,7 +8,11 @@
 <script src="~/Scripts/ztree/jquery.ztree.core.min.js"></script>
 <script src="~/Scripts/ztree/jquery.ztree.excheck.min.js"></script>
 <script src="~/Scripts/bootstrapValidator.js"></script>
-
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/moment-with-locales.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Scripts/jquery.nicescroll.min.js"></script>
 <ol class="breadcrumb">
     <li>班级管理</li>
 </ol>
@@ -70,120 +74,177 @@
                         <h5 class="modal-title" id="addModalLabel">添加班级</h5>
                     </div>
                     <div class="modal-body">
-                            <div class="form-horizontal" id="addForm" role="form">
-                                <div class="row">
-                                    <div class="col-mb-5 col-sm-5">
-                                        <div class="form-group">
-                                            <label for="txtCampusName" class="col-sm-3 control-label">班级名称</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="txtCampusName" name="txtCampusName" placeholder="请输入名称">
-                                            </div>
+                        <div class="form-horizontal" id="addForm" role="form">
+                            <div class="row">
+                                <div class="col-mb-5 col-sm-5">
+                                    <div class="form-group">
+                                        <label for="txtCampusName" class="col-sm-3 control-label">班级名称</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="txtCampusName" name="txtCampusName" placeholder="请输入名称">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="selectCampus_add" class="col-sm-3 control-label">所属校区</label>
-                                            <div class="col-sm-9">
-                                                <select id="selectCourseType_add" class="form-control"></select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="selectCourseType_add" class="col-sm-3 control-label">课程类别</label>
-                                            <div class="col-sm-9">
-                                                <select id="selectCourseType_add" class="form-control"></select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="selectCourse_add" class="col-sm-3 control-label">所属课程</label>
-                                            <div class="col-sm-9">
-                                                <select id="selectCourse_add" class="form-control"></select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="selectCourse_add" class="col-sm-3 control-label">上课教师</label>
-                                            <div class="col-sm-9">
-                                                <select id="selectTeacher_add" class="form-control"></select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="txtAddress" class="col-sm-3 control-label">地址</label>
-                                            <div class="col-sm-9">
-                                                <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" placeholder="请输入地址"></textarea>
-                                            </div>
-                                        </div>
-
                                     </div>
-                                    <div class="col-mb-7 col-sm-7">
-                                        <div class="form-group">
-                                            <label for="selectCourse_add" class="col-mb-3 col-sm-3 control-label">收费方式</label>
-                                            <div class="col-mb-9 col-sm-9">
-                                                <div class="tabbable" id="tabs-785877">
-                                                    <ul class="nav nav-tabs">
-                                                        <li>
-                                                            <a href="#panel-921416" data-toggle="tab">按课时</a>
-                                                        </li>
-                                                        <li class="active">
-                                                            <a href="#panel-201259" data-toggle="tab">按时间</a>
-                                                        </li>
-                                                        <li class="active">
-                                                            <a href="#panel-201259" data-toggle="tab">按学期</a>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="tab-content">
-                                                        <div class="tab-pane" id="panel-921416">
-                                                            <div class="form-group">
-                                                                <label for="txtAddress" class="col-sm-3 control-label">收费标准</label>
-                                                                <div class="col-sm-6">
-                                                                    <input type="text" class="form-control" id="txtAddress" name="txtAddress"></>
-                                                                </div>
-                                                                <label for="txtAddress" class="col-sm-3 control-label">元/课时</label>
+                                    <div class="form-group">
+                                        <label for="selectCampus_add" class="col-sm-3 control-label">所属校区</label>
+                                        <div class="col-sm-9">
+                                            <select id="selectCourseType_add" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectCourseType_add" class="col-sm-3 control-label">课程类别</label>
+                                        <div class="col-sm-9">
+                                            <select id="selectCourseType_add" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectCourse_add" class="col-sm-3 control-label">所属课程</label>
+                                        <div class="col-sm-9">
+                                            <select id="selectCourse_add" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectCourse_add" class="col-sm-3 control-label">上课教师</label>
+                                        <div class="col-sm-9">
+                                            <select id="selectTeacher_add" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txtAddress" class="col-sm-3 control-label">地址</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" placeholder="请输入地址"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-mb-7 col-sm-7">
+                                    <div class="form-group">
+                                        <label for="selectCourse_add" class="col-mb-3 col-sm-3 control-label">收费方式</label>
+                                        <div class="col-mb-9 col-sm-9">
+                                            <div class="tabbable" id="tabs-785877">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active">
+                                                        <a href="#panel-921416" data-toggle="tab">按课时</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#panel-201259" data-toggle="tab">按时间</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#panel-201254" data-toggle="tab">按学期</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="panel-921416">
+                                                        <br />
+                                                        <div class="form-group">
+                                                            <label for="txtStandard1" class="col-sm-3 control-label">收费标准</label>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" class="form-control" id="txtStandard1" name="txtStandard1"></>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label for="txtAddress" class="col-sm-3 control-label">收费标准</label>
-                                                                <div class="col-sm-6">
-                                                                    <input type="text" class="form-control" id="txtAddress" name="txtAddress" placeholder="请输入地址"></>
-                                                                </div>
-                                                                <label for="txtAddress" class="col-sm-3 control-label">元/课时</label>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="txtAddress" class="col-sm-3 control-label">收费标准</label>
-                                                                <div class="col-sm-6">
-                                                                    <input type="text" class="form-control" id="txtAddress" name="txtAddress" placeholder="请输入地址"></>
-                                                                </div>
-                                                                <label for="txtAddress" class="col-sm-3 control-label">元/课时</label>
+                                                            <label for="txtStandard1" class="col-sm-3 control-label">元/课时</label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">开课时间</label>
+                                                            <div class="col-sm-9">
+                                                                <a class='input-group date' id='datetimepicker1'>
+                                                                    <input type='text' class="form-control" id='nowdate' style="float: left;width: 66%; height: 34px;" />
+                                                                    <span class="input-group-addon" style="float: left; width: 44px; height: 34px;">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </a>
                                                             </div>
                                                         </div>
-                                                        <div class="tab-pane active" id="panel-201259">
-                                                            <p>
-                                                                第二部分内容.
-                                                            </p>
-                                                            </br>
-                                                            <p>
-                                                                第二部分内容.
-                                                            </p>
+                                                        <div class="form-group">
+                                                            <label for="txtClasshour" class="col-sm-3 control-label">课时数</label>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" class="form-control" id="txtClasshour" name="txtClasshour"></>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="panel-201259">
+                                                        <br />
+                                                        <div class="form-group">
+                                                            <label for="txtStandard2" class="col-sm-3 control-label">收费标准</label>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" class="form-control" id="txtStandard2" name="txtStandard2"></>
+                                                            </div>
+                                                            <label for="txtStandard2" class="col-sm-3 control-label">元/课时</label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">开课时间</label>
+                                                            <div class="col-sm-9">
+                                                                <a class='input-group date' id='datetimepicker2'>
+                                                                    <input type='text' class="form-control" id='nowdate' style="float: left;width: 66%; height: 34px;" />
+                                                                    <span class="input-group-addon" style="float: left; width: 44px; height: 34px;">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label"></label>
+                                                            <div class="col-sm-9">
+                                                                <a class='input-group date' id='datetimepicker3'>
+                                                                    <input type='text' class="form-control" id='nowdate' style="float: left;width: 66%; height: 34px;" />
+                                                                    <span class="input-group-addon" style="float: left; width: 44px; height: 34px;">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="panel-201254">
+                                                        <br />
+                                                        <div class="form-group">
+                                                            <label for="txtStandard3" class="col-sm-3 control-label">收费标准</label>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" class="form-control" id="txtStandard3" name="txtStandard3"></>
+                                                            </div>
+                                                            <label for="txtStandard3" class="col-sm-3 control-label">元/课时</label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">开课时间</label>
+                                                            <div class="col-sm-9">
+                                                                <a class='input-group date' id='datetimepicker4'>
+                                                                    <input type='text' class="form-control" id='nowdate' style="float: left;width: 66%; height: 34px;" />
+                                                                    <span class="input-group-addon" style="float: left; width: 44px; height: 34px;">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="selectCourse_add" class="col-mb-3 col-sm-3 control-label">上课时段</label>
-                                            <div class="col-mb-9 col-sm-9">
-                                                <ul class="list-group no-margn nicescroll todo-list" style="max-height: 288px" id="todo-list"></ul>
-
-                                                <form name="todo-form" id="todo-form" role="form" class="m-t-20">
-                                                    <div class="row">
-                                                        <div class="col-sm-9 todo-inputbar">
-                                                            <input type="text" id="todo-input-text" name="todo-input-text" class="form-control" placeholder="Add new todo">
-                                                        </div>
-                                                        <div class="col-sm-3 todo-send">
-                                                            <button class="btn-info btn-block btn waves-effect waves-light" type="button" id="todo-btn-submit">Add</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectCourse_add" class="col-mb-3 col-sm-3 control-label">上课时段</label>
+                                        <div class="col-mb-9 col-sm-9">
+                                            <div style="max-height: 88px;border: 1px solid #e5e5e5;overflow: auto;" id="boxscroll">
+                                                <p>Release Date: August 10, 2010</p>
+                                                <p>Release Date: August 10, 2010</p>
+                                                <p>Release Date: August 10, 2010</p>
+                                                <p>Release Date: August 10, 2010</p>
+                                                <p>Release Date: August 10, 2010</p>
                                             </div>
+
+                                            <form name="todo-form" id="todo-form" role="form" class="m-t-20">
+                                                <div class="row">
+                                                    <div class="col-sm-4 todo-inputbar">
+                                                        <input type="text" id="todo-input-text" name="todo-input-text" class="form-control" placeholder="Add new todo">
+                                                    </div>
+                                                    <div class="col-sm-4 todo-inputbar">
+                                                        <input type="text" id="todo-input-text" name="todo-input-text" class="form-control" placeholder="Add new todo">
+                                                    </div>
+                                                    <div class="col-sm-3 todo-send">
+                                                        <button class="btn-info btn-block btn waves-effect waves-light" type="button" id="todo-btn-submit">添加</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -328,100 +389,129 @@
         });
     }
 
-    $(document)
-        .ready(function () {
-            $('#addForm')
-                .bootstrapValidator({
-                    message: '值不能为空',
-                    submitButtons: '#btnAddCampus',
-                    feedbackIcons: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
-                    },
-                    fields: {
-                        txtName: {
-                            message: '用户名验证失败',
-                            validators: {
-                                notEmpty: {
-                                    message: '角色名称不能为空'
-                                }
+    $(document).ready(function () {
+        $("#boxscroll").niceScroll({ cursorborder: "", cursorcolor: "#00F", boxzoom: false }); // First scrollable DIV
+        $('#addForm')
+            .bootstrapValidator({
+                message: '值不能为空',
+                submitButtons: '#btnAddCampus',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    txtName: {
+                        message: '用户名验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '角色名称不能为空'
                             }
                         }
                     }
-                });
-            $('#updateForm')
-                .bootstrapValidator({
-                    message: '值不能为空',
-                    submitButtons: '#btnAddRole',
-                    feedbackIcons: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
-                    },
-                    fields: {
-                        txtUpdateName: {
-                            message: '用户名验证失败',
-                            validators: {
-                                notEmpty: {
-                                    message: '角色名称不能为空'
-                                }
+                }
+            });
+        $('#updateForm')
+            .bootstrapValidator({
+                message: '值不能为空',
+                submitButtons: '#btnAddRole',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    txtUpdateName: {
+                        message: '用户名验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '角色名称不能为空'
                             }
                         }
                     }
-                });
-            $("#btnAddCampus")
-                .click(function () {
-                    $("#addForm").bootstrapValidator('validate'); //提交验证
-                    if ($("#addForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
-                        //验证成功后的操作，如ajax
+                }
+            });
+        $("#btnAddCampus")
+            .click(function () {
+                $("#addForm").bootstrapValidator('validate'); //提交验证
+                if ($("#addForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
+                    //验证成功后的操作，如ajax
 
-                        var campusname = $("#txtCampusName").val();
-                        var campustype = $("#selectCampusType").val();
-                        var contract = $("#txtContract").val();
-                        var contracttel = $("#txtContractTel").val();
-                        var tel = $("#txtTel").val();
-                        var address = $("#txtAddress").val();
-                        var campus = { CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
-                        $.ajax({
-                            url: "Add",
-                            type: "post",
-                            data: JSON.stringify(campus),
-                            contentType: 'application/json; charset=utf-8',
-                            success: function (data) {
-                                var result = JSON.parse(data);
-                                if (result.code === 200) {
-                                    window.location.reload();
-                                }
+                    var campusname = $("#txtCampusName").val();
+                    var campustype = $("#selectCampusType").val();
+                    var contract = $("#txtContract").val();
+                    var contracttel = $("#txtContractTel").val();
+                    var tel = $("#txtTel").val();
+                    var address = $("#txtAddress").val();
+                    var campus = { CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
+                    $.ajax({
+                        url: "Add",
+                        type: "post",
+                        data: JSON.stringify(campus),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            if (result.code === 200) {
+                                window.location.reload();
                             }
-                        });
-                    }
-                });
-            $("#btnUpdateCampus")
-                .click(function () {
-                    $("#updateForm").bootstrapValidator('validate'); //提交验证
-                    if ($("#updateForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
-                        //验证成功后的操作，如ajax
-                        var campusname = $("#txtCampusName_edit").val();
-                        var campustype = $("#selectCampusType_edit").val();
-                        var contract = $("#txtContract_edit").val();
-                        var contracttel = $("#txtContractTel_edit").val();
-                        var tel = $("#txtTel_edit").val();
-                        var address = $("#txtAddress_edit").val();
-                        var campus = { CampusId: currentCampusId, CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
-                        $.ajax({
-                            url: "Update",
-                            type: "put",
-                            data: JSON.stringify(campus),
-                            contentType: 'application/json; charset=utf-8',
-                            success: function (data) {
-                                var result = JSON.parse(data);
-                                if (result.code === 200) {
-                                    window.location.reload();
-                                }
+                        }
+                    });
+                }
+            });
+        $("#btnUpdateCampus")
+            .click(function () {
+                $("#updateForm").bootstrapValidator('validate'); //提交验证
+                if ($("#updateForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
+                    //验证成功后的操作，如ajax
+                    var campusname = $("#txtCampusName_edit").val();
+                    var campustype = $("#selectCampusType_edit").val();
+                    var contract = $("#txtContract_edit").val();
+                    var contracttel = $("#txtContractTel_edit").val();
+                    var tel = $("#txtTel_edit").val();
+                    var address = $("#txtAddress_edit").val();
+                    var campus = { CampusId: currentCampusId, CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
+                    $.ajax({
+                        url: "Update",
+                        type: "put",
+                        data: JSON.stringify(campus),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            if (result.code === 200) {
+                                window.location.reload();
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                }
+            });
+        $("#todo-btn-submit").click(function () {
+            var address = $("#todo-input-text").val();
+
+            $("#boxscroll").append("<p>" + address + "</p>");
+
+            $("#boxscroll").getNiceScroll().resize();
         });
+
+        Datetime();
+    });
+    function Datetime() {
+        $('#datetimepicker1').datetimepicker({
+            language: 'zh-CN',//显示中文
+            format: 'yyyy-mm-dd',//显示格式
+            minView: "month",//设置只显示到月份
+            initialDate: new Date(),
+            autoclose: true,//选中自动关闭
+            todayBtn: true,//显示今日按钮
+            locale: moment.locale('zh-cn')
+        });
+        //默认获取当前日期
+        var today = new Date();
+        var nowdate = (today.getFullYear()) + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+        //对日期格式进行处理
+        var date = new Date(nowdate);
+        var mon = date.getMonth() + 1;
+        var day = date.getDate();
+        var mydate = date.getFullYear() + "-" + (mon < 10 ? "0" + mon : mon) + "-" + (day < 10 ? "0" + day : day);
+        document.getElementById("nowdate").value = mydate;
+    }
 </script>
