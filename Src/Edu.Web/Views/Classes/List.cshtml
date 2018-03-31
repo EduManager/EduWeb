@@ -18,7 +18,7 @@
 </ol>
 <div class="row">
     <div class="col-md-12">
-        <button class="btn btn-default" data-toggle="modal" data-target="#addModal">添加班级</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#addModal" onclick="showCreateObjModal();">添加班级</button>
     </div>
     <div class="col-md-12">
         <table class="table table-striped">
@@ -86,7 +86,7 @@
                                     <div class="form-group">
                                         <label for="selectCampus_add" class="col-sm-3 control-label">所属校区</label>
                                         <div class="col-sm-9">
-                                            <select id="selectCourseType_add" class="form-control"></select>
+                                            <select id="selectCampus_add" class="form-control"></select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -143,7 +143,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label">开课时间</label>
-                                                            <div class="col-sm-7">
+                                                            <div class="col-sm-6">
                                                                 <div class='input-group date' id='datepicker1'>
                                                                     <input type='text' class="form-control" />
                                                                     <span class="input-group-addon">
@@ -170,7 +170,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label">开课时间</label>
-                                                            <div class="col-sm-7">
+                                                            <div class="col-sm-6">
                                                                 <div class='input-group date' id='datepicker2'>
                                                                     <input type='text' class="form-control" />
                                                                     <span class="input-group-addon">
@@ -181,7 +181,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label"></label>
-                                                            <div class="col-sm-7">
+                                                            <div class="col-sm-6">
                                                                 <div class='input-group date' id='datepicker3'>
                                                                     <input type='text' class="form-control" />
                                                                     <span class="input-group-addon">
@@ -202,7 +202,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label">开课时间</label>
-                                                            <div class="col-sm-7">
+                                                            <div class="col-sm-6">
                                                                 <div class='input-group date' id='datepicker4'>
                                                                     <input type='text' class="form-control" />
                                                                     <span class="input-group-addon">
@@ -239,7 +239,7 @@
                                                             <option>星期日</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-sm-4 todo-inputbar">
+                                                    <div class="col-sm-5 todo-inputbar">
                                                         <div class='input-group date' id='timepicker1'>
                                                             <input type='text' class="form-control" />
                                                             <span class="input-group-addon">
@@ -263,7 +263,7 @@
                                                             <option>星期日</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-sm-4 todo-inputbar">
+                                                    <div class="col-sm-5 todo-inputbar">
                                                         <div class='input-group date' id='timepicker2'>
                                                             <input type='text' class="form-control" />
                                                             <span class="input-group-addon">
@@ -271,7 +271,7 @@
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-3 todo-send">
+                                                    <div class="col-sm-2 todo-send">
                                                         <button class="btn-info btn-block btn waves-effect waves-light" type="button" id="todo-btn-submit">添加</button>
                                                     </div>
                                                 </div>
@@ -389,6 +389,7 @@
 </div>
 <script>
     var currentCampusId = 0;
+    var selectedCourseId = 0;
     function showUpdateCampusModal(e) {
         var campusId = e.dataset.val;
         var campusName = e.dataset.name;
@@ -425,6 +426,68 @@
         });
     }
 
+    function showCreateObjModal() {
+        //$("#addModalLabel").html("新增" + feeType);
+        initCourseTypeList();
+    }
+    function initCourseTypeList() {
+        $("#selectCourseType_add ").empty();
+        $("#selectCampus_add ").empty();
+        $.ajax({
+            url: "getAllCourseTypes",
+            type: "post",
+            //data: JSON.stringify(model),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.length > 0) {
+                    for (var index = 0; index < result.length; index++) {
+                        var item = result[index];
+                        $('#selectCourseType_add').append("<option selected value='" + item.id + "'>" + item.courseTypeName + "</option>");
+                        //$('#selectCourseType_edit').append("<option selected value='" + item.id + "'>" + item.courseTypeName + "</option>");
+                    }
+                }
+            }
+        });
+
+        $.get("../Campus/SchoolCampus",
+    function (data) {
+        var result = JSON.parse(data);
+        if (result.code == 200 && result.items.length > 0) {
+            for (var index = 0; index < result.items.length; index++) {
+                var item = result.items[index];
+                if (index == 0) {
+                    $('#selectCampus_add')
+                        .append("<option selected value='" + item.id + "'>" + item.campusName + "</option>");
+                } else {
+                    $('#selectCampus_add')
+                        .append("<option value='" + item.id + "'>" + item.campusName + "</option>");
+                }
+            }
+        }
+    });
+    }
+
+    function initCourseList() {
+        $("#selectCourse_add ").empty();
+        var model = { CourseTypeId: selectedCourseId };
+        $.ajax({
+            url: "getCourses",
+            type: "post",
+            data: JSON.stringify(model),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.length > 0) {
+                    for (var index = 0; index < result.length; index++) {
+                        var item = result[index];
+                        $('#selectCourse_add').append("<option selected value='" + item.id + "'>" + item.courseName + "</option>");
+                        //$('#selectCourse_edit').append("<option selected value='" + item.id + "'>" + item.courseName + "</option>");
+                    }
+                }
+            }
+        });
+    }
     $(document).ready(function () {
         $("#boxscroll").niceScroll({ cursorborder: "", cursorcolor: "#00F", boxzoom: false }); // First scrollable DIV
         $('#addForm')
@@ -526,11 +589,14 @@
             var endWeek = $("#selectWeek2").val();
             var endTime = $("#timepicker2").data().date;
 
-            $("#boxscroll").append("<p>" + startWeek + " " + startTime + "---" + endWeek + " " + endTime+ "</p>");
+            $("#boxscroll").append("<p>" + startWeek + " " + startTime + "---" + endWeek + " " + endTime + "</p>");
 
             $("#boxscroll").getNiceScroll().resize();
         });
-
+        $("#selectCourseType_add").change(function () {
+            selectedCourseId = $(this).val();
+            initCourseList();
+        });
         Datetime();
     });
     function Datetime() {
