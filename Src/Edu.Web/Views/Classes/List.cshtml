@@ -294,73 +294,6 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!-- 模态框（Modal）编辑班级信息 -->
-        <div class="modal fade" id="updateCampusModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" data-backdrop="false">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h5 class="modal-title" id="updateModalLabel"></h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-md-12">
-                            <div class="form-horizontal" role="form" id="updateForm">
-                                <div class="form-group">
-                                    <label for="txtCampusName_edit" class="col-sm-3 control-label">校区名称</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="txtCampusName_edit" name="txtCampusName_edit" placeholder="请输入名称">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="selectCampusType_edit" class="col-sm-3 control-label">校区类型</label>
-                                    <div class="col-sm-9">
-                                        <select id="selectCampusType_edit" class="form-control">
-                                            <option>直营</option>
-                                            <option>加盟</option>
-                                            <option>合作</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="txtContract_edit" class="col-sm-3 control-label">负责人</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="txtContract_edit" name="txtContract_edit" placeholder="请输入负责人姓名">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="txtContractTel_edit" class="col-sm-3 control-label">联系电话</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="txtContractTel_edit" name="txtContractTel_edit" placeholder="请输入负责人联系电话">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="txtTel_edit" class="col-sm-3 control-label">校区总机</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="txtTel_edit" name="txtTel_edit" placeholder="请输入校区总机">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="txtAddress_edit" class="col-sm-3 control-label">地址</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control" rows="3" id="txtAddress_edit" name="txtAddress_edit" placeholder="请输入地址"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            关闭
-                        </button>
-                        <button type="button" class="btn btn-primary" id="btnUpdateCampus">
-                            提交更改
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
         <!-- 模态框（Modal）是否确定删除 -->
         <div class="modal fade" id="deleteCampusModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-backdrop="false">
             <div class="modal-dialog">
@@ -428,66 +361,13 @@
 
     function showCreateObjModal() {
         //$("#addModalLabel").html("新增" + feeType);
-        initCourseTypeList();
+        initForm();
     }
-    function initCourseTypeList() {
-        $("#selectCourseType_add ").empty();
-        $("#selectCampus_add ").empty();
-        $.ajax({
-            url: "getAllCourseTypes",
-            type: "post",
-            //data: JSON.stringify(model),
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                var result = JSON.parse(data);
-                if (result.length > 0) {
-                    for (var index = 0; index < result.length; index++) {
-                        var item = result[index];
-                        $('#selectCourseType_add').append("<option selected value='" + item.id + "'>" + item.courseTypeName + "</option>");
-                        //$('#selectCourseType_edit').append("<option selected value='" + item.id + "'>" + item.courseTypeName + "</option>");
-                    }
-                }
-            }
-        });
-
-        $.get("../Campus/SchoolCampus",
-    function (data) {
-        var result = JSON.parse(data);
-        if (result.code == 200 && result.items.length > 0) {
-            for (var index = 0; index < result.items.length; index++) {
-                var item = result.items[index];
-                if (index == 0) {
-                    $('#selectCampus_add')
-                        .append("<option selected value='" + item.id + "'>" + item.campusName + "</option>");
-                } else {
-                    $('#selectCampus_add')
-                        .append("<option value='" + item.id + "'>" + item.campusName + "</option>");
-                }
-            }
-        }
-    });
+    function initForm() {
+        getCourseType("selectCourseType_add");
+        getCampus("selectCampus_add");
     }
 
-    function initCourseList() {
-        $("#selectCourse_add ").empty();
-        var model = { CourseTypeId: selectedCourseId };
-        $.ajax({
-            url: "getCourses",
-            type: "post",
-            data: JSON.stringify(model),
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                var result = JSON.parse(data);
-                if (result.length > 0) {
-                    for (var index = 0; index < result.length; index++) {
-                        var item = result[index];
-                        $('#selectCourse_add').append("<option selected value='" + item.id + "'>" + item.courseName + "</option>");
-                        //$('#selectCourse_edit').append("<option selected value='" + item.id + "'>" + item.courseName + "</option>");
-                    }
-                }
-            }
-        });
-    }
     $(document).ready(function () {
         $("#boxscroll").niceScroll({ cursorborder: "", cursorcolor: "#00F", boxzoom: false }); // First scrollable DIV
         $('#addForm')
@@ -595,7 +475,7 @@
         });
         $("#selectCourseType_add").change(function () {
             selectedCourseId = $(this).val();
-            initCourseList();
+            getCourseList("selectCourse_add",selectedCourseId);
         });
         Datetime();
     });

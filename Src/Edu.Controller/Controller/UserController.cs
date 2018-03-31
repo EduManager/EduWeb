@@ -181,7 +181,6 @@ namespace Edu.Controller.Controller
 
             return View(result.Items);
         }
-
         [AuthFilter]
         public ViewResult Password()
         {

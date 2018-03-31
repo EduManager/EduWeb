@@ -122,8 +122,8 @@ namespace Edu.Controller.Controller
             return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
 
-
         [HttpPost]
+        [ActionName("getAllCourseTypes")]
         public string getAllCourseTypes()
         {
             var schoolId = ApplicationContext.SchoolId;
@@ -134,6 +134,22 @@ namespace Edu.Controller.Controller
             var cts = new List<CourseType>();
             if (result.Code == 200)
                 cts = result.Items;
+            return JsonHelper.Serialize(cts);
+        }
+
+        [HttpPost]
+        [ActionName("getCourses")]
+        public string getCourses(int CourseTypeId)
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var result = CourseService.Instance.GetCourseBySchoolId(new GetObjectByIdArgs()
+            {
+                SchoolId = schoolId
+            });
+            var cts = new List<Course>();
+            if (result.Code == 200)
+                cts = result.Items;
+            cts = cts.Where(a => a.CourseTypeId == CourseTypeId).ToList();
             return JsonHelper.Serialize(cts);
         }
     }
