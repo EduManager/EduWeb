@@ -54,6 +54,7 @@
                                     操作 <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">上课时段</a></li>
                                     <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">编辑</a></li>
                                     <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.Name">删除</a></li>
                                 </ul>
@@ -230,13 +231,13 @@
                                                     </div>
                                                     <div class="col-sm-4 todo-inputbar">
                                                         <select id="selectWeek1" class="form-control">
-                                                            <option>星期一</option>
-                                                            <option>星期二</option>
-                                                            <option>星期三</option>
-                                                            <option>星期四</option>
-                                                            <option>星期五</option>
-                                                            <option>星期六</option>
-                                                            <option>星期日</option>
+                                                            <option value="1">星期一</option>
+                                                            <option value="2">星期二</option>
+                                                            <option value="3">星期三</option>
+                                                            <option value="4">星期四</option>
+                                                            <option value="5">星期五</option>
+                                                            <option value="6">星期六</option>
+                                                            <option value="7">星期日</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-5 todo-inputbar">
@@ -254,13 +255,13 @@
                                                     </div>
                                                     <div class="col-sm-4 todo-inputbar">
                                                         <select id="selectWeek2" class="form-control">
-                                                            <option>星期一</option>
-                                                            <option>星期二</option>
-                                                            <option>星期三</option>
-                                                            <option>星期四</option>
-                                                            <option>星期五</option>
-                                                            <option>星期六</option>
-                                                            <option>星期日</option>
+                                                            <option value="1">星期一</option>
+                                                            <option value="2">星期二</option>
+                                                            <option value="3">星期三</option>
+                                                            <option value="4">星期四</option>
+                                                            <option value="5">星期五</option>
+                                                            <option value="6">星期六</option>
+                                                            <option value="7">星期日</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-5 todo-inputbar">
@@ -287,7 +288,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             关闭
                         </button>
-                        <button type="submit" class="btn btn-primary" id="btnAddCampus">
+                        <button type="submit" class="btn btn-primary" id="btnAddClass">
                             提交
                         </button>
                     </div>
@@ -321,6 +322,7 @@
     </div>
 </div>
 <script>
+    var attendClass = [];
     var currentCampusId = 0;
     var selectedCourseId = 0;
     function showUpdateCampusModal(e) {
@@ -410,23 +412,22 @@
                     }
                 }
             });
-        $("#btnAddCampus")
+        $("#btnAddClass")
             .click(function () {
                 $("#addForm").bootstrapValidator('validate'); //提交验证
                 if ($("#addForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
                     //验证成功后的操作，如ajax
-
-                    var campusname = $("#txtCampusName").val();
-                    var campustype = $("#selectCampusType").val();
-                    var contract = $("#txtContract").val();
-                    var contracttel = $("#txtContractTel").val();
-                    var tel = $("#txtTel").val();
-                    var address = $("#txtAddress").val();
-                    var campus = { CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
+                    //var campusname = $("#txtCampusName").val();
+                    //var campustype = $("#selectCampusType").val();
+                    //var contract = $("#txtContract").val();
+                    //var contracttel = $("#txtContractTel").val();
+                    //var tel = $("#txtTel").val();
+                    //var address = $("#txtAddress").val();
+                    //var campus = { CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
                     $.ajax({
-                        url: "Add",
+                        url: "AddAtttendClass",
                         type: "post",
-                        data: JSON.stringify(campus),
+                        data: JSON.stringify(attendClass),
                         contentType: 'application/json; charset=utf-8',
                         success: function (data) {
                             var result = JSON.parse(data);
@@ -464,18 +465,18 @@
                 }
             });
         $("#todo-btn-submit").click(function () {
-            var startWeek = $("#selectWeek1").val();
+            var startWeek = $("#selectWeek1 option:selected").text();
             var startTime = $("#timepicker1").data().date;
-            var endWeek = $("#selectWeek2").val();
+            var endWeek = $("#selectWeek2 option:selected").text();
             var endTime = $("#timepicker2").data().date;
-
+            attendClass.push({ "BeginWeek": $("#selectWeek1").val(), "BeginTime": startTime, "EndWeek": $("#selectWeek2").val(), "EndTime": endTime });
             $("#boxscroll").append("<p>" + startWeek + " " + startTime + "---" + endWeek + " " + endTime + "</p>");
 
             $("#boxscroll").getNiceScroll().resize();
         });
         $("#selectCourseType_add").change(function () {
             selectedCourseId = $(this).val();
-            getCourseList("selectCourse_add",selectedCourseId);
+            getCourseList("selectCourse_add", selectedCourseId);
         });
         Datetime();
     });

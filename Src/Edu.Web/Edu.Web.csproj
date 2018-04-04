@@ -106,6 +106,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrapValidator.js" />
+    <Content Include="Scripts\HashMap.js" />
     <Content Include="Scripts\mode-ecb.js" />
     <Content Include="Scripts\tripledes.js" />
     <Content Include="Scripts\ztree\jquery.ztree.core.min.js" />

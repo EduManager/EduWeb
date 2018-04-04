@@ -1,11 +1,13 @@
 ﻿using Edu.Controller.Common;
 using Edu.Infrastructure.Common;
 using Edu.Infrastructure.Helper;
+using Edu.Model;
 using Edu.Model.Args;
 using Edu.Model.Core;
 using Edu.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,31 +32,53 @@ namespace Edu.Controller.Controller
         }
 
         [HttpPost]
-        public string getAllCourseTypes()
+        public string AddClass(AddClassesArgs model)
         {
-            var schoolId = ApplicationContext.SchoolId;
-            var result = CourseService.Instance.GetCourseTypeBySchoolId(new GetObjectByIdArgs()
+            if (model != null)
             {
-                SchoolId = schoolId
-            });
-            var cts = new List<CourseType>();
-            if (result.Code == 200)
-                cts = result.Items;
-            return JsonHelper.Serialize(cts);
+                model.CreateBy = ApplicationContext.UserId;
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+
+                var result = ClassesService.Instance.AddClass(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
-        [HttpPost]
-        public string getCourses(int CourseTypeId)
+    [HttpPost]
+    public string AddAtttendClass(AddAttendClassArgs[] models)
+    {
+        for (int i = 0; i < models.Length; i++)
         {
-            var schoolId = ApplicationContext.SchoolId;
-            var result = CourseService.Instance.GetCourseBySchoolId(new GetObjectByIdArgs()
+            AddAttendClassArgs model = models[i];
+            if (model != null)
             {
-                SchoolId = schoolId
-            });
-            var cts = new List<Course>();
-            if (result.Code == 200)
-                cts = result.Items;
-            cts = cts.Where(a => a.CourseTypeId == CourseTypeId).ToList();
-            return JsonHelper.Serialize(cts);
+                model.BeginTime = DateTime.Parse(model.BeginTime).ToString("yyyy-MM-dd HH:mm:ss");
+                model.EndTime = DateTime.Parse(model.EndTime).ToString("yyyy-MM-dd HH:mm:ss");
+                model.CreateBy = ApplicationContext.UserId;
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+
+                var result = ClassesService.Instance.AddAttendClass(model);
+            }
         }
+        return JsonHelper.Serialize(CommandResult.Failure<int>());
     }
+    public static DateTime FormatDateTime(DateTime bt_in)
+    {
+        bool f = true;
+        if (bt_in.ToString().IndexOf("/") > -1)
+        {
+            Console.WriteLine();
+            DateTime t = DateTime.Today;
+            IFormatProvider culture = new CultureInfo("zh-CN", true);     //这里看时dateseparator   也是斜线...
+            f = DateTime.TryParseExact(bt_in.ToString(), "yyyy-MM-dd HH:mm:ss", culture, DateTimeStyles.None, out t);
+            if (f)
+                return t;
+
+        }
+        return bt_in;
+
+    }
+}
 }

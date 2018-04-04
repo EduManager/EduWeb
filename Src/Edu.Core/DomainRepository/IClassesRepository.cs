@@ -17,5 +17,9 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         QueryResult<Classes> GetClassesBySchoolId(GetObjectByIdArgs args);
+
+        CommandResult<int> AddClass(AddClassesArgs args);
+
+        CommandResult<int> AddAttendClass(AddAttendClassArgs args);
     }
 }

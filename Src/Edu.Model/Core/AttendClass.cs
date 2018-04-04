@@ -20,6 +20,15 @@ namespace Edu.Model.Core
         public int ClassId { get; set; }
 
         [DataMember]
+        public int BeginWeek { get; set; }
+
+        [DataMember]
+        public int EndWeek { get; set; }
+
+        [DataMember]
+        public string Remark { get; set; }
+
+        [DataMember]
         public DateTime BeginTime { get; set; }
 
         [DataMember]

@@ -13,6 +13,42 @@ namespace Edu.Repository
 {
     internal class ClassesRepository: BaseRepository, IClassesRepository
     {
+        public CommandResult<int> AddAttendClass(AddAttendClassArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>(args.SchoolId, "add_attend_class", args);
+                if (result.Code == 200 && result.Items.Count > 0)
+                {
+                    return CommandResult.Success(result.Items[0]);
+                }
+                return CommandResult.Failure<int>();
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "班级管理-添加上课时间，SchoolId:" + args.SchoolId + ",学校编号:" + args.SchoolId, e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
+        public CommandResult<int> AddClass(AddClassesArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>(args.SchoolId, "add_classes", args);
+                if (result.Code == 200 && result.Items.Count > 0)
+                {
+                    return CommandResult.Success(result.Items[0]);
+                }
+                return CommandResult.Failure<int>();
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "班级管理-添加班级，SchoolId:" + args.SchoolId + ",学校编号:" + args.SchoolId, e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
         public QueryResult<Classes> GetClassesBySchoolId(GetObjectByIdArgs args)
         {
             try

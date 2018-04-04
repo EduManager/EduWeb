@@ -38,5 +38,31 @@ namespace Edu.Services
 
             return ContainerFactory<IClassesRepository>.Instance.GetClassesBySchoolId(args);
         }
+
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> AddAttendClass(AddAttendClassArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            return ContainerFactory<IClassesRepository>.Instance.AddAttendClass(args);
+        }
+
+        /// <summary>
+        /// 添加班级
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> AddClass(AddClassesArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            return ContainerFactory<IClassesRepository>.Instance.AddClass(args);
+        }
     }
 }
