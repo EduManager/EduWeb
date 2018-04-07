@@ -18,6 +18,8 @@ namespace Edu.Core.DomainRepository
         /// <returns></returns>
         QueryResult<Classes> GetClassesBySchoolId(GetObjectByIdArgs args);
 
+        QueryResult<AttendClass> GetAttendClassesByClassId(GetAttendByClassIdArgs args);
+
         CommandResult<int> AddClass(AddClassesArgs args);
 
         CommandResult<int> AddAttendClass(AddAttendClassArgs args);

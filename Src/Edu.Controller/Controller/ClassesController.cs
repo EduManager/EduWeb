@@ -30,7 +30,30 @@ namespace Edu.Controller.Controller
                 models = result.Items;
             return View(models);
         }
-
+        [HttpPost]
+        [ActionName("getAttendClassByClassId")]
+        public string getAttendClassByClassId(int classId)
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var result = ClassesService.Instance.GetAttendClassesByClassId(new GetAttendByClassIdArgs()
+            {
+                SchoolId = schoolId,
+                ClassId= classId
+            });
+            var cts = new List<AttendClass_min>();
+            if (result.Code == 200)
+                for (int i = 0; i < result.Items.Count; i++)
+                {
+                    var ac = result.Items[i];
+                    AttendClass_min acm = new AttendClass_min();
+                    acm.id = ac.Id;
+                    acm.title = ac.Teacher;
+                    acm.start = ac.BeginTime;
+                    acm.end = ac.EndTime;
+                    cts.Add(acm);
+                }
+            return JsonHelper.Serialize(cts);
+        }
         [HttpPost]
         public string AddClass(AddClassesArgs model)
         {

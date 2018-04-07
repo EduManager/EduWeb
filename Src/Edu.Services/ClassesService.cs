@@ -28,7 +28,7 @@ namespace Edu.Services
         #endregion
 
         /// <summary>
-        /// 获取全部教材杂费
+        /// 获取全部班级
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
@@ -39,6 +39,18 @@ namespace Edu.Services
             return ContainerFactory<IClassesRepository>.Instance.GetClassesBySchoolId(args);
         }
 
+        /// <summary>
+        /// 获取班级的课时表
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public QueryResult<AttendClass> GetAttendClassesByClassId(GetAttendByClassIdArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.ClassId, "ClassId", Arguments.Positive);
+
+            return ContainerFactory<IClassesRepository>.Instance.GetAttendClassesByClassId(args);
+        }
         /// <summary>
         /// 添加
         /// </summary>

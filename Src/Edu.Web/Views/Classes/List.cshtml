@@ -6,13 +6,19 @@
 <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <link href="~/Content/ztree/zTreeStyle.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/moment-with-locales.js"></script>
 <script src="~/Scripts/ztree/jquery.ztree.core.min.js"></script>
 <script src="~/Scripts/ztree/jquery.ztree.excheck.min.js"></script>
 <script src="~/Scripts/bootstrapValidator.js"></script>
-<script src="~/Scripts/moment-with-locales.js"></script>
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="~/Scripts/jquery.nicescroll.min.js"></script>
+
+<link href='~/Content/calendar/fullcalendar.min.css' rel='stylesheet' />
+<link href='~/Content/calendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<script src='~/Scripts/calendar/moment.min.js'></script>
+<script src='~/Scripts/calendar/fullcalendar.min.js'></script>
+<script src='~/Scripts/calendar/locale-all.js'></script>
 <ol class="breadcrumb">
     <li>班级管理</li>
 </ol>
@@ -54,7 +60,7 @@
                                     操作 <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">上课时段</a></li>
+                                    <li><a onclick="initCalendar(this);" data-toggle="modal" data-target="#calendarModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">上课时段</a></li>
                                     <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">编辑</a></li>
                                     <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.Name">删除</a></li>
                                 </ul>
@@ -295,6 +301,136 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
+        <!-- 模态框（Modal）课程表 -->
+        <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn btn-default" style="float:right;" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" style="float:right;" id="btnDeleteCampus" onclick="deleteCampus();">
+                            确定
+                        </button>
+                        <h5 class="modal-title" id="updateModalLabel">上课时段</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div id='calendar'>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- 模态框（Modal）课时编辑 -->
+        <div class="modal fade" id="classTimeModal" tabindex="-1" role="dialog" aria-labelledby="classTimeModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog" style="width:500px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="updateModalLabel">课时编辑</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal" id="addForm" role="form">
+                            <div class="row">
+                                <div class="col-mb-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="txtClassName" class="col-sm-3 control-label">开始时间</label>
+                                        <div class="col-sm-4">
+                                            <select name="s_hour" class="form-control">
+                                                <option value="07">07</option>
+                                                <option value="08" selected>08</option>
+                                                <option value="09">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="17">17</option>
+                                                <option value="18">18</option>
+                                                <option value="19">19</option>
+                                                <option value="20">20</option>
+                                                <option value="21">21</option>
+                                                <option value="22">22</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select name="s_minute" class="form-control">
+                                                <option value="00" selected>00</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="30">30</option>
+                                                <option value="40">40</option>
+                                                <option value="50">50</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-mb-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="txtClassName" class="col-sm-3 control-label">结束时间</label>
+                                        <div class="col-sm-4">
+                                            <select name="s_hour" class="form-control">
+                                                <option value="07">07</option>
+                                                <option value="08" selected>08</option>
+                                                <option value="09">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="17">17</option>
+                                                <option value="18">18</option>
+                                                <option value="19">19</option>
+                                                <option value="20">20</option>
+                                                <option value="21">21</option>
+                                                <option value="22">22</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select name="s_minute" class="form-control">
+                                                <option value="00" selected>00</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="30">30</option>
+                                                <option value="40">40</option>
+                                                <option value="50">50</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-mb-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="txtClassName" class="col-sm-3 control-label">课时备注</label>
+                                        <div class="col-sm-8">
+                                            <input type='text' class="form-control" placeholder="备注..." />
+                                        </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnDeleteCampus" onclick="deleteCampus();">
+                            确定
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
         <!-- 模态框（Modal）是否确定删除 -->
         <div class="modal fade" id="deleteCampusModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-backdrop="false">
             <div class="modal-dialog">
@@ -369,9 +505,70 @@
         getCourseType("selectCourseType_add");
         getCampus("selectCampus_add");
     }
-
+    function initCalendar(e) {
+        setTimeout(function () {
+            $('#calendar').fullCalendar({
+                defaultView: 'agendaWeek',
+                defaultDate: '2018-04-03',
+                editable: true,
+                selectable: false,
+                edit: function (start, end) {
+                    var title = prompt('Event Title:');
+                    var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                    }
+                    $('#calendar').fullCalendar('unselect');
+                },
+                selectHelper: true,
+                eventLimit: true, // allow "more" link when too many events
+                header: false,
+                allDaySlot: false,
+                navLinks: false,
+                minTime: '07:00:00',
+                maxTime: '22:00:00',
+                locale: 'zh-cn',
+                columnHeaderFormat: 'ddd',
+                events: function (start, end, timezone, callback) {
+                    var para = { classId: e.dataset.val };
+                    $.ajax({
+                        url: "getAttendClassByClassId",
+                        type: "post",
+                        data: JSON.stringify(para),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            if (data != "") {
+                                var result = JSON.parse(data);
+                                var allevents = [];
+                                $(result).each(function () {
+                                    allevents.push({
+                                        title: '12345678',
+                                        start: $(this).attr('start'),
+                                        end: $(this).attr('end')
+                                    });
+                                });
+                                callback(allevents);
+                            }
+                        }
+                    });
+                },
+                dayClick: function (date, allDay, jsEvent, view) {
+                    var selDate = $.fullCalendar.formatDate(date, 'yyyy-MM-dd');
+                    $('#classTimeModal').modal('show')
+                },
+                eventClick: function (calEvent, jsEvent, view) {
+                    alert(jsEvent);
+                }
+            });
+        }, 100);
+    }
     $(document).ready(function () {
-        $("#boxscroll").niceScroll({ cursorborder: "", cursorcolor: "#00F", boxzoom: false }); // First scrollable DIV
+        //$("#boxscroll").niceScroll({ cursorborder: "", cursorcolor: "#00F", boxzoom: false }); // First scrollable DIV
         $('#addForm')
             .bootstrapValidator({
                 message: '值不能为空',
@@ -479,6 +676,7 @@
             getCourseList("selectCourse_add", selectedCourseId);
         });
         Datetime();
+
     });
     function Datetime() {
         $('#datepicker1').datetimepicker({

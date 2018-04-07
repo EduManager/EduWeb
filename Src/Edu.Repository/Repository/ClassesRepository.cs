@@ -49,6 +49,22 @@ namespace Edu.Repository
             }
         }
 
+        public QueryResult<AttendClass> GetAttendClassesByClassId(GetAttendByClassIdArgs args)
+        {
+            try
+            {
+                var result =
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<AttendClass>(args.SchoolId, "get_attend_class_by_class_id",
+                        args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "通过班级ID获取课时列表失败", e);
+                return QueryResult.Failure<AttendClass>(e.ToString());
+            }
+        }
+
         public QueryResult<Classes> GetClassesBySchoolId(GetObjectByIdArgs args)
         {
             try

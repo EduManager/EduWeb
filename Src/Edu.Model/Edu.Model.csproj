@@ -62,6 +62,7 @@
     <Compile Include="Args\DeleteCampusArgs.cs" />
     <Compile Include="Args\DeleteRoleArgs.cs" />
     <Compile Include="Args\DeleteUserArgs.cs" />
+    <Compile Include="Args\GetAttendByClassIdArgs.cs" />
     <Compile Include="Args\GetSysConfigByUserIdArgs.cs" />
     <Compile Include="Args\GetObjectByIdArgs.cs" />
     <Compile Include="Args\GetUserInfoByPagingArgs.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Args\UpdateUserByAdminArgs.cs" />
     <Compile Include="Args\UpdateUserArgs.cs" />
     <Compile Include="Args\CreateOrUpdateUserRoleArgs.cs" />
+    <Compile Include="Core\AttendClass_min.cs" />
     <Compile Include="Core\AttendClass.cs" />
     <Compile Include="Core\Bookfee.cs" />
     <Compile Include="Core\Campus.cs" />

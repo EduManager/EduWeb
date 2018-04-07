@@ -93,6 +93,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrapValidator.css" />
+    <Content Include="Content\calendar\fullcalendar.min.css" />
+    <Content Include="Content\calendar\fullcalendar.print.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\ztree\img\line_conn.gif" />
     <Content Include="Content\ztree\img\loading.gif" />
@@ -106,6 +108,9 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrapValidator.js" />
+    <Content Include="Scripts\calendar\fullcalendar.min.js" />
+    <Content Include="Scripts\calendar\locale-all.js" />
+    <Content Include="Scripts\calendar\moment.min.js" />
     <Content Include="Scripts\HashMap.js" />
     <Content Include="Scripts\mode-ecb.js" />
     <Content Include="Scripts\tripledes.js" />
