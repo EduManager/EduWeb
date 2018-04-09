@@ -338,10 +338,10 @@
                                     <div class="form-group">
                                         <label for="txtClassName" class="col-sm-3 control-label">开始时间</label>
                                         <div class="col-sm-4">
-                                            <select name="s_hour" class="form-control">
-                                                <option value="07">07</option>
-                                                <option value="08" selected>08</option>
-                                                <option value="09">09</option>
+                                            <select id="s_hour" name="s_hour" class="form-control">
+                                                <option value="7">07</option>
+                                                <option value="8" selected>08</option>
+                                                <option value="9">09</option>
                                                 <option value="10">10</option>
                                                 <option value="11">11</option>
                                                 <option value="12">12</option>
@@ -358,8 +358,8 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-4">
-                                            <select name="s_minute" class="form-control">
-                                                <option value="00" selected>00</option>
+                                            <select id="s_minute"  name="s_minute" class="form-control">
+                                                <option value="0" selected>00</option>
                                                 <option value="10">10</option>
                                                 <option value="20">20</option>
                                                 <option value="30">30</option>
@@ -375,7 +375,7 @@
                                     <div class="form-group">
                                         <label for="txtClassName" class="col-sm-3 control-label">结束时间</label>
                                         <div class="col-sm-4">
-                                            <select name="s_hour" class="form-control">
+                                            <select id="e_hour" name="e_hour" class="form-control">
                                                 <option value="07">07</option>
                                                 <option value="08" selected>08</option>
                                                 <option value="09">09</option>
@@ -395,7 +395,7 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-4">
-                                            <select name="s_minute" class="form-control">
+                                            <select id="e_minute" name="e_minute" class="form-control">
                                                 <option value="00" selected>00</option>
                                                 <option value="10">10</option>
                                                 <option value="20">20</option>
@@ -424,7 +424,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             取消
                         </button>
-                        <button type="button" class="btn btn-primary" id="btnDeleteCampus" onclick="deleteCampus();">
+                        <button type="button" class="btn btn-primary" id="btnPushCT" onclick="pushClassTime();">
                             确定
                         </button>
                     </div>
@@ -461,6 +461,7 @@
     var attendClass = [];
     var currentCampusId = 0;
     var selectedCourseId = 0;
+    var selDate;
     function showUpdateCampusModal(e) {
         var campusId = e.dataset.val;
         var campusName = e.dataset.name;
@@ -481,6 +482,15 @@
     function showDeleteCampusAlert(e) {
         var campusId = e.dataset.val;
         currentCampusId = campusId;
+    }
+    function pushClassTime()
+    {
+        var startTime = new Date(selDate.year(), selDate.month(), selDate.date(), $("#s_hour").val(), $("#s_minute").val());
+        var endTime = new Date(selDate.year(), selDate.month(), selDate.date(), $("#e_hour").val(), $("#e_minute").val());
+
+        attendClass.push({ "BeginWeek": selDate.weekday(), "BeginTime": startTime, "EndWeek": selDate.weekday(), "EndTime": endTime });
+        $('#classTimeModal').modal('hide')
+
     }
     function deleteCampus() {
         $.ajax({
@@ -558,7 +568,10 @@
                     });
                 },
                 dayClick: function (date, allDay, jsEvent, view) {
-                    var selDate = $.fullCalendar.formatDate(date, 'yyyy-MM-dd');
+                    //selDate = $.fullCalendar.formatDate(date, 'yyyy-MM-dd');
+                    selDate = date;
+                    $("#s_hour").val(date.hour());
+                    $("#s_minute").val(date.minute());
                     $('#classTimeModal').modal('show')
                 },
                 eventClick: function (calEvent, jsEvent, view) {
