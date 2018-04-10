@@ -492,20 +492,7 @@
         $('#classTimeModal').modal('hide')
 
     }
-    function deleteCampus() {
-        $.ajax({
-            url: "Delete",
-            type: "delete",
-            data: JSON.stringify({ "campusId": currentCampusId }),
-            contentType: 'application/json',
-            success: function (data) {
-                var result = JSON.parse(data);
-                if (result.code === 200) {
-                    window.location.reload();
-                }
-            }
-        });
-    }
+
 
     function showCreateObjModal() {
         //$("#addModalLabel").html("新增" + feeType);
@@ -556,11 +543,17 @@
                                 var result = JSON.parse(data);
                                 var allevents = [];
                                 $(result).each(function () {
+                                    var eventid=$(this).attr('id');
+                                    var eventtitle=$(this).attr('title');
+                                    var eventstart=$(this).attr('start');
+                                    var eventend=$(this).attr('end');
                                     allevents.push({
-                                        title: '12345678',
-                                        start: $(this).attr('start'),
-                                        end: $(this).attr('end')
+                                        id:eventid,
+                                        title: eventtitle,
+                                        start: eventstart,
+                                        end: eventend
                                     });
+                                    attendClass.push({ "Id": eventid, "BeginTime": eventstart, "EndTime": eventend, "Remark": eventtitle, "CreateBy": 0, "ModifyBy": 0, "IsDelete": 0 });
                                 });
                                 callback(allevents);
                             }

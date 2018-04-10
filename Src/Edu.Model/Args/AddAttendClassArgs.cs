@@ -31,5 +31,7 @@ namespace Edu.Model.Args
         public int CreateBy { get; set; }
 
         public int ModifyBy { get; set; }
+
+        public int IsDelete { get; set; }
     }
 }

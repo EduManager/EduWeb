@@ -47,7 +47,7 @@ namespace Edu.Controller.Controller
                     var ac = result.Items[i];
                     AttendClass_min acm = new AttendClass_min();
                     acm.id = ac.Id;
-                    acm.title = ac.Teacher;
+                    acm.title = ac.Remark;
                     acm.start = ac.BeginTime;
                     acm.end = ac.EndTime;
                     cts.Add(acm);
