@@ -8,11 +8,11 @@
 <script src="~/Scripts/bootstrap-paginator.js"></script>
 <script>
     var pageInfo = {
-        pageIndex: @ViewBag.PageIndex,
-        pageCount: @ViewBag.PageCount,
-        pageSize: @ViewBag.PageSize
+        pageIndex: parseInt('@ViewBag.PageIndex'),
+        pageCount: parseInt('@ViewBag.PageCount'),
+        pageSize: parseInt('@ViewBag.PageSize')
     };
-    
+
     var updUserId = 0;
 
     function loadAddForm() {
@@ -34,7 +34,7 @@
                     }
                 }
             });
-        
+
         $.get("../Role/SchoolRoles",
             function(data) {
                 var result = JSON.parse(data);

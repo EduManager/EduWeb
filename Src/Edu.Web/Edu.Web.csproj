@@ -169,6 +169,10 @@
       <Project>{7612ab82-4339-4825-b81c-621d503b0356}</Project>
       <Name>Edu.Controller</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Edu.Model\Edu.Model.csproj">
+      <Project>{5ece9a32-ded4-4778-8ed4-094960f244e8}</Project>
+      <Name>Edu.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

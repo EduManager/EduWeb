@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EmitMapper">
+      <HintPath>..\..\..\packages\EmitMapper.1.0.0\lib\EmitMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
@@ -79,11 +83,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attrs\ColumnNumberAttribute.cs" />
     <Compile Include="Common\ApplicationContext.cs" />
     <Compile Include="Common\Arguments.cs" />
     <Compile Include="Common\EduExtension.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\ObjectMapper.cs" />
     <Compile Include="Common\SessionConst.cs" />
     <Compile Include="Database\DatabaseManager.cs" />
     <Compile Include="Database\SqlMapper.cs" />
@@ -97,6 +101,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Edu.Model\Edu.Model.csproj">
+      <Project>{5ece9a32-ded4-4778-8ed4-094960f244e8}</Project>
+      <Name>Edu.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

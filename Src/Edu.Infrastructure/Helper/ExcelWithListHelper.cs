@@ -12,7 +12,7 @@ namespace Edu.Infrastructure.Helper
 {
     public class ExcelWithListHelper
     {
-        public static async Task<List<T>> HandlerExcleList<T>(Stream fileStream, string filename, int index = 0)
+        public static async Task<List<T>> HandlerExcleList<T>(string filename, int index = 0)
             where T : class
         {
             return await Task.Run<List<T>>(() =>
@@ -22,15 +22,16 @@ namespace Edu.Infrastructure.Helper
                     int rowIndex = 0;
                     int fieldNumber = 0;
                     ISheet sheet = null;
+                    FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
                     try
                     {
                         if (filename.IndexOf(".xlsx", StringComparison.Ordinal) > 0)
                         {
-                            workbook = new XSSFWorkbook(fileStream); //2007版本以上
+                            workbook = new XSSFWorkbook(fs); //2007版本以上
                         }
                         else if (filename.IndexOf(".xls", StringComparison.Ordinal) > 0)
                         {
-                            workbook = new HSSFWorkbook(fileStream); //2007版本以下
+                            workbook = new HSSFWorkbook(fs); //2007版本以下
                         }
 
                         T model = null;
@@ -122,12 +123,13 @@ namespace Edu.Infrastructure.Helper
                             firstRow++;
                         }
                         workbook.Close();
+                        fs.Close();
                         return result;
                     }
                     catch (Exception e)
                     {
                         LogHelper.Error(typeof(ExcelWithListHelper),"Excel处理失败,文件名：" + filename + ",错误行:" + rowIndex + ",错误列:" + fieldNumber, e);
-                        if (workbook != null) workbook.Close();
+                        if (workbook != null) workbook.Close();fs.Close();
                         return result;
                     }
                 })

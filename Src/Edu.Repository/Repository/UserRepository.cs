@@ -12,6 +12,7 @@ using Edu.Infrastructure.Helper;
 using Edu.Infrastructure.Sql;
 using Edu.Model;
 using Edu.Model.Args;
+using Edu.Model.Bussiness;
 using Edu.Model.Core;
 
 namespace Edu.Repository
@@ -178,6 +179,38 @@ namespace Edu.Repository
             {
                 LogHelper.Error(this.GetType(), "用户模块-创建用户失败，SchoolId:" + args.SchoolId + ",用户名称:" + args.Name, e);
                 return CommandResult.Failure<object>(e.ToString());
+            }
+        }
+
+        public CommandResult ImportUsersByExcel(int schoolId,int userId,int regionSchoolId,string filePath)
+        {
+            try
+            {
+                var userList = ExcelWithListHelper.HandlerExcleList<ExcelUserInfo>(filePath).Result;
+                foreach (var excelUserInfo in userList)
+                {
+                    var userInfo = ObjectMapper<ExcelUserInfo, AddUserArgs>.MapObject(excelUserInfo);
+                    if (userInfo != null)
+                    {
+                        userInfo.SchoolId = schoolId;
+                        //生成密钥，密码
+                        var timespan = DateTime.Now.ToLongTime().ToString();
+                        var token = Guid.NewGuid().ToString().Replace("-", "");
+                        var key = token.Substring(0, 24);
+                        var iv = timespan.Substring(2, 8);
+                        userInfo.UserKey = key + iv;
+                        userInfo.Password = DesEncryptHelper.Encrypt3Des("123456", key, CipherMode.ECB, iv);
+                        userInfo.CreateBy = userId;
+                        userInfo.RegionId = regionSchoolId;
+                        userInfo.RoleId = 0;
+                        ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure(0, "add_user", userInfo);
+                    }
+                }
+                return CommandResult.Success();
+            }
+            catch (Exception e)
+            {
+                return CommandResult.Failure();
             }
         }
     }

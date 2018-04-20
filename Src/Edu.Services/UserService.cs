@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Edu.Core.DomainRepository;
 using Edu.Infrastructure.Common;
+using Edu.Infrastructure.Helper;
 using Edu.Model;
 using Edu.Model.Args;
 using Edu.Model.Core;
@@ -174,6 +176,40 @@ namespace Edu.Services
             ArgumentHelper.Require(args.Phone, "Phone", Arguments.NotEmptyOrWhitespace);
 
             return ContainerFactory<IUserRepository>.Instance.AddUser(args);
+        }
+
+        /// <summary>
+        /// 从Excel导入用户
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <param name="userId"></param>
+        /// <param name="regionSchoolId"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public CommandResult ImportUsersByExcel(int schoolId, int userId, int regionSchoolId, string filePath)
+        {
+            ArgumentHelper.Require(regionSchoolId, "regionSchoolId", Arguments.Positive);
+            ArgumentHelper.Require(schoolId, "schoolId", Arguments.Positive);
+            ArgumentHelper.Require(userId, "userId", Arguments.Positive);
+            if (File.Exists(filePath))
+            {
+                FileInfo fi = new FileInfo(filePath);
+                if (fi.Extension == ".xls" || fi.Extension == "xlsx")
+                {
+                    return ContainerFactory<IUserRepository>.Instance.ImportUsersByExcel(schoolId, userId,
+                        regionSchoolId,
+                        filePath);
+                }
+                else
+                {
+                    LogHelper.Info(typeof(UserService), "文件类型不匹配,文件名:" + filePath);
+                }
+            }
+            else
+            {
+                LogHelper.Info(typeof(UserService), "文件不存在,文件名:" + filePath);
+            }
+            return CommandResult.Failure();
         }
     }
 }

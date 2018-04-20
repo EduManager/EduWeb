@@ -76,6 +76,8 @@
     <Compile Include="Args\UpdateUserByAdminArgs.cs" />
     <Compile Include="Args\UpdateUserArgs.cs" />
     <Compile Include="Args\CreateOrUpdateUserRoleArgs.cs" />
+    <Compile Include="Attrs\ColumnNumberAttribute.cs" />
+    <Compile Include="Bussiness\ExcelUserInfo.cs" />
     <Compile Include="Core\AttendClass_min.cs" />
     <Compile Include="Core\AttendClass.cs" />
     <Compile Include="Core\Bookfee.cs" />
@@ -99,9 +101,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryResult.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Bussiness\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

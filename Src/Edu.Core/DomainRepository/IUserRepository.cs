@@ -79,5 +79,15 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         CommandResult<object> AddUser(AddUserArgs args);
+
+        /// <summary>
+        /// 从Excel导入用户
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <param name="userId"></param>
+        /// <param name="regionSchoolId"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        CommandResult ImportUsersByExcel(int schoolId, int userId, int regionSchoolId, string filePath);
     }
 }
