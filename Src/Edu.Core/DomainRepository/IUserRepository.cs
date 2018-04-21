@@ -85,9 +85,8 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="schoolId"></param>
         /// <param name="userId"></param>
-        /// <param name="regionSchoolId"></param>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        CommandResult ImportUsersByExcel(int schoolId, int userId, int regionSchoolId, string filePath);
+        CommandResult ImportUsersByExcel(int schoolId, int userId, string filePath);
     }
 }

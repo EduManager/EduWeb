@@ -182,28 +182,33 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult ImportUsersByExcel(int schoolId,int userId,int regionSchoolId,string filePath)
+        public CommandResult ImportUsersByExcel(int schoolId,int userId,string filePath)
         {
             try
             {
-                var userList = ExcelWithListHelper.HandlerExcleList<ExcelUserInfo>(filePath).Result;
+                var userList = ExcelWithListHelper.HandlerExcleList<ExcelUserInfo>(filePath);
                 foreach (var excelUserInfo in userList)
                 {
                     var userInfo = ObjectMapper<ExcelUserInfo, AddUserArgs>.MapObject(excelUserInfo);
                     if (userInfo != null)
                     {
                         userInfo.SchoolId = schoolId;
-                        //生成密钥，密码
-                        var timespan = DateTime.Now.ToLongTime().ToString();
-                        var token = Guid.NewGuid().ToString().Replace("-", "");
-                        var key = token.Substring(0, 24);
-                        var iv = timespan.Substring(2, 8);
-                        userInfo.UserKey = key + iv;
-                        userInfo.Password = DesEncryptHelper.Encrypt3Des("123456", key, CipherMode.ECB, iv);
                         userInfo.CreateBy = userId;
-                        userInfo.RegionId = regionSchoolId;
                         userInfo.RoleId = 0;
-                        ContainerFactory<ISqlExcuteContext>.Instance.ExcuteScalarProceDure(0, "add_user", userInfo);
+                        //获取校区信息
+                        var camps =
+                            ContainerFactory<ICampusRepository>.Instance.GetCampusByRegionName(new GetObjectByNameArgs()
+                            {
+                                SchoolId = schoolId,
+                                Name = excelUserInfo.RegionName
+                            });
+                        if (camps.Code == 200)
+                        {
+                            var camp = camps.Items.FirstOrDefault();
+                            if (camp != null)
+                                userInfo.RegionId = camp.Id;
+                        }
+                        this.AddUser(userInfo);
                     }
                 }
                 return CommandResult.Success();

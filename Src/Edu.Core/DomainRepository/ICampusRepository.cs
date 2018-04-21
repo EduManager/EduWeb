@@ -19,6 +19,13 @@ namespace Edu.Core.DomainRepository
         QueryResult<Campus> GetCampusBySchoolId(GetObjectByIdArgs args);
 
         /// <summary>
+        /// 通过名称获取校区列表
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        QueryResult<Campus> GetCampusByRegionName(GetObjectByNameArgs args);
+
+        /// <summary>
         /// 添加校区
         /// </summary>
         /// <param name="args"></param>

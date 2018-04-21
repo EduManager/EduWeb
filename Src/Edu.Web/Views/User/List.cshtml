@@ -12,7 +12,7 @@
         pageCount: parseInt('@ViewBag.PageCount'),
         pageSize: parseInt('@ViewBag.PageSize')
     };
-
+    var filename = "";
     var updUserId = 0;
 
     function loadAddForm() {
@@ -144,11 +144,11 @@
         box-shadow: none;
         padding: 0 10px 0 30px;
     }
-   .usermodal input[type="text"]:focus {
+    .usermodal input[type="text"]:focus {
         background: #ffffff;
         border: 1px solid #cccccc;
     }
-   .usermodal .form-horizontal .form-group i{
+    .usermodal .form-horizontal .form-group i{
         position: absolute;
         top: 7px;
         left: 22px;
@@ -156,9 +156,25 @@
         color: #c8c8c8;
         transition : all 0.5s ease 0s;
     }
-   .usermodal .form-horizontal .form-control:focus + i{
+    .usermodal .form-horizontal .form-control:focus + i{
         color: #00b4ef;
     }
+    .a-upload {
+        margin-top: 30px;
+        padding: 4px 10px;
+        height: 40px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+    }
+       
 </style>
 
 <ol class="breadcrumb">
@@ -168,6 +184,7 @@
 <div class="row">
 <div class="col-md-12">
     <button class="btn btn-default" data-toggle="modal" onclick="loadAddForm();" data-target="#addUserModal">新增员工</button>
+    <button class="btn btn-default" data-toggle="modal" data-target="#importUserModal">导入员工</button>
 </div>
 <div class="col-md-12">
 <table class="table table-striped">
@@ -227,6 +244,36 @@
     </tbody>
 </table>
 <ul class="pagination" id="ulPaging"></ul>
+    <!-- 导入Excel员工 -->
+<div class="modal fade" id="importUserModal" tabindex="-1" role="dialog" aria-labelledby="importUserModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="importUserModalLabel">导入员工</h5>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <a href="" role="button">下载模板</a>
+                </div>
+                <div class="col-md-12">
+                    <input type="file" class="a-upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="change()" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="btnImportUser" disabled="disabled">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 <!-- 模态框（Modal）创建用户 -->
 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog">
@@ -391,12 +438,78 @@
 </div>
 </div>
 <script>
+    var change = function () {
+        var file = event.target.files[0];
+        var fileReader = new FileReader();
+
+        var toBlob = function (a) {
+            return new Blob([a], { type: file.type });
+        }
+        fileReader.onload = function () {
+            var result = this.result;
+            var blob = new Blob([result], { type: file.type });
+            var formData = new FormData();
+            formData.append('excelFile', blob, file.name);
+            //添加其他表单字段
+            //formData.append('username', document.getElementById("uname").value);
+            //formData.append('pwd', document.getElementById("upwd").value);
+            $.ajax({
+                type: "post",
+                url: "FileUpload",
+                async: true,
+                processData: false,
+                contentType: false,
+                data: formData,
+                timeout: 6000,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    if (result.code == 200) {
+                        filename = result.data;
+                        $('#btnImportUser').attr('disabled',false);  
+                    }
+                    console.log('upload success');
+                },
+                error: function (xhr, text) {
+                    alert('文件上传失败');
+                    if (text === 'timeout') {
+                        xhr.abort();
+                    }
+                }
+            });
+        }
+
+        fileReader.readAsArrayBuffer(file);
+    }
+
     $(document)
         .ready(function() {
             var numberOfPage = pageInfo.pageCount;
             if (pageInfo.pageCount > 5) {
                 numberOfPage = 5;
             }
+
+            $('#btnImportUser')
+                .click(function () {
+                    if (filename == '') {
+                        alert('文件不能为空');
+                    }
+                    var postdata =
+                    {
+                        filename: filename
+                    };
+                    $.ajax({
+                        type:'post',
+                        url: 'FileHandler',
+                        data: JSON.stringify(postdata),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function(data) {
+                            var result = JSON.parse(data);
+                            if (result.code == 200) {
+                                window.location.reload();
+                            }
+                        }
+                    });
+                });
             $('#ulPaging')
                 .bootstrapPaginator({
                     currentPage: pageInfo.pageIndex, //当前的请求页面。

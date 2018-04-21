@@ -183,22 +183,18 @@ namespace Edu.Services
         /// </summary>
         /// <param name="schoolId"></param>
         /// <param name="userId"></param>
-        /// <param name="regionSchoolId"></param>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public CommandResult ImportUsersByExcel(int schoolId, int userId, int regionSchoolId, string filePath)
+        public CommandResult ImportUsersByExcel(int schoolId, int userId, string filePath)
         {
-            ArgumentHelper.Require(regionSchoolId, "regionSchoolId", Arguments.Positive);
             ArgumentHelper.Require(schoolId, "schoolId", Arguments.Positive);
             ArgumentHelper.Require(userId, "userId", Arguments.Positive);
             if (File.Exists(filePath))
             {
                 FileInfo fi = new FileInfo(filePath);
-                if (fi.Extension == ".xls" || fi.Extension == "xlsx")
+                if (fi.Extension == ".xls" || fi.Extension == ".xlsx")
                 {
-                    return ContainerFactory<IUserRepository>.Instance.ImportUsersByExcel(schoolId, userId,
-                        regionSchoolId,
-                        filePath);
+                    return ContainerFactory<IUserRepository>.Instance.ImportUsersByExcel(schoolId, userId,filePath);
                 }
                 else
                 {

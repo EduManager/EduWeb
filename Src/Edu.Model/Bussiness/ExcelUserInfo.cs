@@ -24,7 +24,11 @@ namespace Edu.Model.Bussiness
 
         [DataMember]
         [ColumnNumber(4)]
-        public string DoorCardNum { get; set; }
+        public string RegionName { get; set; }
+
+        [DataMember]
+        [ColumnNumber(5)]
+        public string DoorCardNumber { get; set; }
         
     }
 }

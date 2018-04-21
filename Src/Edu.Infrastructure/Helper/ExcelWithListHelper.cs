@@ -12,128 +12,126 @@ namespace Edu.Infrastructure.Helper
 {
     public class ExcelWithListHelper
     {
-        public static async Task<List<T>> HandlerExcleList<T>(string filename, int index = 0)
+        public static List<T> HandlerExcleList<T>(string filename, int index = 0)
             where T : class
         {
-            return await Task.Run<List<T>>(() =>
+            List<T> result = new List<T>();
+            IWorkbook workbook = null; //文档
+            int rowIndex = 0;
+            int fieldNumber = 0;
+            ISheet sheet = null;
+            FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
+            try
+            {
+                if (filename.IndexOf(".xlsx", StringComparison.Ordinal) > 0)
                 {
-                    List<T> result = new List<T>();
-                    IWorkbook workbook = null; //文档
-                    int rowIndex = 0;
-                    int fieldNumber = 0;
-                    ISheet sheet = null;
-                    FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                    try
-                    {
-                        if (filename.IndexOf(".xlsx", StringComparison.Ordinal) > 0)
-                        {
-                            workbook = new XSSFWorkbook(fs); //2007版本以上
-                        }
-                        else if (filename.IndexOf(".xls", StringComparison.Ordinal) > 0)
-                        {
-                            workbook = new HSSFWorkbook(fs); //2007版本以下
-                        }
+                    workbook = new XSSFWorkbook(fs); //2007版本以上
+                }
+                else if (filename.IndexOf(".xls", StringComparison.Ordinal) > 0)
+                {
+                    workbook = new HSSFWorkbook(fs); //2007版本以下
+                }
 
-                        T model = null;
-                        if (workbook == null)
+                T model = null;
+                if (workbook == null)
+                {
+                    return result;
+                }
+                int firstRow = 1;
+                sheet = workbook.GetSheetAt(index);
+                while (true)
+                {
+                    model = Activator.CreateInstance<T>();
+                    var row = sheet.GetRow(firstRow);
+                    if (row == null)
+                    {
+                        break;
+                    }
+                    if (row.GetCell(0) == null || string.IsNullOrEmpty(row.GetCell(0).ToString()))
+                    {
+                        break;
+                    }
+                    //获取sheet
+                    //sheet = workbook.GetSheetAt(index);
+                    var props = model.GetType().GetProperties();
+                    foreach (var prop in props)
+                    {
+                        var columnInfos = prop.GetCustomAttributes(typeof(ColumnNumberAttribute), true);
+                        if (columnInfos.Length > 0)
                         {
-                            return result;
-                        }
-                        int firstRow = 1;
-                        sheet = workbook.GetSheetAt(index);
-                        while (true)
-                        {
-                            model = Activator.CreateInstance<T>();
-                            var row = sheet.GetRow(firstRow);
-                            if (row == null)
+                            var column = columnInfos.First() as ColumnNumberAttribute;
+                            if (column != null)
                             {
-                                break;
-                            }
-                            if (row.GetCell(0) == null || string.IsNullOrEmpty(row.GetCell(0).ToString()))
-                            {
-                                break;
-                            }
-                            //获取sheet
-                            //sheet = workbook.GetSheetAt(index);
-                            var props = model.GetType().GetProperties();
-                            foreach (var prop in props)
-                            {
-                                var columnInfos = prop.GetCustomAttributes(typeof(ColumnNumberAttribute), true);
-                                if (columnInfos.Length > 0)
+                                var cell = row.GetCell(column.ColumnIndex - 1);
+                                rowIndex = row.RowNum;
+                                fieldNumber = column.ColumnIndex;
+                                if (prop.CanWrite && cell != null)
                                 {
-                                    var column = columnInfos.First() as ColumnNumberAttribute;
-                                    if (column != null)
+                                    var type = prop.PropertyType;
+                                    if (type == typeof(string))
                                     {
-                                        var cell = row.GetCell(column.ColumnIndex - 1);
-                                        rowIndex = row.RowNum;
-                                        fieldNumber = column.ColumnIndex;
-                                        if (prop.CanWrite && cell != null)
+                                        prop.SetValue(model, cell.ToString(), null);
+                                    }
+                                    if (!string.IsNullOrEmpty(cell.ToString()))
+                                    {
+                                        if (type == typeof(bool))
                                         {
-                                            var type = prop.PropertyType;
-                                            if (type == typeof(string))
+                                            prop.SetValue(model, bool.Parse(cell.ToString()), null);
+                                        }
+                                        if (type == typeof(int) || type == typeof(int?))
+                                        {
+                                            if (cell.ToString() != "")
                                             {
-                                                prop.SetValue(model, cell.ToString(), null);
+                                                prop.SetValue(model, int.Parse(cell.ToString()), null);
                                             }
-                                            if (!string.IsNullOrEmpty(cell.ToString()))
+                                        }
+                                        if (type == typeof(double) || type == typeof(double?))
+                                        {
+                                            if (cell.ToString() != "")
                                             {
-                                                if (type == typeof(bool))
+                                                if (cell.CellType == CellType.Numeric ||
+                                                    cell.CellType == CellType.Formula)
+                                                    prop.SetValue(model, cell.NumericCellValue, null);
+                                                else
+                                                    prop.SetValue(model, double.Parse(cell.ToString()), null);
+                                            }
+                                        }
+                                        if (type == typeof(DateTime) || type == typeof(DateTime?))
+                                        {
+                                            if (cell.ToString() != "")
+                                            {
+                                                if (cell.CellType == CellType.String)
                                                 {
-                                                    prop.SetValue(model, bool.Parse(cell.ToString()), null);
+                                                    DateTime date;
+                                                    if (DateTime.TryParse(cell.ToString(), out date))
+                                                        prop.SetValue(model, date, null);
                                                 }
-                                                if (type == typeof(int) || type == typeof(int?))
+                                                else
                                                 {
-                                                    if (cell.ToString() != "")
-                                                    {
-                                                        prop.SetValue(model, int.Parse(cell.ToString()), null);
-                                                    }
-                                                }
-                                                if (type == typeof(double) || type == typeof(double?))
-                                                {
-                                                    if (cell.ToString() != "")
-                                                    {
-                                                        if (cell.CellType == CellType.Numeric ||
-                                                            cell.CellType == CellType.Formula)
-                                                            prop.SetValue(model, cell.NumericCellValue, null);
-                                                        else
-                                                            prop.SetValue(model, double.Parse(cell.ToString()), null);
-                                                    }
-                                                }
-                                                if (type == typeof(DateTime) || type == typeof(DateTime?))
-                                                {
-                                                    if (cell.ToString()!="")
-                                                    {
-                                                        if (cell.CellType == CellType.String)
-                                                        {
-                                                            DateTime date;
-                                                            if (DateTime.TryParse(cell.ToString(), out date))
-                                                                prop.SetValue(model, date, null);
-                                                        }
-                                                        else
-                                                        {
-                                                            prop.SetValue(model, cell.DateCellValue, null);
-                                                        }
-                                                    }
+                                                    prop.SetValue(model, cell.DateCellValue, null);
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                            result.Add(model);
-                            firstRow++;
                         }
-                        workbook.Close();
-                        fs.Close();
-                        return result;
                     }
-                    catch (Exception e)
-                    {
-                        LogHelper.Error(typeof(ExcelWithListHelper),"Excel处理失败,文件名：" + filename + ",错误行:" + rowIndex + ",错误列:" + fieldNumber, e);
-                        if (workbook != null) workbook.Close();fs.Close();
-                        return result;
-                    }
-                })
-                ;
+                    result.Add(model);
+                    firstRow++;
+                }
+                workbook.Close();
+                fs.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(typeof(ExcelWithListHelper),
+                    "Excel处理失败,文件名：" + filename + ",错误行:" + rowIndex + ",错误列:" + fieldNumber, e);
+                if (workbook != null) workbook.Close();
+                fs.Close();
+                return result;
+            }
         }
 
 

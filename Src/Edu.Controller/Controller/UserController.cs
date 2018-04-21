@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -21,6 +22,9 @@ namespace Edu.Controller.Controller
 {
     public class UserController : System.Web.Mvc.Controller
     {
+
+        private static string fileDir = "D:\\SourceSafe\\FileUpload\\";
+
         #region 登陆相关
 
         public ViewResult Login()
@@ -358,6 +362,40 @@ namespace Edu.Controller.Controller
                 return JsonHelper.Serialize(result);
             }
             return JsonHelper.Serialize(CommandResult.Failure("数据格式错误"));
+        }
+
+        [HttpPost]
+        [AuthFilter]
+        public string FileUpload()
+        {
+           var file =  Request.Files.Count>0?Request.Files[0]:null;
+            if (file != null)
+            {
+                string filename = Guid.NewGuid() + file.FileName;
+                if (!Directory.Exists(fileDir))
+                    Directory.CreateDirectory(fileDir);
+                file.SaveAs(fileDir + filename);
+                return JsonHelper.Serialize(CommandResult.Success<string>(filename));
+            }
+            else
+            {
+                return JsonHelper.Serialize(CommandResult.Failure("未找到上传的文件"));
+            }
+        }
+
+        [HttpPost]
+        [AuthFilter]
+        public string FileHandler(string filename)
+        {
+            if (!string.IsNullOrEmpty(filename))
+            {
+                var filePath = fileDir + filename;
+                var schoolId = ApplicationContext.SchoolId;
+                var userId = ApplicationContext.UserId;
+                var result =   UserService.Instance.ImportUsersByExcel(schoolId, userId, filePath);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure("未找到上传的文件"));
         }
 
         #endregion

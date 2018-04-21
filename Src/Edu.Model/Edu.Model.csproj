@@ -63,6 +63,7 @@
     <Compile Include="Args\DeleteRoleArgs.cs" />
     <Compile Include="Args\DeleteUserArgs.cs" />
     <Compile Include="Args\GetAttendByClassIdArgs.cs" />
+    <Compile Include="Args\GetObjectByNameArgs.cs" />
     <Compile Include="Args\GetSysConfigByUserIdArgs.cs" />
     <Compile Include="Args\GetObjectByIdArgs.cs" />
     <Compile Include="Args\GetUserInfoByPagingArgs.cs" />

@@ -44,13 +44,28 @@ namespace Edu.Repository
                 return CommandResult.Failure<int>(e.ToString());
             }
         }
-
+        
         public QueryResult<Campus> GetCampusBySchoolId(GetObjectByIdArgs args)
         {
             try
             {
                 var result =
-                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Campus>(args.SchoolId,"get_campus_by_school_id",
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Campus>(0,"get_campus_by_school_id",
+                        args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "通过学校ID获取校区列表败", e);
+                return QueryResult.Failure<Campus>(e.ToString());
+            }
+        }
+        public QueryResult<Campus> GetCampusByRegionName(GetObjectByNameArgs args)
+        {
+            try
+            {
+                var result =
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Campus>(0, "get_school_region_by_name",
                         args);
                 return result;
             }
