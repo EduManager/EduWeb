@@ -1,0 +1,122 @@
+﻿@model IEnumerable<Edu.Model.Core.Student>
+@{
+    ViewBag.Title = "List";
+}
+
+<ol class="breadcrumb">
+    <li>学生列表</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-12">
+    </div>
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>姓名</th>
+                <th>校区</th>
+                <th>性别</th>
+                <th>年级</th>
+                <th>电话</th>
+                <th>家庭住址</th>
+                <th>创建人</th>
+                <th>创建时间</th>
+                <th>修改人</th>
+                <th>修改时间</th>
+                <th><span class="glyphicon glyphicon-align-justify"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.RegionName</td>
+                    @{
+                        if (item.Sex == 1)
+                        {
+                            <td>男</td>
+                        }
+                        else if (item.Sex == 0)
+                        {
+                            <td>女</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                    <td>@item.Grade</td>
+                    <td>@item.Tel</td>
+                    <td>@item.Address</td>
+                    <td>@item.CreateBy</td>
+                    <td>
+                        @if (item.CreateTime != null)
+                {
+                            @item.CreateTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                        }
+                    </td>
+                    <td>@item.ModifyBy</td>
+                    <td>
+                        @if (item.ModifyTime != null)
+                {
+                            @item.ModifyTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                操作 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a data-toggle="modal" data-target="#updateUserModal" data-val="@item.Id" data-region="@item.RegionId" data-pname="@item.Name">编辑</a></li>
+                                <li><a data-val="@item.Id" >删除</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+<ul class="pagination" id="ulPaging"></ul>
+<script>
+     var pageInfo = {
+        pageIndex: parseInt('@ViewData["PageIndex"]'),
+        pageCount: parseInt('@ViewData["PageCount"]'),
+        pageSize: parseInt('@ViewData["PageSize"]')
+    };
+
+    $(document).ready(function() {
+
+        $('#ulPaging')
+            .bootstrapPaginator({
+                currentPage: pageInfo.pageIndex, //当前的请求页面。
+                totalPages: pageInfo.pageCount, //pageInfo.pageCount, //一共多少页。
+                size: "normal", //应该是页眉的大小。
+                bootstrapMajorVersion: 3, //bootstrap的版本要求。
+                alignment: "right",
+                numberOfPages: numberOfPage, //一页列出多少数据。
+                itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
+                    switch (type) {
+                    case "first":
+                        return "首页";
+                    case "prev":
+                        return "上一页";
+                    case "next":
+                        return "下一页";
+                    case "last":
+                        return "末页";
+                    case "page":
+                        return page;
+                    }
+                },
+                onPageClicked: function (event, originalEvent, type, page) {
+                    if (page != pageInfo.pageIndex)
+                        window.location.href = "List?pageIndex=" + page;
+                }
+            });
+    });
+</script>

@@ -27,7 +27,7 @@ namespace Edu.Test
         [Test]
         public void GetUserInfoByPagingTest()
         {
-            var t = UserService.Instance.GetUserInfoByPaging(new GetUserInfoByPagingArgs()
+            var t = UserService.Instance.GetUserInfoByPaging(new GetObjectsByPagingArgs()
             {
                 PageIndex = 1,
                 PageSize = 10,

@@ -86,6 +86,8 @@
     <Compile Include="Controller\CampusController.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\RoleController.cs" />
+    <Compile Include="Controller\ConsultController.cs" />
+    <Compile Include="Controller\StudentController.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="ApplicationConfig.cs" />
     <Compile Include="Model\LoginUserInfo.cs" />

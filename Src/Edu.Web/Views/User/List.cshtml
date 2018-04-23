@@ -8,9 +8,9 @@
 <script src="~/Scripts/bootstrap-paginator.js"></script>
 <script>
     var pageInfo = {
-        pageIndex: parseInt('@ViewBag.PageIndex'),
-        pageCount: parseInt('@ViewBag.PageCount'),
-        pageSize: parseInt('@ViewBag.PageSize')
+        pageIndex: parseInt('@ViewData["PageIndex"]'),
+        pageCount: parseInt('@ViewData["PageCount"]'),
+        pageSize: parseInt('@ViewData["PageSize"]')
     };
     var filename = "";
     var updUserId = 0;
@@ -256,7 +256,7 @@
             </div>
             <div class="modal-body">
                 <div class="col-md-12">
-                    <a href="" role="button">下载模板</a>
+                    <a href="../../userTemplate.html" role="button">查看模板</a>
                 </div>
                 <div class="col-md-12">
                     <input type="file" class="a-upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="change()" />

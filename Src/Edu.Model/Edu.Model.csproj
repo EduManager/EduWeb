@@ -66,7 +66,7 @@
     <Compile Include="Args\GetObjectByNameArgs.cs" />
     <Compile Include="Args\GetSysConfigByUserIdArgs.cs" />
     <Compile Include="Args\GetObjectByIdArgs.cs" />
-    <Compile Include="Args\GetUserInfoByPagingArgs.cs" />
+    <Compile Include="Args\GetObjectsByPagingArgs.cs" />
     <Compile Include="Args\LoginInArgs.cs" />
     <Compile Include="Args\UpdateCourseArgs.cs" />
     <Compile Include="Args\UpdateBookfeeArgs.cs" />
@@ -86,6 +86,7 @@
     <Compile Include="Core\Classes.cs" />
     <Compile Include="Core\Course.cs" />
     <Compile Include="Core\CourseType.cs" />
+    <Compile Include="Core\Student.cs" />
     <Compile Include="Core\SysConfig.cs" />
     <Compile Include="Core\UserForLogin.cs" />
     <Compile Include="Core\UserLite.cs" />

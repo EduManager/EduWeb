@@ -58,7 +58,7 @@ namespace Edu.Services
         /// 分页获取用户信息
         /// </summary>
         /// <returns></returns>
-        public QueryResult<User> GetUserInfoByPaging(GetUserInfoByPagingArgs args)
+        public QueryResult<User> GetUserInfoByPaging(GetObjectsByPagingArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.PageSize, "PageSize", Arguments.Positive);

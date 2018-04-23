@@ -47,6 +47,8 @@
     <Compile Include="DomainRepository\ICampusRepository.cs" />
     <Compile Include="DomainRepository\IMenuRepository.cs" />
     <Compile Include="DomainRepository\IRepository.cs" />
+    <Compile Include="DomainRepository\IConsultRepository.cs" />
+    <Compile Include="DomainRepository\IStudentRepository.cs" />
     <Compile Include="DomainRepository\ISysConfigRepository.cs" />
     <Compile Include="DomainRepository\IUserRepository.cs" />
     <Compile Include="DomainRepository\IRoleRepository.cs" />

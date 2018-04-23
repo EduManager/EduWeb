@@ -51,7 +51,7 @@ namespace Edu.Repository
             }
         }
 
-        public QueryResult<User> GetUserInfoByPaging(GetUserInfoByPagingArgs args)
+        public QueryResult<User> GetUserInfoByPaging(GetObjectsByPagingArgs args)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "用户模块--通过角色ID获取角色权限列表失败", e);
+                LogHelper.Error(this.GetType(), "用户模块--通过分页获取用户列表失败", e);
                 return QueryResult.Failure<User>(e.ToString());
             }
         }

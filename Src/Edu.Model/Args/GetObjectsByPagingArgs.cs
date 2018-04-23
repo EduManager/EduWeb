@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Edu.Model.Args
 {
-    public class GetUserInfoByPagingArgs
+    public class GetObjectsByPagingArgs
     {
         public int SchoolId { get; set; }
 

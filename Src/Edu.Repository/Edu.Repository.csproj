@@ -65,6 +65,8 @@
     <Compile Include="Repository\ClassesRepository.cs" />
     <Compile Include="Repository\CourseRepository.cs" />
     <Compile Include="Repository\CampusRepository.cs" />
+    <Compile Include="Repository\ConsultRepository.cs" />
+    <Compile Include="Repository\StudentRepository.cs" />
     <Compile Include="Repository\SysConfigRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Repository\RoleMenuRepository.cs" />

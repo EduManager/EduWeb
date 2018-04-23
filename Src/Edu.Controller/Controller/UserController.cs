@@ -170,7 +170,7 @@ namespace Edu.Controller.Controller
         public ViewResult List(int pageIndex = 1)
         {
             var schoolId = ApplicationContext.SchoolId;
-            var args = new GetUserInfoByPagingArgs()
+            var args = new GetObjectsByPagingArgs()
             {
                 PageSize = 10,
                 SchoolId = schoolId,
@@ -179,9 +179,9 @@ namespace Edu.Controller.Controller
                 OrderBy = ""
             };
             var result = UserService.Instance.GetUserInfoByPaging(args);
-            ViewBag.PageCount = args.RowsCount / args.PageSize + 1;
-            ViewBag.PageSize = args.PageSize;
-            ViewBag.PageIndex = args.PageIndex;
+            ViewData["PageCount"] = args.RowsCount / args.PageSize + 1;
+            ViewData["PageSize"] = args.PageSize;
+            ViewData["PageIndex"] = args.PageIndex;
 
             return View(result.Items);
         }

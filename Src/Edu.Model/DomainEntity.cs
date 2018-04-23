@@ -13,10 +13,16 @@ namespace Edu.Model
         public string CreateBy { get; set; }
 
         [DataMember]
+        public int CreateById { get; set; }
+
+        [DataMember]
         public DateTime? CreateTime { get; set; }
 
         [DataMember]
         public string ModifyBy { get; set; }
+
+        [DataMember]
+        public int ModifyById { get; set; }
 
         [DataMember]
         public DateTime? ModifyTime { get; set; }

@@ -29,7 +29,7 @@ namespace Edu.Core.DomainRepository
         /// 分页获取用户信息
         /// </summary>
         /// <returns></returns>
-        QueryResult<User> GetUserInfoByPaging(GetUserInfoByPagingArgs args);
+        QueryResult<User> GetUserInfoByPaging(GetObjectsByPagingArgs args);
 
         /// <summary>
         /// 编辑用户信息
