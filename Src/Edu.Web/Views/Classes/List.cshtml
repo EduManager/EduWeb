@@ -44,29 +44,29 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.SchoolRegionName</td>
-                        <td>@item.CourseName</td>
-                        <td>@item.Name</td>
-                        <td>@item.FeeType</td>
-                        <td>@item.UnitPrice</td>
-                        <td>@item.Teacher</td>
-                        <td>@item.StartDate</td>
-                        <td>@item.MaxCount</td>
-                        <td>@item.Status</td>
-                        <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    操作 <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a onclick="initCalendar(this);" data-toggle="modal" data-target="#calendarModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">上课时段</a></li>
-                                    <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">编辑</a></li>
-                                    <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.Name">删除</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@item.SchoolRegionName</td>
+                    <td>@item.CourseName</td>
+                    <td>@item.Name</td>
+                    <td>@item.FeeType</td>
+                    <td>@item.UnitPrice</td>
+                    <td>@item.Teacher</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.MaxCount</td>
+                    <td>@item.Status</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                操作 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a onclick="initCalendar(this);" data-toggle="modal" data-target="#calendarModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">上课时段</a></li>
+                                <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">编辑</a></li>
+                                <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.Name">删除</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -82,7 +82,7 @@
                     <h5 class="modal-title" id="addModalLabel">添加班级</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="form-horizontal" id="addForm" role="form">
+                    <div class="form-horizontal" id="addClassForm" role="form">
                         <div class="row">
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
@@ -94,7 +94,7 @@
                                 <div class="form-group">
                                     <label for="selectCampus_add" class="col-sm-3 control-label">所属校区</label>
                                     <div class="col-sm-9">
-                                        <select id="selectCampus_add" class="form-control"></select>
+                                        <select id="selectCampus" class="form-control"></select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -110,30 +110,36 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="selectTeacher_add" class="col-sm-3 control-label">上课教师</label>
+                                    <label for="selectTeacher" class="col-sm-3 control-label">上课教师</label>
                                     <div class="col-sm-9">
-                                        <select id="selectTeacher_add" class="form-control"></select>
+                                        <input type="text" class="form-control" id="txtTeacher" name="txtTeacher" placeholder="输入授课教师姓名">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtAddress" class="col-sm-3 control-label">地址</label>
+                                    <label for="txtAddress" class="col-sm-3 control-label">教室</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" placeholder="请输入地址"></textarea>
+                                        <input type="text" class="form-control" id="txtAddress" name="txtAddress" placeholder="输入教室名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="selectCourse_add" class="col-mb-3 col-sm-3 control-label">收费方式</label>
+                                    <label for="txtAddress" class="col-sm-3 control-label">额定人数</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtMaxCount" name="txtMaxCount" placeholder="输入班级额定人数">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-mb-3 col-sm-3 control-label">收费方式</label>
                                     <div class="col-mb-9 col-sm-9">
                                         <div class="tabbable" id="tabs-785877">
                                             <div class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary active">
-                                                    <input type="radio" name="options" id="option1" tag="#panel-921416">按课时
+                                                    <input type="radio" name="options" id="option1" value="课时" tag="#panel-921416">按课时
                                                 </label>
                                                 <label class="btn btn-primary">
-                                                    <input type="radio" name="options" id="option2" tag="#panel-201259">按课时
+                                                    <input type="radio" name="options" id="option2" value="时间" tag="#panel-201259">按时间
                                                 </label>
                                                 <label class="btn btn-primary">
-                                                    <input type="radio" name="options" id="option3" tag="#panel-201254">按学期
+                                                    <input type="radio" name="options" id="option3" value="学期" tag="#panel-201254">按学期
                                                 </label>
                                             </div>
                                         </div>
@@ -148,7 +154,7 @@
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" id="txtStandard1" name="txtStandard1"></>
                                     </div>
-                                    <label for="txtStandard1" class="col-sm-3 control-label">元/课时</label>
+                                    <label for="txtStandard1" class="col-sm-3">元/课时</label>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">开课时间</label>
@@ -176,7 +182,7 @@
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" id="txtStandard2" name="txtStandard2"></>
                                     </div>
-                                    <label for="txtStandard2" class="col-sm-3 control-label">元/月</label>
+                                    <label for="txtStandard2" class="col-sm-3">元/月</label>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">开课时间</label>
@@ -211,7 +217,7 @@
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" id="txtStandard3" name="txtStandard3"></>
                                     </div>
-                                    <label for="txtStandard3" class="col-sm-3 control-label">元/学期</label>
+                                    <label for="txtStandard3" class="col-sm-3">元/学期</label>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">开课时间</label>
@@ -273,7 +279,7 @@
                     <h5 class="modal-title" id="updateModalLabel">课时编辑</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="form-horizontal" id="addForm" role="form">
+                    <div class="form-horizontal" id="addClassTimeForm" role="form">
                         <div class="row">
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
@@ -402,6 +408,7 @@
     var currentCampusId = 0;
     var selectedCourseId = 0;
     var selDate;
+    var feeTypeName = "课时";
     function showUpdateCampusModal(e) {
         var campusId = e.dataset.val;
         var campusName = e.dataset.name;
@@ -439,7 +446,7 @@
     }
     function initForm() {
         getCourseType("selectCourseType_add");
-        getCampus("selectCampus_add");
+        getCampus("selectCampus");
     }
     function initCalendar(e) {
         setTimeout(function () {
@@ -516,9 +523,10 @@
         $('input:radio[name="options"]').change(function () {
             $(".tab-pane").addClass("hide");
             $(this.attributes.tag.value).removeClass("hide");
+            feeTypeName = this.val();
         });
         //$("#boxscroll").niceScroll({ cursorborder: "", cursorcolor: "#00F", boxzoom: false }); // First scrollable DIV
-        $('#addForm')
+        $('#addClassForm')
             .bootstrapValidator({
                 message: '值不能为空',
                 submitButtons: '#btnAddCampus',
@@ -560,20 +568,41 @@
             });
         $("#btnAddClass")
             .click(function () {
-                $("#addForm").bootstrapValidator('validate'); //提交验证
-                if ($("#addForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
+                $("#addClassForm").bootstrapValidator('validate'); //提交验证
+                if ($("#addClassForm").data('bootstrapValidator').isValid()) { //获取验证结果，如果成功，执行下面代码
                     //验证成功后的操作，如ajax
-                    //var campusname = $("#txtCampusName").val();
-                    //var campustype = $("#selectCampusType").val();
-                    //var contract = $("#txtContract").val();
-                    //var contracttel = $("#txtContractTel").val();
-                    //var tel = $("#txtTel").val();
-                    //var address = $("#txtAddress").val();
-                    //var campus = { CampusName: campusname, CampusType: campustype, Tel: tel, Address: address, Contract: contract, ContractTel: contracttel };
+                    var Name = $("#txtClassName").val();
+                    var SchoolRegionId = $("#selectCampus").val();
+                    var CourseId = $("#selectCourse_add").val();
+                    var Teacher = $("#txtTeacher").val();
+                    var FeeType = feeTypeName;
+                    var MaxCount = $("#txtMaxCount").val();
+                    var Address = $("#txtAddress").val();
+                    var UnitPrice, StartDate, EndDate, ClassHour;
+                    switch (feeTypeName) {
+                        case '课时':
+                            UnitPrice = $("#txtStandard1").val();
+                            StartDate = $("#datepicker1").data().date;
+                            ClassHour = $("#txtClassHour").val();
+                            break;
+                        case '时间':
+                            UnitPrice = $("#txtStandard2").val();
+                            StartDate = $("#datepicker2").data().date;
+                            EndDate = $("#datepicker3").data().date;
+                            break;
+                        case '学期':
+                            UnitPrice = $("#txtStandard3").val();
+                            StartDate = $("#datepicker4").data().date;
+                            break;
+
+                    }
+                    var classObj = {
+                        'Name': Name, 'SchoolRegionId': SchoolRegionId, 'CourseId': CourseId, 'Address': Address, 'Teacher': Teacher, 'FeeType': FeeType, 'MaxCount': MaxCount, 'UnitPrice': UnitPrice, 'StartDate': StartDate, 'EndDate': EndDate, 'ClassHour': ClassHour
+                    };
                     $.ajax({
-                        url: "AddAtttendClass",
+                        url: "AddClass",
                         type: "post",
-                        data: JSON.stringify(attendClass),
+                        data: JSON.stringify(classObj),
                         contentType: 'application/json; charset=utf-8',
                         success: function (data) {
                             var result = JSON.parse(data);
