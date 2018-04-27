@@ -18,9 +18,9 @@ namespace Edu.Model.Args
 
         public string FeeType { get; set; }
 
-        public string UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
-        public string ClassHour { get; set; }
+        public int ClassHour { get; set; }
 
         public DateTime StartDate { get; set; }
 
@@ -30,7 +30,7 @@ namespace Edu.Model.Args
 
         public int MaxCount { get; set; }
 
-        public string Status { get; set; }
+        public int Status { get; set; }
 
         public string Address { get; set; }
 

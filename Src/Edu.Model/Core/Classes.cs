@@ -32,10 +32,10 @@ namespace Edu.Model.Core
         public string FeeType { get; set; }
 
         [DataMember]
-        public string UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
         [DataMember]
-        public string ClassHour { get; set; }
+        public int ClassHour { get; set; }
 
         [DataMember]
         public DateTime StartDate { get; set; }
@@ -50,7 +50,7 @@ namespace Edu.Model.Core
         public int MaxCount { get; set; }
 
         [DataMember]
-        public string Status { get; set; }
+        public int Status { get; set; }
 
         [DataMember]
         public string Address { get; set; }

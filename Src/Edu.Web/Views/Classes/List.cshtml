@@ -122,7 +122,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtAddress" class="col-sm-3 control-label">额定人数</label>
+                                    <label for="txtMaxCount" class="col-sm-3 control-label">额定人数</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="txtMaxCount" name="txtMaxCount" placeholder="输入班级额定人数">
                                     </div>
@@ -152,7 +152,7 @@
                                 <div class="form-group">
                                     <label for="txtStandard1" class="col-sm-3 control-label">收费标准</label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="txtStandard1" name="txtStandard1"></>
+                                        <input type="text" class="form-control" id="txtStandard1" name="txtStandard1">
                                     </div>
                                     <label for="txtStandard1" class="col-sm-3">元/课时</label>
                                 </div>
@@ -170,7 +170,7 @@
                                 <div class="form-group">
                                     <label for="txtClasshour" class="col-sm-3 control-label">课时数</label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="txtClasshour" name="txtClasshour"></>
+                                        <input type="text" class="form-control" id="txtClasshour" name="txtClasshour">
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@
                                 <div class="form-group">
                                     <label for="txtStandard2" class="col-sm-3 control-label">收费标准</label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="txtStandard2" name="txtStandard2"></>
+                                        <input type="text" class="form-control" id="txtStandard2" name="txtStandard2">
                                     </div>
                                     <label for="txtStandard2" class="col-sm-3">元/月</label>
                                 </div>
@@ -215,7 +215,7 @@
                                 <div class="form-group">
                                     <label for="txtStandard3" class="col-sm-3 control-label">收费标准</label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="txtStandard3" name="txtStandard3"></>
+                                        <input type="text" class="form-control" id="txtStandard3" name="txtStandard3">
                                     </div>
                                     <label for="txtStandard3" class="col-sm-3">元/学期</label>
                                 </div>
@@ -577,13 +577,13 @@
                     var Teacher = $("#txtTeacher").val();
                     var FeeType = feeTypeName;
                     var MaxCount = $("#txtMaxCount").val();
-                    var Address = $("#txtAddress").val();
+                    var Address = $("input[ name='txtAddress']").val();
                     var UnitPrice, StartDate, EndDate, ClassHour;
                     switch (feeTypeName) {
                         case '课时':
                             UnitPrice = $("#txtStandard1").val();
                             StartDate = $("#datepicker1").data().date;
-                            ClassHour = $("#txtClassHour").val();
+                            ClassHour = $("input[ name='txtClassHour']").val();
                             break;
                         case '时间':
                             UnitPrice = $("#txtStandard2").val();
