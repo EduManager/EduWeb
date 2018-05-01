@@ -6,17 +6,11 @@ using System.Threading.Tasks;
 
 namespace Edu.Model.Args
 {
-    public class AddAttendClassArgs
+    public class UpdateAttendClassArgs
     {
-        public int SchoolId { get; set; }
-
-        public int SchoolRegionId { get; set; }
+        public int AttendClassId { get; set; }
         
-        public int ClassId { get; set; }
-
-        public int BeginWeek { get; set; }
-
-        public int EndWeek { get; set; }
+        public int SchoolId { get; set; }
 
         public DateTime BeginTime { get; set; }
         
@@ -28,10 +22,7 @@ namespace Edu.Model.Args
 
         public string Remark { get; set; }
 
-        public int CreateBy { get; set; }
-
         public int ModifyBy { get; set; }
-
-        public int IsDelete { get; set; }
+        
     }
 }

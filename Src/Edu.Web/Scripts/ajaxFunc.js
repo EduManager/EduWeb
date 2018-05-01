@@ -1,6 +1,6 @@
 ﻿function getCampus(ctrlId) {
     $('#' + ctrlId).empty();
-
+    $('#' + ctrlId).append("<option disabled selected value='-1'></option>");
     $.get("../Campus/SchoolCampus",
         function (data) {
             var result = JSON.parse(data);
@@ -9,7 +9,7 @@
                     var item = result.items[index];
                     if (index == 0) {
                         $('#' + ctrlId)
-                            .append("<option selected value='" + item.id + "'>" + item.campusName + "</option>");
+                            .append("<option value='" + item.id + "'>" + item.campusName + "</option>");
                     } else {
                         $('#' + ctrlId)
                             .append("<option value='" + item.id + "'>" + item.campusName + "</option>");
@@ -18,8 +18,10 @@
             }
         });
 }
+
 function getCourseType(ctrlId) {
     $('#' + ctrlId).empty();
+    $('#' + ctrlId).append("<option disabled selected value='-1'></option>");
     $.ajax({
         url: "../Course/getAllCourseTypes",
         type: "post",
@@ -32,7 +34,7 @@ function getCourseType(ctrlId) {
                     var item = result[index];
                     if (index == 0) {
                         $('#' + ctrlId)
-                            .append("<option selected value='" + item.id + "'>" + item.courseTypeName + "</option>");
+                            .append("<option value='" + item.id + "'>" + item.courseTypeName + "</option>");
                     } else {
                         $('#' + ctrlId)
                             .append("<option value='" + item.id + "'>" + item.courseTypeName + "</option>");
@@ -93,4 +95,12 @@ function getUserList(ctrlId, roleId) {
             }
         }
     });
+}
+
+/*时间格式转换*/
+function ChangeDateFormat(cellval) {
+    var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    return date.getFullYear() + "-" + month + "-" + currentDate;
 }

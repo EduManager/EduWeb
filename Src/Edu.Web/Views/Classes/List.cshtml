@@ -44,42 +44,42 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>@item.SchoolRegionName</td>
-                    <td>@item.CourseName</td>
-                    <td>@item.Name</td>
-                    <td>@item.FeeType</td>
-                    <td>@item.UnitPrice</td>
-                    <td>@item.Teacher</td>
-                    <td>@item.StartDate</td>
-                    <td>@item.MaxCount</td>
-                    <td>@item.Status</td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                操作 <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a onclick="initCalendar(this);" data-toggle="modal" data-target="#calendarModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">上课时段</a></li>
-                                <li><a onclick="showUpdateCampusModal(this);" data-toggle="modal" data-target="#updateCampusModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">编辑</a></li>
-                                <li><a onclick="showDeleteCampusAlert(this);" data-toggle="modal" data-target="#deleteCampusModal" data-val="@item.Id" data-text="@item.Name">删除</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@item.SchoolRegionName</td>
+                        <td>@item.CourseName</td>
+                        <td>@item.Name</td>
+                        <td>@item.FeeType</td>
+                        <td>@item.UnitPrice</td>
+                        <td>@item.Teacher</td>
+                        <td>@item.StartDate</td>
+                        <td>@item.MaxCount</td>
+                        <td>@item.Status</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    操作 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="initCalendar(this);" data-toggle="modal" data-target="#calendarModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address" data-tch="@item.Teacher" data-region="@item.SchoolRegionId">上课时段</a></li>
+                                    <li><a onclick="showUpdateClassModal(this);" data-toggle="modal" data-target="#addModal" data-val="@item.Id" data-name="@item.Name" data-address="@item.Address">编辑</a></li>
+                                    <li><a onclick="showDeleteClassAlert(this);" data-toggle="modal" data-target="#deleteClassModal" data-val="@item.Id" data-text="@item.Name">删除</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
     </div>
     <!-- 模态框（Modal）创建班级 -->
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addClassModalLabel" aria-hidden="true" data-backdrop="false">
         <div class="modal-dialog" style="width:40%;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
-                    <h5 class="modal-title" id="addModalLabel">添加班级</h5>
+                    <h5 class="modal-title" id="addClassModalLabel"></h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal" id="addClassForm" role="form">
@@ -131,7 +131,7 @@
                                     <label class="col-mb-3 col-sm-3 control-label">收费方式</label>
                                     <div class="col-mb-9 col-sm-9">
                                         <div class="tabbable" id="tabs-785877">
-                                            <div class="btn-group" data-toggle="buttons">
+                                            <div id="orderBtnGroup" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary active">
                                                     <input type="radio" name="options" id="option1" value="课时" tag="#panel-921416">按课时
                                                 </label>
@@ -160,7 +160,7 @@
                                     <label class="col-sm-3 control-label">开课时间</label>
                                     <div class="col-sm-6">
                                         <div class='input-group date' id='datepicker1'>
-                                            <input type='text' class="form-control" />
+                                            <input id="txtDatepicker1" type='text' class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -188,7 +188,7 @@
                                     <label class="col-sm-3 control-label">开课时间</label>
                                     <div class="col-sm-6">
                                         <div class='input-group date' id='datepicker2'>
-                                            <input type='text' class="form-control" />
+                                            <input id="txtDatepicker2" type='text' class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -199,7 +199,7 @@
                                     <label class="col-sm-3 control-label"></label>
                                     <div class="col-sm-6">
                                         <div class='input-group date' id='datepicker3'>
-                                            <input type='text' class="form-control" />
+                                            <input id="txtDatepicker3"  type='text' class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -223,7 +223,7 @@
                                     <label class="col-sm-3 control-label">开课时间</label>
                                     <div class="col-sm-6">
                                         <div class='input-group date' id='datepicker4'>
-                                            <input type='text' class="form-control" />
+                                            <input id="txtDatepicker4"  type='text' class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -323,9 +323,9 @@
                                     <label for="txtClassName" class="col-sm-3 control-label">结束时间</label>
                                     <div class="col-sm-4">
                                         <select id="e_hour" name="e_hour" class="form-control">
-                                            <option value="07">07</option>
-                                            <option value="08" selected>08</option>
-                                            <option value="09">09</option>
+                                            <option value="7">07</option>
+                                            <option value="8" selected>08</option>
+                                            <option value="9">09</option>
                                             <option value="10">10</option>
                                             <option value="11">11</option>
                                             <option value="12">12</option>
@@ -343,7 +343,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <select id="e_minute" name="e_minute" class="form-control">
-                                            <option value="00" selected>00</option>
+                                            <option value="0" selected>00</option>
                                             <option value="10">10</option>
                                             <option value="20">20</option>
                                             <option value="30">30</option>
@@ -359,7 +359,7 @@
                                 <div class="form-group">
                                     <label for="txtClassName" class="col-sm-3 control-label">课时备注</label>
                                     <div class="col-sm-8">
-                                        <input type='text' class="form-control" placeholder="备注..." />
+                                        <input type='text' class="form-control" id="classTimeRemark" placeholder="备注..." />
                                     </div>
                                 </div>
                             </div>
@@ -367,7 +367,7 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">
+                <div id="footerAdd" class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         取消
                     </button>
@@ -375,11 +375,19 @@
                         确定
                     </button>
                 </div>
+                <div id="footerEdit" class="modal-footer hide">
+                    <button type="button" class="btn btn-group" data-dismiss="modal" onclick="deleteClassTime();">
+                        删除
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnUpdateCT" onclick="updateClassTime();">
+                        保存
+                    </button>
+                </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
     <!-- 模态框（Modal）是否确定删除 -->
-    <div class="modal fade" id="deleteCampusModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal fade" id="deleteClassModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-backdrop="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -395,7 +403,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         取消
                     </button>
-                    <button type="button" class="btn btn-primary" id="btnDeleteCampus" onclick="deleteCampus();">
+                    <button type="button" class="btn btn-primary" id="btnDeleteCampus" onclick="deleteClass();">
                         确定
                     </button>
                 </div>
@@ -405,55 +413,157 @@
 </div>
 <script>
     var attendClass = [];
+    var currentClassId = 0;
     var currentCampusId = 0;
+    var currentClassTimeId = 0;
     var selectedCourseId = 0;
     var selDate;
     var feeTypeName = "课时";
-    function showUpdateCampusModal(e) {
-        var campusId = e.dataset.val;
-        var campusName = e.dataset.name;
-        var campusType = e.dataset.type;
-        var tel = e.dataset.tel;
-        var address = e.dataset.address;
-        var contract = e.dataset.contract;
-        var contract_tel = e.dataset.contracttel;
-        $("#updateModalLabel").html(campusName + "-编辑");
-        $("#txtCampusName_edit").val(campusName);
-        $("#selectCampusType_edit").val(campusType);
-        $("#txtContract_edit").val(contract);
-        $("#txtContractTel_edit").val(contract_tel);
-        $("#txtTel_edit").val(tel);
-        $("#txtAddress_edit").val(address);
-        currentCampusId = campusId;
+    var firstShowCalendar = true;
+    var editStartTime, editEndTime;
+    function showUpdateClassModal(e) {
+        currentClassId = e.dataset.val;
+        var className = e.dataset.name;
+        $("#addClassModalLabel").html(className + "-编辑");
+        initForm();
+        var classModels = @Html.Raw(Json.Encode(Model));
+        $.each(classModels, function (tempindex, item) {
+            if(item.Id==currentClassId)
+            {
+                $("#txtClassName").val(item.Name);
+                $("#selectCampus").val(item.SchoolRegionId);
+                $("#selectCourse_add").val(item.CourseId);
+                $("#txtTeacher").val(item.Teacher);
+                $("#txtMaxCount").val(item.MaxCount);
+                $("#txtAddress").val(item.Address);
+                var UnitPrice, StartDate, EndDate, ClassHour;
+                $("#orderBtnGroup").children().removeClass("active"); 
+                switch (item.FeeType) {
+                    case '课时':
+                        $('#option1').click();
+                        $('#orderBtnGroup').find('label').eq(0).addClass("active"); 
+                        $("#txtStandard1").val(item.UnitPrice);
+                        $("#txtDatepicker1").val(ChangeDateFormat(item.StartDate))
+                        $("#txtClassHour").val(item.ClassHour);
+                        break;
+                    case '时间':
+                        $('#option2').click();
+                        $('#orderBtnGroup').find('label').eq(1).addClass("active"); 
+                        $("#txtStandard2").val(item.UnitPrice);
+                        $("#txtDatepicker2").val(ChangeDateFormat(item.StartDate))
+                        $("#txtDatepicker3").val(ChangeDateFormat(item.EndDate))
+                        break;
+                    case '学期':
+                        $('#option3').click();
+                        $('#orderBtnGroup').find('label').eq(2).addClass("active"); 
+                        $("#txtStandard3").val(item.UnitPrice);
+                        $("#txtDatepicker4").val(ChangeDateFormat(item.EndDate))
+                        break;
+
+                }
+            }
+        })
     }
-    function showDeleteCampusAlert(e) {
-        var campusId = e.dataset.val;
-        currentCampusId = campusId;
+    function showDeleteClassAlert(e) {
+        currentClassId = e.dataset.val;
     }
+    function deleteClass() {
+        $.ajax({
+            url: "DeleteClass",
+            type: "delete",
+            data: JSON.stringify({ "ClassId": currentClassId }),
+            contentType: 'application/json',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.code === 200) {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+    function deleteClassTime() {
+        if (confirm("确定要删除该条数据吗？")) {
+            $.ajax({
+                url: "DeleteAttendClass",
+                type: "delete",
+                data: JSON.stringify({ "attendClassId": currentClassTimeId }),
+                contentType: 'application/json',
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    if (result.code === 200) {
+                        $("#calendar").fullCalendar('refetchEvents');
+                    }
+                }
+            });
+        }
+    }
+    function updateClassTime() {
+        var startTime = new Date(editStartTime.year(), editStartTime.month(), editStartTime.date(), $("#s_hour").val(), $("#s_minute").val());
+        var endTime = new Date(editEndTime.year(), editEndTime.month(), editEndTime.date(), $("#e_hour").val(), $("#e_minute").val());
+        $('#classTimeModal').modal('hide');
+        var classTimeObj = {
+            'AttendClassId': currentClassTimeId, 'BeginTime': startTime, 'EndTime': endTime, 'Teacher': "", 'Remark': $("#classTimeRemark").val(), 'ClassRoom': ""
+        };
+        $.ajax({
+            url: "UpdateAttendClass",
+            type: "post",
+            data: JSON.stringify(classTimeObj),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.code === 200) {
+                    $("#calendar").fullCalendar('refetchEvents');
+                }
+            }
+        });
+    }
+
     function pushClassTime() {
         var startTime = new Date(selDate.year(), selDate.month(), selDate.date(), $("#s_hour").val(), $("#s_minute").val());
         var endTime = new Date(selDate.year(), selDate.month(), selDate.date(), $("#e_hour").val(), $("#e_minute").val());
 
         attendClass.push({ "BeginWeek": selDate.weekday(), "BeginTime": startTime, "EndWeek": selDate.weekday(), "EndTime": endTime });
         $('#classTimeModal').modal('hide')
-
+        var classTimeObj = {
+            'SchoolRegionId': currentCampusId, 'ClassId': currentClassId, 'BeginWeek': selDate.weekday(), 'EndWeek': selDate.weekday(), 'BeginTime': startTime, 'EndTime': endTime, 'Teacher': "", 'Remark': $("#classTimeRemark").val(), 'ClassRoom': ""
+        };
+        $.ajax({
+            url: "AddAttendClass",
+            type: "post",
+            data: JSON.stringify(classTimeObj),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var result = JSON.parse(data);
+                if (result.code === 200) {
+                    $("#calendar").fullCalendar('refetchEvents');
+                }
+            }
+        });
     }
 
 
     function showCreateObjModal() {
-        //$("#addModalLabel").html("新增" + feeType);
+        $("#addClassModalLabel").html("添加班级");
         initForm();
     }
     function initForm() {
         getCourseType("selectCourseType_add");
         getCampus("selectCampus");
+
     }
     function initCalendar(e) {
+        currentClassId = e.dataset.val;
+        currentCampusId = e.dataset.region;
+        if (!firstShowCalendar)//如果不是第一次加载
+        {
+            $("#calendar").fullCalendar('refetchEvents');
+        }
+
         setTimeout(function () {
             $('#calendar').fullCalendar({
                 defaultView: 'agendaWeek',
                 defaultDate: '2018-04-03',
-                editable: true,
+                editable: false,
                 selectable: false,
                 edit: function (start, end) {
                     var title = prompt('Event Title:');
@@ -478,7 +588,8 @@
                 locale: 'zh-cn',
                 columnHeaderFormat: 'ddd',
                 events: function (start, end, timezone, callback) {
-                    var para = { classId: e.dataset.val };
+                    firstShowCalendar = false;
+                    var para = { classId: currentClassId };
                     $.ajax({
                         url: "getAttendClassByClassId",
                         type: "post",
@@ -507,14 +618,32 @@
                     });
                 },
                 dayClick: function (date, allDay, jsEvent, view) {
+                    $("#footerAdd").removeClass("hide");
+                    $("#footerEdit").addClass("hide");
                     //selDate = $.fullCalendar.formatDate(date, 'yyyy-MM-dd');
                     selDate = date;
                     $("#s_hour").val(date.hour());
                     $("#s_minute").val(date.minute());
                     $('#classTimeModal').modal('show')
+
                 },
                 eventClick: function (calEvent, jsEvent, view) {
-                    alert(jsEvent);
+                    $("#footerEdit").removeClass("hide");
+                    $("#footerAdd").addClass("hide");
+                    editStartTime = calEvent.start;
+                    editEndTime = calEvent.end;
+                    var shour = parseInt(calEvent.start.format('HH'));
+                    var sminute = parseInt(calEvent.start.format('mm'));
+                    var ehour = parseInt(calEvent.end.format('HH'));
+                    var eminute = parseInt(calEvent.end.format('mm'));
+                    currentClassTimeId = calEvent.id;
+                    $("#s_hour").val(shour.toString());
+                    $("#s_minute").val(sminute.toString());
+                    $("#e_hour").val(ehour.toString());
+                    $("#e_minute").val(eminute.toString());
+                    $("#classTimeRemark").val(calEvent.title);
+
+                    $('#classTimeModal').modal('show')
                 }
             });
         }, 100);
@@ -523,7 +652,7 @@
         $('input:radio[name="options"]').change(function () {
             $(".tab-pane").addClass("hide");
             $(this.attributes.tag.value).removeClass("hide");
-            feeTypeName = this.val();
+            feeTypeName = $(this).attr("value");
         });
         //$("#boxscroll").niceScroll({ cursorborder: "", cursorcolor: "#00F", boxzoom: false }); // First scrollable DIV
         $('#addClassForm')
@@ -580,7 +709,7 @@
                     var Address = $("input[ name='txtAddress']").val();
                     var UnitPrice, StartDate, EndDate, ClassHour;
                     switch (feeTypeName) {
-                        case '课时':
+                        case '课时': 
                             UnitPrice = $("#txtStandard1").val();
                             StartDate = $("#datepicker1").data().date;
                             ClassHour = $("input[ name='txtClassHour']").val();
@@ -599,18 +728,36 @@
                     var classObj = {
                         'Name': Name, 'SchoolRegionId': SchoolRegionId, 'CourseId': CourseId, 'Address': Address, 'Teacher': Teacher, 'FeeType': FeeType, 'MaxCount': MaxCount, 'UnitPrice': UnitPrice, 'StartDate': StartDate, 'EndDate': EndDate, 'ClassHour': ClassHour
                     };
-                    $.ajax({
-                        url: "AddClass",
-                        type: "post",
-                        data: JSON.stringify(classObj),
-                        contentType: 'application/json; charset=utf-8',
-                        success: function (data) {
-                            var result = JSON.parse(data);
-                            if (result.code === 200) {
-                                window.location.reload();
+                    if($("#addClassModalLabel").val()=="添加班级")
+                    {
+                        $.ajax({
+                            url: "AddClass",
+                            type: "post",
+                            data: JSON.stringify(classObj),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else{
+                        classObj.ClassId =currentClassId;
+                        $.ajax({
+                            url: "UpdateClass",
+                            type: "post",
+                            data: JSON.stringify(classObj),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                if (result.code === 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
                 }
             });
         $("#btnUpdateCampus")

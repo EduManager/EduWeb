@@ -52,7 +52,7 @@ namespace Edu.Services
             return ContainerFactory<IClassesRepository>.Instance.GetAttendClassesByClassId(args);
         }
         /// <summary>
-        /// 添加
+        /// 添加课时
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
@@ -64,6 +64,58 @@ namespace Edu.Services
             return ContainerFactory<IClassesRepository>.Instance.AddAttendClass(args);
         }
 
+        /// <summary>
+        /// 删除班级
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> DeleteClass(DeleteClassArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.ClassId, "ClassId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IClassesRepository>.Instance.DeleteClass(args);
+        }
+
+        /// <summary>
+        /// 编辑班级
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateClass(UpdateClassesArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IClassesRepository>.Instance.UpdateClass(args);
+        }
+        /// <summary>
+        /// 删除课时
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> DeleteAttendClass(DeleteAttendClassArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.AttendClassId, "AttendClassId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IClassesRepository>.Instance.DeleteAttendClass(args);
+        }
+
+        /// <summary>
+        /// 编辑课时
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateAttendClass(UpdateAttendClassArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IClassesRepository>.Instance.UpdateAttendClass(args);
+        }
         /// <summary>
         /// 添加班级
         /// </summary>

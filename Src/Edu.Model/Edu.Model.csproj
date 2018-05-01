@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Args\UpdateClassesArgs.cs" />
+    <Compile Include="Args\DeleteClassArgs.cs" />
+    <Compile Include="Args\UpdateAttendClassArgs.cs" />
     <Compile Include="Args\AddAttendClassArgs.cs" />
     <Compile Include="Args\AddBookfeeArgs.cs" />
     <Compile Include="Args\AddClassesArgs.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="Args\AddUserArgs.cs" />
     <Compile Include="Args\AddUserLoginLogArgs.cs" />
     <Compile Include="Args\CreateOrUpdateSysConfigArgs.cs" />
+    <Compile Include="Args\DeleteAttendClassArgs.cs" />
     <Compile Include="Args\DeleteCourseArgs.cs" />
     <Compile Include="Args\DeleteBookfeeArgs.cs" />
     <Compile Include="Args\DeleteCourseTypeArgs.cs" />

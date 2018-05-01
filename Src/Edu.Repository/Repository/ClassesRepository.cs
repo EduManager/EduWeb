@@ -49,6 +49,34 @@ namespace Edu.Repository
             }
         }
 
+        public CommandResult<int> DeleteAttendClass(DeleteAttendClassArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(args.SchoolId, "delete_attend_class", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "班级管理-删除课时失败，AttendClassId:" + args.AttendClassId, e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
+        public CommandResult<int> DeleteClass(DeleteClassArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(args.SchoolId, "delete_class", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "班级管理-删除班级失败，ClassId:" + args.ClassId, e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
         public QueryResult<AttendClass> GetAttendClassesByClassId(GetAttendByClassIdArgs args)
         {
             try
@@ -81,5 +109,32 @@ namespace Edu.Repository
             }
         }
 
+        public CommandResult<int> UpdateAttendClass(UpdateAttendClassArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(args.SchoolId, "update_attend_class", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "班级管理-编辑课时失败，AttendClassId:" + args.AttendClassId, e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
+        public CommandResult<int> UpdateClass(UpdateClassesArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(args.SchoolId, "update_class", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "班级管理-编辑班级失败，ClassId:" + args.ClassId, e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
     }
 }

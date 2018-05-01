@@ -38,7 +38,7 @@ namespace Edu.Controller.Controller
             var result = ClassesService.Instance.GetAttendClassesByClassId(new GetAttendByClassIdArgs()
             {
                 SchoolId = schoolId,
-                ClassId= classId
+                ClassId = classId
             });
             var cts = new List<AttendClass_min>();
             if (result.Code == 200)
@@ -68,40 +68,101 @@ namespace Edu.Controller.Controller
             }
             return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
-    [HttpPost]
-    public string AddAtttendClass(AddAttendClassArgs[] models)
-    {
-        for (int i = 0; i < models.Length; i++)
+        [HttpPost]
+        public string AddAttendClasses(AddAttendClassArgs[] models)
         {
-            AddAttendClassArgs model = models[i];
+            for (int i = 0; i < models.Length; i++)
+            {
+                AddAttendClassArgs model = models[i];
+                if (model != null)
+                {
+                    model.BeginTime = model.BeginTime;
+                    model.EndTime = model.EndTime;
+                    model.CreateBy = ApplicationContext.UserId;
+                    model.ModifyBy = ApplicationContext.UserId;
+                    model.SchoolId = ApplicationContext.SchoolId;
+
+                    var result = ClassesService.Instance.AddAttendClass(model);
+                }
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+        [HttpPost]
+        public string AddAttendClass(AddAttendClassArgs model)
+        {
             if (model != null)
             {
-                model.BeginTime = DateTime.Parse(model.BeginTime).ToString("yyyy-MM-dd HH:mm:ss");
-                model.EndTime = DateTime.Parse(model.EndTime).ToString("yyyy-MM-dd HH:mm:ss");
                 model.CreateBy = ApplicationContext.UserId;
                 model.ModifyBy = ApplicationContext.UserId;
                 model.SchoolId = ApplicationContext.SchoolId;
-
                 var result = ClassesService.Instance.AddAttendClass(model);
+                return JsonHelper.Serialize(result);
             }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
-        return JsonHelper.Serialize(CommandResult.Failure<int>());
-    }
-    public static DateTime FormatDateTime(DateTime bt_in)
-    {
-        bool f = true;
-        if (bt_in.ToString().IndexOf("/") > -1)
+        [HttpDelete]
+        public string DeleteClass(int ClassId)
         {
-            Console.WriteLine();
-            DateTime t = DateTime.Today;
-            IFormatProvider culture = new CultureInfo("zh-CN", true);     //这里看时dateseparator   也是斜线...
-            f = DateTime.TryParseExact(bt_in.ToString(), "yyyy-MM-dd HH:mm:ss", culture, DateTimeStyles.None, out t);
-            if (f)
-                return t;
+            var result = ClassesService.Instance.DeleteClass(new DeleteClassArgs()
+            {
+                SchoolId = ApplicationContext.SchoolId,
+                ClassId = ClassId,
+                ModifyBy = ApplicationContext.UserId
+            });
+            return JsonHelper.Serialize(result);
+        }
+        [HttpPost]
+        public string UpdateClass(UpdateClassesArgs model)
+        {
+            if (model != null)
+            {
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+                var result = ClassesService.Instance.UpdateClass(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+        [HttpDelete]
+        public string DeleteAttendClass(int attendClassId)
+        {
+            var result = ClassesService.Instance.DeleteAttendClass(new DeleteAttendClassArgs()
+            {
+                SchoolId = ApplicationContext.SchoolId,
+                AttendClassId = attendClassId,
+                ModifyBy = ApplicationContext.UserId
+            });
+            return JsonHelper.Serialize(result);
+        }
+        [HttpPost]
+        public string UpdateAttendClass(UpdateAttendClassArgs model)
+        {
+            if (model != null)
+            {
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+                var result = ClassesService.Instance.UpdateAttendClass(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+
+        public static DateTime FormatDateTime(DateTime bt_in)
+        {
+            bool f = true;
+            if (bt_in.ToString().IndexOf("/") > -1)
+            {
+                Console.WriteLine();
+                DateTime t = DateTime.Today;
+                IFormatProvider culture = new CultureInfo("zh-CN", true);     //这里看时dateseparator   也是斜线...
+                f = DateTime.TryParseExact(bt_in.ToString(), "yyyy-MM-dd HH:mm:ss", culture, DateTimeStyles.None, out t);
+                if (f)
+                    return t;
+
+            }
+            return bt_in;
 
         }
-        return bt_in;
 
     }
-}
 }

@@ -23,5 +23,33 @@ namespace Edu.Core.DomainRepository
         CommandResult<int> AddClass(AddClassesArgs args);
 
         CommandResult<int> AddAttendClass(AddAttendClassArgs args);
+
+        /// <summary>
+        /// 删除课时
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> DeleteAttendClass(DeleteAttendClassArgs args);
+
+        /// <summary>
+        /// 编辑课时
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> UpdateAttendClass(UpdateAttendClassArgs args);
+
+        /// <summary>
+        /// 删除班级
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> DeleteClass(DeleteClassArgs args);
+
+        /// <summary>
+        /// 编辑班级
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> UpdateClass(UpdateClassesArgs args);
     }
 }
