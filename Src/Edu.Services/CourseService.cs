@@ -71,10 +71,11 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult<int> DeleteCourseType(DeleteCourseTypeArgs args)
+        public CommandResult<int> DeleteCourseType(DeleteObjectArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ObjectId, "CourseId", Arguments.Positive);
 
             return ContainerFactory<ICourseRepository>.Instance.DeleteCourseType(args);
         }
@@ -114,10 +115,11 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult<int> DeleteCourse(DeleteCourseArgs args)
+        public CommandResult<int> DeleteCourse(DeleteObjectArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ObjectId, "CourseId", Arguments.Positive);
 
             return ContainerFactory<ICourseRepository>.Instance.DeleteCourse(args);
         }

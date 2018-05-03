@@ -48,10 +48,10 @@ namespace Edu.Controller.Controller
         [HttpDelete]
         public string Delete(int campusId)
         {
-            var result = CampusService.Instance.DeleteCampus(new DeleteCampusArgs()
+            var result = CampusService.Instance.DeleteCampus(new DeleteObjectArgs()
             {
                 SchoolId = ApplicationContext.SchoolId,
-                CampusId = campusId,
+                ObjectId = campusId,
                 ModifyBy = ApplicationContext.UserId
             });
             return JsonHelper.Serialize(result);

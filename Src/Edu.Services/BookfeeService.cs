@@ -61,10 +61,10 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult<int> DeleteBookfee(DeleteBookfeeArgs args)
+        public CommandResult<int> DeleteBookfee(DeleteObjectArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-            ArgumentHelper.Require(args.FeeId, "FeeId", Arguments.Positive);
+            ArgumentHelper.Require(args.ObjectId, "FeeId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<IBookfeeRepository>.Instance.DeleteBookfee(args);

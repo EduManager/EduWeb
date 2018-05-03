@@ -103,10 +103,10 @@ namespace Edu.Controller.Controller
         [HttpDelete]
         public string DeleteClass(int ClassId)
         {
-            var result = ClassesService.Instance.DeleteClass(new DeleteClassArgs()
+            var result = ClassesService.Instance.DeleteClass(new DeleteObjectArgs()
             {
                 SchoolId = ApplicationContext.SchoolId,
-                ClassId = ClassId,
+                ObjectId = ClassId,
                 ModifyBy = ApplicationContext.UserId
             });
             return JsonHelper.Serialize(result);
@@ -126,10 +126,10 @@ namespace Edu.Controller.Controller
         [HttpDelete]
         public string DeleteAttendClass(int attendClassId)
         {
-            var result = ClassesService.Instance.DeleteAttendClass(new DeleteAttendClassArgs()
+            var result = ClassesService.Instance.DeleteAttendClass(new DeleteObjectArgs()
             {
                 SchoolId = ApplicationContext.SchoolId,
-                AttendClassId = attendClassId,
+                ObjectId = attendClassId,
                 ModifyBy = ApplicationContext.UserId
             });
             return JsonHelper.Serialize(result);

@@ -37,7 +37,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<int> DeleteCampus(DeleteCampusArgs args);
+        CommandResult<int> DeleteCampus(DeleteObjectArgs args);
 
         /// <summary>
         /// 编辑校区

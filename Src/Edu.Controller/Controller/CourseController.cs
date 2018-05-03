@@ -60,10 +60,10 @@ namespace Edu.Controller.Controller
         [HttpDelete]
         public string DeleteCourseType(int ctId)
         {
-            var result = CourseService.Instance.DeleteCourseType(new DeleteCourseTypeArgs()
+            var result = CourseService.Instance.DeleteCourseType(new DeleteObjectArgs()
             {
                 SchoolId = ApplicationContext.SchoolId,
-                CourseTypeId = ctId,
+                ObjectId = ctId,
                 ModifyBy = ApplicationContext.UserId
             });
             return  JsonHelper.Serialize(result);
@@ -100,10 +100,10 @@ namespace Edu.Controller.Controller
         [HttpDelete]
         public string DeleteCourse(int ctId)
         {
-            var result = CourseService.Instance.DeleteCourse(new DeleteCourseArgs()
+            var result = CourseService.Instance.DeleteCourse(new DeleteObjectArgs()
             {
                 SchoolId = ApplicationContext.SchoolId,
-                CourseId = ctId,
+                ObjectId = ctId,
                 ModifyBy = ApplicationContext.UserId
             });
             return JsonHelper.Serialize(result);

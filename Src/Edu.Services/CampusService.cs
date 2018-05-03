@@ -64,10 +64,10 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult<int> DeleteCampus(DeleteCampusArgs args)
+        public CommandResult<int> DeleteCampus(DeleteObjectArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-            ArgumentHelper.Require(args.CampusId, "CampusId", Arguments.Positive);
+            ArgumentHelper.Require(args.ObjectId, "CampusId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<ICampusRepository>.Instance.DeleteCampus(args);

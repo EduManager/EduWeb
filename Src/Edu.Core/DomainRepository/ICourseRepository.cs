@@ -36,7 +36,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<int> DeleteCourseType(DeleteCourseTypeArgs args);
+        CommandResult<int> DeleteCourseType(DeleteObjectArgs args);
 
         /// <summary>
         /// 编辑课程类别
@@ -57,7 +57,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<int> DeleteCourse(DeleteCourseArgs args);
+        CommandResult<int> DeleteCourse(DeleteObjectArgs args);
 
         /// <summary>
         /// 编辑课程

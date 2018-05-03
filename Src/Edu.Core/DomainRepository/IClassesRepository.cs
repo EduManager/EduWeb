@@ -29,7 +29,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<int> DeleteAttendClass(DeleteAttendClassArgs args);
+        CommandResult<int> DeleteAttendClass(DeleteObjectArgs args);
 
         /// <summary>
         /// 编辑课时
@@ -43,7 +43,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<int> DeleteClass(DeleteClassArgs args);
+        CommandResult<int> DeleteClass(DeleteObjectArgs args);
 
         /// <summary>
         /// 编辑班级

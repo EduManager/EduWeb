@@ -30,7 +30,7 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        CommandResult<int> DeleteBookfee(DeleteBookfeeArgs args);
+        CommandResult<int> DeleteBookfee(DeleteObjectArgs args);
 
         /// <summary>
         /// 编辑教材杂费

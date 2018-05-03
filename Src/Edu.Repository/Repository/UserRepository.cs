@@ -146,7 +146,7 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult<int> DeleteUser(DeleteUserArgs args)
+        public CommandResult<int> DeleteUser(DeleteObjectArgs args)
         {
             try
             {
@@ -155,7 +155,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "用户模块-删除用户失败，UserId:" + args.UserId, e);
+                LogHelper.Error(this.GetType(), "用户模块-删除用户失败，UserId:" + args.ObjectId, e);
                 return CommandResult.Failure<int>(e.ToString());
             }
         }

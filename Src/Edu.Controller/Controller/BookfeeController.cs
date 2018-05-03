@@ -47,10 +47,10 @@ namespace Edu.Controller.Controller
         [HttpDelete]
         public string DeleteBookfeee(int ctId)
         {
-            var result = BookfeeService.Instance.DeleteBookfee(new DeleteBookfeeArgs()
+            var result = BookfeeService.Instance.DeleteBookfee(new DeleteObjectArgs()
             {
                 SchoolId = ApplicationContext.SchoolId,
-                FeeId = ctId,
+                ObjectId = ctId,
                 ModifyBy = ApplicationContext.UserId
             });
             return JsonHelper.Serialize(result);

@@ -49,7 +49,7 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult<int> DeleteAttendClass(DeleteAttendClassArgs args)
+        public CommandResult<int> DeleteAttendClass(DeleteObjectArgs args)
         {
             try
             {
@@ -58,12 +58,12 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "班级管理-删除课时失败，AttendClassId:" + args.AttendClassId, e);
+                LogHelper.Error(this.GetType(), "班级管理-删除课时失败，AttendClassId:" + args.ObjectId, e);
                 return CommandResult.Failure<int>(e.ToString());
             }
         }
 
-        public CommandResult<int> DeleteClass(DeleteClassArgs args)
+        public CommandResult<int> DeleteClass(DeleteObjectArgs args)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "班级管理-删除班级失败，ClassId:" + args.ClassId, e);
+                LogHelper.Error(this.GetType(), "班级管理-删除班级失败，ClassId:" + args.ObjectId, e);
                 return CommandResult.Failure<int>(e.ToString());
             }
         }

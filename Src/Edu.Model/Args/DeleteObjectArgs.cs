@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace Edu.Model.Args
 {
     [DataContract]
-    public class DeleteUserArgs
+    public class DeleteObjectArgs
     {
         [DataMember]
         public int  SchoolId { set; get; }
         [DataMember]
-        public int UserId { get; set; }
+        public int ObjectId { get; set; }
         [DataMember]
         public int ModifyBy { get; set; }
     }

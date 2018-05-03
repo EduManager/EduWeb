@@ -307,9 +307,9 @@ namespace Edu.Controller.Controller
         [AuthFilter]
         public string Delete(int userId)
         {
-            var args = new DeleteUserArgs()
+            var args = new DeleteObjectArgs()
             {
-                UserId = userId,
+                ObjectId = userId,
                 ModifyBy = ApplicationContext.UserId,
                 SchoolId = ApplicationContext.SchoolId
             };

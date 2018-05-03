@@ -49,7 +49,7 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult<int> DeleteCourse(DeleteCourseArgs args)
+        public CommandResult<int> DeleteCourse(DeleteObjectArgs args)
         {
             try
             {
@@ -58,12 +58,12 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "课程管理-删除课程，courseId:" + args.CourseId, e);
+                LogHelper.Error(this.GetType(), "课程管理-删除课程，courseId:" + args.ObjectId, e);
                 return CommandResult.Failure<int>(e.ToString());
             }
         }
 
-        public CommandResult<int> DeleteCourseType(DeleteCourseTypeArgs args)
+        public CommandResult<int> DeleteCourseType(DeleteObjectArgs args)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "课程管理-删除课程类别，coursetypeId:" + args.CourseTypeId, e);
+                LogHelper.Error(this.GetType(), "课程管理-删除课程类别，coursetypeId:" + args.ObjectId, e);
                 return CommandResult.Failure<int>(e.ToString());
             }
         }

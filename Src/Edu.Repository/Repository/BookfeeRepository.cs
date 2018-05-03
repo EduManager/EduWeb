@@ -31,7 +31,7 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult<int> DeleteBookfee(DeleteBookfeeArgs args)
+        public CommandResult<int> DeleteBookfee(DeleteObjectArgs args)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "校区管理-教材杂费失败，CampusId:" + args.FeeId, e);
+                LogHelper.Error(this.GetType(), "校区管理-教材杂费失败，CampusId:" + args.ObjectId, e);
                 return CommandResult.Failure<int>(e.ToString());
             }
         }

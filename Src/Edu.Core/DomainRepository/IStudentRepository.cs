@@ -17,5 +17,7 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         QueryResult<Student> GetUserInfoByPaging(GetObjectsByPagingArgs args);
+
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -35,6 +35,38 @@ namespace Edu.Repository
             {
                 LogHelper.Error(this.GetType(), "学生模块--通过分页获取学生列表失败", e);
                 return QueryResult.Failure<Student>(e.ToString());
+            }
+        }
+
+        public CommandResult<int> AddStudent(AddStudentArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>(0, "add_student", args);
+                if (result.Code == 200 && result.Items.Count > 0)
+                {
+                    return CommandResult.Success(result.Items[0]);
+                }
+                return CommandResult.Failure<int>();
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "学生模块-添加学生失败，SchoolId:" + args.SchoolId + ",学校编号:" + args.SchoolId, e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
+        public CommandResult<int> DeleteStudent(DeleteObjectArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "delete_student", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "学生模块-删除学生失败，StudentId:" + args.ObjectId, e);
+                return CommandResult.Failure<int>(e.ToString());
             }
         }
 

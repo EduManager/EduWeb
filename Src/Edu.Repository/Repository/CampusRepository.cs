@@ -31,7 +31,7 @@ namespace Edu.Repository
             }
         }
 
-        public CommandResult<int> DeleteCampus(DeleteCampusArgs args)
+        public CommandResult<int> DeleteCampus(DeleteObjectArgs args)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "校区管理-删除校区失败，CampusId:" + args.CampusId, e);
+                LogHelper.Error(this.GetType(), "校区管理-删除校区失败，CampusId:" + args.ObjectId, e);
                 return CommandResult.Failure<int>(e.ToString());
             }
         }

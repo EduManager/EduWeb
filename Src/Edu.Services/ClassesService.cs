@@ -69,10 +69,10 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult<int> DeleteClass(DeleteClassArgs args)
+        public CommandResult<int> DeleteClass(DeleteObjectArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-            ArgumentHelper.Require(args.ClassId, "ClassId", Arguments.Positive);
+            ArgumentHelper.Require(args.ObjectId, "ClassId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<IClassesRepository>.Instance.DeleteClass(args);
@@ -95,10 +95,10 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public CommandResult<int> DeleteAttendClass(DeleteAttendClassArgs args)
+        public CommandResult<int> DeleteAttendClass(DeleteObjectArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-            ArgumentHelper.Require(args.AttendClassId, "AttendClassId", Arguments.Positive);
+            ArgumentHelper.Require(args.ObjectId, "AttendClassId", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
 
             return ContainerFactory<IClassesRepository>.Instance.DeleteAttendClass(args);
