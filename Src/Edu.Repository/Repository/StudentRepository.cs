@@ -15,7 +15,7 @@ namespace Edu.Repository
 {
     public class StudentRepository : IStudentRepository
     {
-        public QueryResult<Student> GetUserInfoByPaging(GetObjectsByPagingArgs args)
+        public QueryResult<Student> GetStudentListByPaging(GetObjectsByPagingArgs args)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Edu.Repository
             }
             catch (Exception e)
             {
-                LogHelper.Error(this.GetType(), "学生模块-添加学生失败，SchoolId:" + args.SchoolId + ",学校编号:" + args.SchoolId, e);
+                LogHelper.Error(this.GetType(), "学生模块-添加学生失败，Name:" + args.Name + ",学校编号:" + args.SchoolId, e);
                 return CommandResult.Failure<int>(e.ToString());
             }
         }

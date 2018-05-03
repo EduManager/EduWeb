@@ -35,7 +35,7 @@ namespace Edu.Controller.Controller
                 WhereStr = "",
                 OrderBy = ""
             };
-            var result = UserService.Instance.GetUserInfoByPaging(args);
+            var result = StudentService.Instance.GetStudentListByPaging(args);
             ViewData["PageCount"] = args.RowsCount / args.PageSize + 1;
             ViewData["PageSize"] = args.PageSize;
             ViewData["PageIndex"] = args.PageIndex;
@@ -43,9 +43,28 @@ namespace Edu.Controller.Controller
             return View(result.Items);
         }
 
-        public string GetStudents()
+        public string AddStudent(AddStudentArgs args)
         {
-            return "";
+            if (args != null)
+            {
+                args.SchoolId = ApplicationContext.SchoolId;
+                args.CreateBy = ApplicationContext.UserId;
+                args.ModifyBy = ApplicationContext.UserId;
+            }
+            var result = StudentService.Instance.AddStudent(args);
+            return JsonHelper.Serialize(result);
+        }
+
+        public string DeleteStudent(int stuId)
+        {
+            var args = new DeleteObjectArgs
+            {
+                ObjectId = stuId,
+                SchoolId = ApplicationContext.SchoolId,
+                ModifyBy = ApplicationContext.UserId
+            };
+            var result = StudentService.Instance.DeleteStudent(args);
+            return JsonHelper.Serialize(result);
         }
     }
 }

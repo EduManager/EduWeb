@@ -32,13 +32,45 @@ namespace Edu.Services
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public QueryResult<Student> GetUserInfoByPaging(GetObjectsByPagingArgs args)
+        public QueryResult<Student> GetStudentListByPaging(GetObjectsByPagingArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.PageSize, "PageSize", Arguments.Positive);
             ArgumentHelper.Require(args.PageIndex, "PageIndex", Arguments.Positive);
 
-            return ContainerFactory<IStudentRepository>.Instance.GetUserInfoByPaging(args);
+            return ContainerFactory<IStudentRepository>.Instance.GetStudentListByPaging(args);
+        }
+
+
+        /// <summary>
+        /// 创建学生信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> AddStudent(AddStudentArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.RegionId, "SchoolRegionId", Arguments.Positive);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+            ArgumentHelper.Require(args.Name, "姓名", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Tel1, "电话", Arguments.NotEmptyOrWhitespace);
+
+            return ContainerFactory<IStudentRepository>.Instance.AddStudent(args);
+        }
+
+        /// <summary>
+        /// 删除学生
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> DeleteStudent(DeleteObjectArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.ObjectId, "StudentId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "UserId", Arguments.Positive);
+
+            return ContainerFactory<IStudentRepository>.Instance.DeleteStudent(args);
         }
 
     }

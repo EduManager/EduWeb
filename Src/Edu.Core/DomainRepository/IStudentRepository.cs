@@ -16,8 +16,20 @@ namespace Edu.Core.DomainRepository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        QueryResult<Student> GetUserInfoByPaging(GetObjectsByPagingArgs args);
+        QueryResult<Student> GetStudentListByPaging(GetObjectsByPagingArgs args);
 
+        /// <summary>
+        /// 创建学生信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> AddStudent(AddStudentArgs args);
 
+        /// <summary>
+        /// 删除学生
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> DeleteStudent(DeleteObjectArgs args);
     }
 }
