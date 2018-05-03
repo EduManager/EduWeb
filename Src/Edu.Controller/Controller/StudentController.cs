@@ -43,6 +43,7 @@ namespace Edu.Controller.Controller
             return View(result.Items);
         }
 
+        [HttpPost]
         public string AddStudent(AddStudentArgs args)
         {
             if (args != null)
@@ -55,6 +56,7 @@ namespace Edu.Controller.Controller
             return JsonHelper.Serialize(result);
         }
 
+        [HttpDelete]
         public string DeleteStudent(int stuId)
         {
             var args = new DeleteObjectArgs
