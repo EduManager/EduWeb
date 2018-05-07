@@ -12,17 +12,12 @@ namespace Edu.Controller.Controller
     [AuthFilter]
     public class EntryController : System.Web.Mvc.Controller
     {
-        //public ViewResult List()
-        //{
-        //    var schoolId = ApplicationContext.SchoolId;
-        //    var result = BookfeeService.Instance.GetFeeBySchoolId(new GetObjectByIdArgs()
-        //    {
-        //        SchoolId = schoolId
-        //    });
-        //    var fees = new List<Bookfee>();
-        //    if (result.Code == 200)
-        //        fees = result.Items;
-        //    return View(fees);
-        //}
+        [AuthFilter]
+        public ViewResult SignUp()
+        {
+            var userId = ApplicationContext.UserId;
+            var schoolId = ApplicationContext.SchoolId;
+            return View();
+        }
     }
 }
