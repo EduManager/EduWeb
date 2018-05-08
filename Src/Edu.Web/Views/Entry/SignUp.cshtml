@@ -10,7 +10,11 @@
     }
 
         .up-img-cover img {
-            width: 100%;
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            left: 0;
+            top: 0;
         }
 </style>
 <style>
@@ -50,7 +54,7 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-9" style="border:1px solid red">
+                    <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -129,7 +133,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3" id="updateForm" role="form">
+                    <div class="col-md-3" id="updateForm">
                         <div class="up-img-cover" id="up-img-touch">
                             <img class="am-circle" alt="点击图片上传" src="/Content/img/student.png" data-am-popover="{content: '点击上传', trigger: 'hover focus'}">
                         </div>
@@ -146,4 +150,4 @@
                 <div class="row">
                 </div>
             </div>
-            </div>
+        </div>
