@@ -55,6 +55,21 @@ namespace Edu.Controller.Controller
             return JsonHelper.Serialize(cts);
         }
         [HttpPost]
+        [ActionName("getClassByCourseId")]
+        public string getClassByCourseId(int courseId)
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var result = ClassesService.Instance.GetClassesBySchoolId(new GetObjectByIdArgs()
+            {
+                SchoolId = schoolId
+            });
+            var models = new List<Classes>();
+            if (result.Code == 200)
+                models = result.Items;
+            models = models.Where(p => p.CourseId == courseId).ToList();
+            return JsonHelper.Serialize(models);
+        }
+        [HttpPost]
         public string AddClass(AddClassesArgs model)
         {
             if (model != null)

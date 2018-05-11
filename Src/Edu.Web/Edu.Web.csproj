@@ -112,6 +112,7 @@
     <Content Include="Scripts\calendar\locale-all.js" />
     <Content Include="Scripts\calendar\moment.min.js" />
     <Content Include="Scripts\HashMap.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\mode-ecb.js" />
     <Content Include="Scripts\tripledes.js" />
     <Content Include="Scripts\ztree\jquery.ztree.core.min.js" />

@@ -16,6 +16,21 @@
             left: 0;
             top: 0;
         }
+
+    .panel .actions {
+        position: absolute;
+        right: 30px;
+        top: 8px;
+    }
+
+        .panel .actions i {
+            font-size: 0.875em;
+            margin: 0 3px;
+        }
+
+            .panel .actions i:hover {
+                cursor: pointer;
+            }
 </style>
 <style>
     .form-horizontal .form-control {
@@ -48,9 +63,12 @@
 </ol>
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
-                学生信息
+                <h3 class="panel-title">学生信息</h3>
+                <div class="actions pull-right">
+                    <i class="glyphicon glyphicon-chevron-up"></i>
+                </div>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -142,12 +160,55 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-info">
             <div class="panel-heading">
-                报名信息
+                <h3 class="panel-title">报名信息</h3>
+                <div class="actions pull-right">
+                    <i class="glyphicon glyphicon-chevron-up"></i>
+                </div>
             </div>
             <div class="panel-body">
                 <div class="row">
+                    <div class="col-mb-12 col-sm-12">
+                        <div class="form-group">
+                            <label for="selectCourseType" class="col-sm-2 control-label">课程类别</label>
+                            <div class="col-sm-4">
+                                <select id="selectCourseType" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectCourse" class="col-sm-2 control-label">课程名称</label>
+                            <div class="col-sm-4">
+                                <select id="selectCourse" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-mb-12 col-sm-12">
+                        <div class="form-group">
+                            <label for="selectClass" class="col-sm-2 control-label">选择班级</label>
+                            <div class="col-sm-10">
+                                <select id="selectClass" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        widgetToggle();
+        getCourseType("selectCourseType");
+        $("#selectCourseType").change(function () {
+           var selectedCoursTypeId = $(this).val();
+           getCourseList("selectCourse", selectedCoursTypeId);
+        });
+        $("#selectCourse").change(function () {
+            var selectedCourseId = $(this).val();
+            getClassByCourse(selectedCourseId,"selectClass");
+        });
+    });
+</script>
