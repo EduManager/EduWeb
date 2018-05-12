@@ -31,6 +31,24 @@
             .panel .actions i:hover {
                 cursor: pointer;
             }
+
+    .card {
+        margin-right: 0;
+        margin-left: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-width: 1px;
+        border-radius: 4px 4px 0 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        max-width: 280px;
+    }
+    .col-center-block {
+        float: none;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    } 
 </style>
 <style>
     .form-horizontal .form-control {
@@ -72,7 +90,7 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-9" style="border-right:1px solid #ddd;">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -162,7 +180,7 @@
         </div>
     </div>
     <div class="col-md-12">
-        <div class="panel panel-info">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">报名信息</h3>
                 <div class="actions pull-right">
@@ -171,44 +189,137 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-mb-12 col-sm-12">
-                        <div class="form-group">
-                            <label for="selectCourseType" class="col-sm-2 control-label">课程类别</label>
-                            <div class="col-sm-4">
-                                <select id="selectCourseType" class="form-control"></select>
+                    <div class="col-md-9" style="border-right:1px solid #ddd;">
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="selectCourseType" class="col-sm-2 control-label">课程类别</label>
+                                    <div class="col-sm-4">
+                                        <select id="selectCourseType" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="selectCourse" class="col-sm-2 control-label">课程名称</label>
+                                    <div class="col-sm-4">
+                                        <select id="selectCourse" class="form-control"></select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="selectCourse" class="col-sm-2 control-label">课程名称</label>
-                            <div class="col-sm-4">
-                                <select id="selectCourse" class="form-control"></select>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="selectClass" class="col-sm-2 control-label">选择班级</label>
+                                    <div class="col-sm-4 form-inline">
+                                        <select id="selectClass" class="form-control"></select>
+                                    </div>
+                                    <div class="col-sm-2 form-inline" style="padding-left:5px;padding-right:5px;">
+                                        <label class="glyphicon glyphicon-remove"></label>
+                                        <input type="text" style="width:40px;" class="form-control" id="txtClassCount" name="txtClassCount" value="" />
+                                        <label class="control-label">课时</label>
+                                    </div>
+                                    <div class="col-sm-4 form-inline">
+                                        <select style="width:80px;" id="selectDiscount" class="form-control">
+                                            <option value="0">原价</option>
+                                            <option value="1">打折</option>
+                                            <option value="2">优惠</option>
+                                        </select>
+                                        <label style="margin-left:5px;margin-right:5px;" class="control-label">=应收</label>
+                                        <span class="badge badge-primary">¥105元</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="selectClass" class="col-sm-2 control-label">教材项</label>
+                                    <div class="col-sm-4">
+                                        <div class="card">
+                                            <div class="row">
+                                                <div class="col-mb-12 col-sm-12  form-inline">
+                                                    <div class="radio">
+                                                        <input class="icheck" type="checkbox" checked="" name="check1">
+                                                        <label>Option 1</label>
+                                                    </div>
+                                                    <input type="text" style="width:60px;height:30px;" class="form-control" id="txtjcCount" name="txtjcCount" value="" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-mb-12 col-sm-12  form-inline">
+
+                                                    <div class="radio">
+                                                        <input class="icheck" type="checkbox" checked="" name="check2">
+                                                        <label>Option 2</label>
+                                                    </div>
+                                                    <input type="text" style="width:60px;height:30px;" class="form-control" id="txtzfCount" name="txtzfCount" value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="selectClass" class="col-sm-2 control-label">杂费项</label>
+                                    <div class="col-sm-4">
+                                        <div class="card">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-mb-12 col-sm-12  form-inline">
+                                                        <div class="radio">
+                                                            <input class="icheck" type="checkbox" checked="" name="check1">
+                                                            <label>Option 1</label>
+                                                        </div>
+                                                        <input type="text" style="width:60px;height:30px;" class="form-control" id="txtjcCount" name="txtjcCount" value="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-mb-12 col-sm-12  form-inline">
+
+                                                        <div class="radio">
+                                                            <input class="icheck" type="checkbox" checked="" name="check2">
+                                                            <label>Option 2</label>
+                                                        </div>
+                                                        <input type="text" style="width:60px;height:30px;" class="form-control" id="txtzfCount" name="txtzfCount" value="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-mb-12 col-sm-12">
-                        <div class="form-group">
-                            <label for="selectClass" class="col-sm-2 control-label">选择班级</label>
-                            <div class="col-sm-10">
-                                <select id="selectClass" class="form-control"></select>
+                    <div class="col-md-3">
+                        <div class="form-group text-center" style="margin-top:50px;">
+                            <label class="col-sm-12 control-label" for="txtResult">实收费用</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="txtResult" name="txtResult" value="" />
                             </div>
+                        </div>
+                        <div class="form-group">
+
+                            <button type="button" style="width:150px;" class="btn btn-primary col-center-block" data-dismiss="modal">
+                                去结算
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-    $(document).ready(function () {
-        widgetToggle();
-        getCourseType("selectCourseType");
-        $("#selectCourseType").change(function () {
-           var selectedCoursTypeId = $(this).val();
-           getCourseList("selectCourse", selectedCoursTypeId);
+    <script>
+        $(document).ready(function () {
+            widgetToggle();
+            getCourseType("selectCourseType");
+            $("#selectCourseType").change(function () {
+                var selectedCoursTypeId = $(this).val();
+                getCourseList("selectCourse", selectedCoursTypeId);
+            });
+            $("#selectCourse").change(function () {
+                var selectedCourseId = $(this).val();
+                getClassByCourse(selectedCourseId, "selectClass");
+            });
         });
-        $("#selectCourse").change(function () {
-            var selectedCourseId = $(this).val();
-            getClassByCourse(selectedCourseId,"selectClass");
-        });
-    });
-</script>
+    </script>
