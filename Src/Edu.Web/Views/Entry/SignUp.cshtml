@@ -43,12 +43,13 @@
         box-shadow: none;
         max-width: 280px;
     }
+
     .col-center-block {
         float: none;
         display: block;
         margin-left: auto;
         margin-right: auto;
-    } 
+    }
 </style>
 <style>
     .form-horizontal .form-control {
@@ -215,7 +216,7 @@
                                     </div>
                                     <div class="col-sm-2 form-inline" style="padding-left:5px;padding-right:5px;">
                                         <label class="glyphicon glyphicon-remove"></label>
-                                        <input type="text" style="width:40px;" class="form-control" id="txtClassCount" name="txtClassCount" value="" />
+                                        <input type="text" style="width:50px;" class="form-control" id="txtClassCount" name="txtClassCount" value="" />
                                         <label class="control-label">课时</label>
                                     </div>
                                     <div class="col-sm-4 form-inline">
@@ -235,56 +236,16 @@
                                 <div class="form-group">
                                     <label for="selectClass" class="col-sm-2 control-label">教材项</label>
                                     <div class="col-sm-4">
-                                        <div class="card">
-                                            <div class="row">
-                                                <div class="col-mb-12 col-sm-12  form-inline">
-                                                    <div class="radio">
-                                                        <input class="icheck" type="checkbox" checked="" name="check1">
-                                                        <label>Option 1</label>
-                                                    </div>
-                                                    <input type="text" style="width:60px;height:30px;" class="form-control" id="txtjcCount" name="txtjcCount" value="" />
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-mb-12 col-sm-12  form-inline">
+                                        <div id="bookcard" class="card">
 
-                                                    <div class="radio">
-                                                        <input class="icheck" type="checkbox" checked="" name="check2">
-                                                        <label>Option 2</label>
-                                                    </div>
-                                                    <input type="text" style="width:60px;height:30px;" class="form-control" id="txtzfCount" name="txtzfCount" value="" />
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="selectClass" class="col-sm-2 control-label">杂费项</label>
                                     <div class="col-sm-4">
-                                        <div class="card">
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <div class="col-mb-12 col-sm-12  form-inline">
-                                                        <div class="radio">
-                                                            <input class="icheck" type="checkbox" checked="" name="check1">
-                                                            <label>Option 1</label>
-                                                        </div>
-                                                        <input type="text" style="width:60px;height:30px;" class="form-control" id="txtjcCount" name="txtjcCount" value="" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <div class="col-mb-12 col-sm-12  form-inline">
-
-                                                        <div class="radio">
-                                                            <input class="icheck" type="checkbox" checked="" name="check2">
-                                                            <label>Option 2</label>
-                                                        </div>
-                                                        <input type="text" style="width:60px;height:30px;" class="form-control" id="txtzfCount" name="txtzfCount" value="" />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div id="othercard" class="card">
+             
                                         </div>
                                     </div>
                                 </div>
@@ -300,7 +261,7 @@
                         </div>
                         <div class="form-group">
 
-                            <button type="button" style="width:150px;" class="btn btn-primary col-center-block" data-dismiss="modal">
+                            <button type="button" style="width:150px;" class="btn btn-primary col-center-block"  data-toggle="modal" data-target="#ObjModal" onclick="Calcu();">
                                 去结算
                             </button>
                         </div>
@@ -309,17 +270,95 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function () {
-            widgetToggle();
-            getCourseType("selectCourseType");
-            $("#selectCourseType").change(function () {
-                var selectedCoursTypeId = $(this).val();
-                getCourseList("selectCourse", selectedCoursTypeId);
-            });
-            $("#selectCourse").change(function () {
-                var selectedCourseId = $(this).val();
-                getClassByCourse(selectedCourseId, "selectClass");
+    <!-- 模态框（Modal）是否确定删除 -->
+    <div class="modal fade" id="ObjModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="updateModalLabel">提示</h5>
+                </div>
+                <div class="modal-body">
+                    <p>确认要删除该数据吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnDeleteObj" onclick="deleteObj();">
+                        确定
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        widgetToggle();
+        getCourseType("selectCourseType");
+        $("#selectCourseType").change(function () {
+            var selectedCoursTypeId = $(this).val();
+            getCourseList("selectCourse", selectedCoursTypeId);
+        });
+        $("#selectCourse").change(function () {
+            var selectedCourseId = $(this).val();
+            getClassByCourse(selectedCourseId, "selectClass");
+            //var bookfee = getBookFeeByCourse(selectedCourseId);
+            var bookcard = document.getElementById("bookcard");
+            var othercard = document.getElementById("othercard");
+            bookcard.innerHTML = "";
+            othercard.innerHTML = "";
+            var model = { 'courseId': selectedCourseId };
+            $.ajax({
+                url: "../Bookfee/getBookFeeByCourse",
+                type: "post",
+                data: JSON.stringify(model),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    var content1 = "";
+                    var content2 = "";
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i].feeType == 1)//教材
+                        {
+                            content1 += "<div class='row'>";
+                            content1 += "<div class='form-group'>";
+                            content1 += " <div class='col-mb-12 col-sm-12  form-inline'>";
+                            content1 += "<div class='radio'>";
+                            content1 += "<input class='icheck' type='checkbox' checked='' name='check1'>";
+                            content1 += "<label>Option 1</label>";
+                            content1 += "</div>";
+                            content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' value='' />";
+                            content1 += "<label class='glyphicon glyphicon-remove'></label>";
+                            content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' value='' />";
+                            content1 += "</div></div></div>";
+                        }
+                        else if (result[i].feeType == 2)//杂费
+                        {
+                            content2 += "<div class='row'>";
+                            content2 += "<div class='form-group'>";
+                            content2 += " <div class='col-mb-12 col-sm-12  form-inline'>";
+                            content2 += "<div class='radio'>";
+                            content2 += "<input class='icheck' type='checkbox' checked='' name='check1'>";
+                            content2 += "<label>Option 1</label>";
+                            content2 += "</div>";
+                            content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' value='' />";
+                            content2 += "<label class='glyphicon glyphicon-remove'></label>";
+                            content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' value='' />";
+                            content2 += "</div></div></div>";
+                        }
+                    }
+                    bookcard.innerHTML = content1;
+                    othercard.innerHTML = content2;
+                }
             });
         });
-    </script>
+    });
+    function Calcu()
+    {
+
+    }
+</script>
