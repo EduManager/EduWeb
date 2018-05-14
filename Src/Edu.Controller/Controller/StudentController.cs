@@ -43,6 +43,23 @@ namespace Edu.Controller.Controller
             return View(result.Items);
         }
 
+        [HttpGet]
+        public string GetStudentInfo(int stuId)
+        {
+            if (stuId > 0)
+            {
+                var result = StudentService.Instance.GetStudentById(new GetObjectByIdArgs()
+                {
+                    SchoolId = ApplicationContext.SchoolId,
+                    Id = stuId
+                });
+
+                return JsonHelper.Serialize(result);
+            }
+
+            return JsonHelper.Serialize(CommandResult.Failure("id不能为小于0的值"));
+        }
+
         [HttpPost]
         public string AddStudent(AddStudentArgs args)
         {

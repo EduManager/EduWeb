@@ -73,5 +73,18 @@ namespace Edu.Services
             return ContainerFactory<IStudentRepository>.Instance.DeleteStudent(args);
         }
 
+        /// <summary>
+        /// 通过id获取学生信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<Student> GetStudentById(GetObjectByIdArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.Id, "Id", Arguments.Positive);
+
+            return ContainerFactory<IStudentRepository>.Instance.GetStudentById(args);
+        }
+
     }
 }

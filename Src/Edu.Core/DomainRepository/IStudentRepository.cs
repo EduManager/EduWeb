@@ -31,5 +31,12 @@ namespace Edu.Core.DomainRepository
         /// <param name="args"></param>
         /// <returns></returns>
         CommandResult<int> DeleteStudent(DeleteObjectArgs args);
+
+        /// <summary>
+        /// 通过id获取学生信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<Student> GetStudentById(GetObjectByIdArgs args);
     }
 }

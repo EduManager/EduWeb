@@ -70,5 +70,23 @@ namespace Edu.Repository
             }
         }
 
+        public CommandResult<Student> GetStudentById(GetObjectByIdArgs args)
+        {
+            try
+            {
+                var result =
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Student>(0,
+                        "get_student_by_id", args);
+                if (result.Code == 200)
+                    return CommandResult.Success(result.Items.FirstOrDefault());
+                return CommandResult.Failure<Student>();
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "学生模块--通过ID获取学生信息失败", e);
+                return CommandResult.Failure<Student>();
+            }
+        }
+
     }
 }
