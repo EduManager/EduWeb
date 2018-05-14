@@ -216,7 +216,7 @@
                                     </div>
                                     <div class="col-sm-2 form-inline" style="padding-left:5px;padding-right:5px;">
                                         <label class="glyphicon glyphicon-remove"></label>
-                                        <input type="text" style="width:50px;" class="form-control" id="txtClassCount" name="txtClassCount" value="" />
+                                        <input type="text" style="width:50px;" class="form-control" id="txtClassCount" name="txtClassCount" value="10" />
                                         <label class="control-label">课时</label>
                                     </div>
                                     <div class="col-sm-4 form-inline">
@@ -226,7 +226,7 @@
                                             <option value="2">优惠</option>
                                         </select>
                                         <label style="margin-left:5px;margin-right:5px;" class="control-label">=应收</label>
-                                        <span class="badge badge-primary">¥105元</span>
+                                        <span style="font-size:medium" class="badge badge-primary">¥ 0元</span>
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +245,7 @@
                                     <label for="selectClass" class="col-sm-2 control-label">杂费项</label>
                                     <div class="col-sm-4">
                                         <div id="othercard" class="card">
-             
+
                                         </div>
                                     </div>
                                 </div>
@@ -261,7 +261,7 @@
                         </div>
                         <div class="form-group">
 
-                            <button type="button" style="width:150px;" class="btn btn-primary col-center-block"  data-toggle="modal" data-target="#ObjModal" onclick="Calcu();">
+                            <button type="button" style="width:150px;" class="btn btn-primary col-center-block" data-toggle="modal" data-target="#ObjModal" onclick="Calcu();">
                                 去结算
                             </button>
                         </div>
@@ -303,62 +303,73 @@
             var selectedCoursTypeId = $(this).val();
             getCourseList("selectCourse", selectedCoursTypeId);
         });
-        $("#selectCourse").change(function () {
-            var selectedCourseId = $(this).val();
-            getClassByCourse(selectedCourseId, "selectClass");
-            //var bookfee = getBookFeeByCourse(selectedCourseId);
-            var bookcard = document.getElementById("bookcard");
-            var othercard = document.getElementById("othercard");
-            bookcard.innerHTML = "";
-            othercard.innerHTML = "";
-            var model = { 'courseId': selectedCourseId };
-            $.ajax({
-                url: "../Bookfee/getBookFeeByCourse",
-                type: "post",
-                data: JSON.stringify(model),
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    var result = JSON.parse(data);
-                    var content1 = "";
-                    var content2 = "";
-                    for (var i = 0; i < result.length; i++) {
-                        if (result[i].feeType == 1)//教材
-                        {
-                            content1 += "<div class='row'>";
-                            content1 += "<div class='form-group'>";
-                            content1 += " <div class='col-mb-12 col-sm-12  form-inline'>";
-                            content1 += "<div class='radio'>";
-                            content1 += "<input class='icheck' type='checkbox' checked='' name='check1'>";
-                            content1 += "<label>Option 1</label>";
-                            content1 += "</div>";
-                            content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' value='' />";
-                            content1 += "<label class='glyphicon glyphicon-remove'></label>";
-                            content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' value='' />";
-                            content1 += "</div></div></div>";
-                        }
-                        else if (result[i].feeType == 2)//杂费
-                        {
-                            content2 += "<div class='row'>";
-                            content2 += "<div class='form-group'>";
-                            content2 += " <div class='col-mb-12 col-sm-12  form-inline'>";
-                            content2 += "<div class='radio'>";
-                            content2 += "<input class='icheck' type='checkbox' checked='' name='check1'>";
-                            content2 += "<label>Option 1</label>";
-                            content2 += "</div>";
-                            content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' value='' />";
-                            content2 += "<label class='glyphicon glyphicon-remove'></label>";
-                            content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' value='' />";
-                            content2 += "</div></div></div>";
-                        }
+    });
+    var tuition = 0;
+    var bookfee = 0;
+    var otherfee = 0;
+    var classcount = 0;
+    var bookcount = 0;
+    var othercount = 0;
+    $("#selectCourse").change(function () {
+        var selectedCourseId = $(this).val();
+        getClassByCourse(selectedCourseId, "selectClass");
+        //var bookfee = getBookFeeByCourse(selectedCourseId);
+        var bookcard = document.getElementById("bookcard");
+        var othercard = document.getElementById("othercard");
+        bookcard.innerHTML = "";
+        othercard.innerHTML = "";
+        var model = { 'courseId': selectedCourseId };
+        $.ajax({
+            url: "../Bookfee/getBookFeeByCourse",
+            type: "post",
+            data: JSON.stringify(model),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var result = JSON.parse(data);
+                var content1 = "";
+                var content2 = "";
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].feeType == 1)//教材
+                    {
+                        content1 += "<div class='row'>";
+                        content1 += "<div class='form-group'>";
+                        content1 += " <div class='col-mb-12 col-sm-12  form-inline'>";
+                        content1 += "<div class='radio'>";
+                        content1 += "<input class='icheck' type='checkbox' checked='' name='check1'>";
+                        content1 += "<label>" + result[i].feeName + "</label>";
+                        content1 += "</div>";
+                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' value='" + result[i].price + "' />";
+                        content1 += "<label class='glyphicon glyphicon-remove'></label>";
+                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' value='1' />";
+                        content1 += "</div></div></div>";
                     }
-                    bookcard.innerHTML = content1;
-                    othercard.innerHTML = content2;
+                    else if (result[i].feeType == 2)//杂费
+                    {
+                        content2 += "<div class='row'>";
+                        content2 += "<div class='form-group'>";
+                        content2 += " <div class='col-mb-12 col-sm-12  form-inline'>";
+                        content2 += "<div class='radio'>";
+                        content2 += "<input class='icheck' type='checkbox' checked='' name='check1'>";
+                        content2 += "<label>" + result[i].feeName + "</label>";
+                        content2 += "</div>";
+                        content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' value='" + result[i].price + "' />";
+                        content2 += "<label class='glyphicon glyphicon-remove'></label>";
+                        content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' value='1' />";
+                        content2 += "</div></div></div>";
+                    }
                 }
-            });
+                bookcard.innerHTML = content1;
+                othercard.innerHTML = content2;
+            }
         });
     });
-    function Calcu()
-    {
-
+    function Calcu() {
+        document.getElementById("txtResult")
+        var tuition = 0;
+        var bookfee = 0;
+        var otherfee = 0;
+        var classcount = 0;
+        var bookcount = 0;
+        var othercount = 0;
     }
 </script>
