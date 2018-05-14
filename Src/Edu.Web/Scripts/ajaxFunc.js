@@ -110,13 +110,28 @@ function getClassByCourse(courseId, ctrlId) {
             if (result.length > 0) {
                 for (var index = 0; index < result.length; index++) {
                     var item = result[index];
-                        $('#' + ctrlId)
-                            .append("<option value='" + item.id + "'>" + item.schoolRegionName + "|" + item.name + "|" + item.teacher + "|"+item.unitPrice+"元/"+ item.feeType+ "</option>");
+                    $('#' + ctrlId)
+                        .append("<option value='" + item.id + "'>" + item.schoolRegionName + "|" + item.name + "|" + item.teacher + "|" + item.unitPrice + "元/" + item.feeType + "</option>");
                 }
             }
         }
     });
 }
+
+function getBookFeeByCourse(courseId) {
+    var model = { 'courseId': courseId };
+    $.ajax({
+        url: "../Bookfee/getBookFeeByCourse",
+        type: "post",
+        data: JSON.stringify(model),
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            var result = JSON.parse(data);
+            return result;
+        }
+    });
+}
+
 /*时间格式转换*/
 function ChangeDateFormat(cellval) {
     var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));

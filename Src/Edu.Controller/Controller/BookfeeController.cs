@@ -30,6 +30,23 @@ namespace Edu.Controller.Controller
             return View(fees);
         }
         [HttpPost]
+        [ActionName("getBookFeeByCourse")]
+        public string getBookFeeByCourse(int courseId)
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var result = BookfeeService.Instance.GetFeeBySchoolId(new GetObjectByIdArgs()
+            {
+                SchoolId = schoolId
+            });
+            var models = new List<Bookfee>();
+            if (result.Code == 200)
+            {
+                models = result.Items;
+                models = models.Where(p => p.CourseId == courseId).ToList();
+            }
+            return JsonHelper.Serialize(models);
+        }
+        [HttpPost]
         public string AddBookfee(AddBookfeeArgs model)
         {
             if (model != null)
@@ -68,6 +85,6 @@ namespace Edu.Controller.Controller
             }
             return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
-      
+
     }
 }
