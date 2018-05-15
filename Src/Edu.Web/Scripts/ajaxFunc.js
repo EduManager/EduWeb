@@ -99,6 +99,7 @@ function getUserList(ctrlId, roleId) {
 
 function getClassByCourse(courseId, ctrlId) {
     $('#' + ctrlId).empty();
+    $('#' + ctrlId).append("<option disabled selected value='-1'></option>");
     var model = { 'courseId': courseId };
     $.ajax({
         url: "../Classes/getClassByCourseId",
@@ -111,7 +112,7 @@ function getClassByCourse(courseId, ctrlId) {
                 for (var index = 0; index < result.length; index++) {
                     var item = result[index];
                     $('#' + ctrlId)
-                        .append("<option value='" + item.id + "'>" + item.schoolRegionName + "|" + item.name + "|" + item.teacher + "|" + item.unitPrice + "元/" + item.feeType + "</option>");
+                        .append("<option value='" + item.id + "' price='" + item.unitPrice+"'>" + item.schoolRegionName + "|" + item.name + "|" + item.teacher + "|" + item.unitPrice + "元/" + item.feeType + "</option>");
                 }
             }
         }
