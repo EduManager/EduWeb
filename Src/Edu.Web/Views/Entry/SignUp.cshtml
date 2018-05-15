@@ -217,16 +217,16 @@
                                     </div>
                                     <div class="col-sm-2 form-inline" style="padding-left:5px;padding-right:5px;">
                                         <label class="glyphicon glyphicon-remove"></label>
-                                        <input type="number" maxlength='3' style="width:60px;" class="form-control" id="txtClassCount" name="txtClassCount" value="10" onchange="calcTuition();"/>
+                                        <input type="number" maxlength='3' style="width:60px;" class="form-control" id="txtClassCount" name="txtClassCount" value="10" onchange="calcTuition();" />
                                         <label class="control-label">课时</label>
                                     </div>
                                     <div class="col-sm-4 form-inline">
-                                        <select style="width:80px;" id="selectDiscount" class="form-control" onchange="calcTuition();">
+                                        <select style="width:80px;" id="selectDiscount" class="form-control">
                                             <option value="0">原价</option>
                                             <option value="1">打折</option>
                                             <option value="2">优惠</option>
                                         </select>
-                                        <input type="text" style="width:60px;" class="form-control hidden" id="txtDiscount" value="0"  onchange="calcTuition();"/>
+                                        <input type="text" style="width:60px;" class="form-control hidden" id="txtDiscount" value="0" onchange="calcTuition();" />
                                         <select style="width:80px;" id="selectDiscountValue" class="form-control hidden" onchange="calcTuition();">
                                             <option value="1"></option>
                                             <option value="0.99">99</option>
@@ -373,6 +373,7 @@
         var othercard = document.getElementById("othercard");
         bookcard.innerHTML = "";
         othercard.innerHTML = "";
+        result = [];
         var model = { 'courseId': selectedCourseId };
         $.ajax({
             url: "../Bookfee/getBookFeeByCourse",
@@ -395,9 +396,9 @@
                         content1 += "<input class='icheck' type='checkbox' onchange='radioChange(this," + i + ")' checked='' name='check1'>";
                         content1 += "<label>" + result[i].feeName + "</label>";
                         content1 += "</div>";
-                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' value='" + result[i].price + "' />";
+                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' onchange='changePrice(this," + i + ")' value='" + result[i].price + "' />";
                         content1 += "<label class='glyphicon glyphicon-remove'></label>";
-                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' value='1' />";
+                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' onchange='changeCount(this," + i + ")' value='1' />";
                         content1 += "</div></div></div>";
                     }
                     else if (result[i].feeType == 2)//杂费
@@ -417,23 +418,13 @@
                 }
                 bookcard.innerHTML = content1;
                 othercard.innerHTML = content2;
+                Calcu(result);
             }
         });
     });
     $("#selectClass").change(function () {
-        alert($("#selectClass").find("option:selected").attr("price"));
-        var desc = $("#selectDiscount").val();
+        calcTuition();
 
-        if (desc == "0") {
-
-        }
-        else if (desc == "1") {
-
-        }
-        else if (desc == "2") {
-
-        }
-        var claCount = $("#txtClassCount").val();
     });
     $("#selectDiscount").change(function () {
         var desc = $(this).val();
@@ -455,28 +446,53 @@
             $("#txtDiscount").removeClass("hidden");
             $("#lblDiscountType").text("元");
         }
-
+        calcTuition();
     });
     function calcTuition() {
-        $("#txtClassCount").text();
-
+        var clsPrice = $("#selectClass").find("option:selected").attr("price");
+        var claCount = $("#txtClassCount").val();
+        var desc = $("#selectDiscount").val();
+        if (desc == "0") {
+            tuition = clsPrice * claCount;
+        }
+        else if (desc == "1") {
+            var discount = $("#selectDiscountValue").val();
+            tuition = clsPrice * claCount * discount;
+        }
+        else if (desc == "2") {
+            var discount = $("#txtDiscount").val();
+            tuition = clsPrice * claCount - discount;
+        }
+        $("#spTuition").text("¥" + tuition + "元");
     }
     function radioChange(obj, rusultIndex) {
         result[rusultIndex].usable = obj.checked;
+        Calcu(result);
     }
     function changePrice(obj, rusultIndex) {
         result[rusultIndex].price = $(obj).val();
+        Calcu(result);
     }
     function changeCount(obj, rusultIndex) {
         result[rusultIndex].objCount = $(obj).val();
+        Calcu(result);
     }
-    function Calcu() {
-        document.getElementById("txtResult")
-        var tuition = 0;
-        var bookfee = 0;
-        var otherfee = 0;
-        var classcount = 0;
-        var bookcount = 0;
-        var othercount = 0;
+    function Calcu(fees) {
+        bookfee = 0;
+        otherfee = 0;
+        for (var i = 0; i < fees.length; i++) {
+            if (fees[i].usable) {
+                if (fees[i].feeType == 1)//教材
+                {
+                    bookfee += fees[i].price * fees[i].objCount
+                }
+                else if (fees[i].feeType == 2)//杂费
+                {
+                    otherfee += fees[i].price * fees[i].objCount
+                }
+            }
+        }
+        $("#spBookFee").text("¥" + bookfee + "元");
+        $("#spOtherFee").text("¥" + otherfee + "元");
     }
 </script>
