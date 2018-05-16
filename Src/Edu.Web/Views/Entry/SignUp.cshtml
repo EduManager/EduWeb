@@ -3,6 +3,12 @@
 <link rel="stylesheet" href="/Content/upimg/amazeui.min.css">
 <link rel="stylesheet" href="/Content/upimg/amazeui.cropper.css">
 <link rel="stylesheet" href="/Content/upimg/custom_up_img.css">
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/moment-with-locales.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
 <style type="text/css">
     .up-img-cover {
         width: 100px;
@@ -267,6 +273,37 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <div class="col-sm-2 form-inline">
+                                        <input class='icheck' type='checkbox' name='check1' />
+                                        <label class="control-label" for="txtRemark">截止时间</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class='input-group date' id='datepicker1'>
+                                            <input id="txtDatepicker4" type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="control-label" for="txtRemark">注：截止日期后，剩余课时将无法使用</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="txtRemark">备注</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" style="max-width:none" id="txtRemark" name="txtRemark" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <div class="row">
@@ -274,7 +311,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" for="spTuition">学费</label>
                                     <div class="col-sm-8">
-                                        <span id="spTuition" style="font-size:medium" class="col-sm-6 badge badge-primary">¥ 0元</span>
+                                        <span id="spTuition" style="font-size:medium" class="col-sm-6 badge badge-danger">¥ 0元</span>
                                     </div>
                                 </div>
                             </div>
@@ -284,7 +321,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" for="spBookFee">教材费</label>
                                     <div class="col-sm-8">
-                                        <span id="spBookFee" style="font-size:medium" class="col-sm-6 badge badge-primary">¥ 0元</span>
+                                        <span id="spBookFee" style="font-size:medium" class="col-sm-6 badge badge-danger">¥ 0元</span>
                                     </div>
                                 </div>
                             </div>
@@ -294,7 +331,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label" for="spOtherFee">杂费</label>
                                     <div class="col-sm-8">
-                                        <span id="spOtherFee" style="font-size:medium" class="col-sm-6 badge badge-primary">¥ 0元</span>
+                                        <span id="spOtherFee" style="font-size:medium" class="col-sm-6 badge badge-danger">¥ 0元</span>
                                     </div>
                                 </div>
                             </div>
@@ -312,7 +349,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <button type="button" style="width:150px; margin-top:10px;" class="btn btn-primary col-center-block" data-toggle="modal" data-target="#ObjModal" onclick="Calcu();">
+                                    <button type="button" style="width:150px; margin-top:10px;" class="btn btn-primary col-center-block" data-toggle="modal" data-target="#ObjModal" onclick="initModalForm();">
                                         去结算
                                     </button>
                                 </div>
@@ -331,10 +368,87 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
-                    <h5 class="modal-title" id="updateModalLabel">提示</h5>
+                    <h5 class="modal-title" id="updateModalLabel">报名确认</h5>
                 </div>
                 <div class="modal-body">
-                    <p>确认要删除该数据吗？</p>
+                    <div class="form-horizontal" id="addClassForm" role="form">
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txStudentName" class="col-sm-3 control-label">学生姓名</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txStudentName" name="txStudentName" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtClassName1" class="col-sm-3 control-label">报名班级</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtClassName1" name="txtClassName1" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtShouldFee" class="col-sm-3 control-label">应收费用</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtShouldFee" name="txtShouldFee" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtRealFee" class="col-sm-3 control-label">实收费用</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtRealFee" name="txtRealFee" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="selectCampus" class="col-sm-3 control-label">经办校区</label>
+                                    <div class="col-sm-9">
+                                        <select id="selectCampus" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtClassName1" class="col-sm-3 control-label">经办人</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtClassName1" name="txtClassName1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtClassName1" class="col-sm-3 control-label">支付方式</label>
+                                    <div class="col-sm-9">
+                                        <select id="selectPayType" class="form-control">
+                                            <option value="现金">现金</option>
+                                            <option value="刷卡">刷卡</option>
+                                            <option value="微信">微信</option>
+                                            <option value="支付宝">支付宝</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -351,19 +465,23 @@
 <script>
     $(document).ready(function () {
         widgetToggle();
+        getCampus("selectCampus")
         getCourseType("selectCourseType");
         $("#selectCourseType").change(function () {
             $("#selectClass").empty();
             var selectedCoursTypeId = $(this).val();
             getCourseList("selectCourse", selectedCoursTypeId);
         });
+        $('#datepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
     });
     var tuition = 0;
     var bookfee = 0;
     var otherfee = 0;
+    var sumfee = 0;
     var classcount = 0;
-    var bookcount = 0;
-    var othercount = 0;
     var result = [];
     $("#selectCourse").change(function () {
         var selectedCourseId = $(this).val();
@@ -418,7 +536,7 @@
                 }
                 bookcard.innerHTML = content1;
                 othercard.innerHTML = content2;
-                Calcu(result);
+                calcBookFee(result);
             }
         });
     });
@@ -464,20 +582,21 @@
             tuition = clsPrice * claCount - discount;
         }
         $("#spTuition").text("¥" + tuition + "元");
+        calcShouldPay();
     }
     function radioChange(obj, rusultIndex) {
         result[rusultIndex].usable = obj.checked;
-        Calcu(result);
+        calcBookFee(result);
     }
     function changePrice(obj, rusultIndex) {
         result[rusultIndex].price = $(obj).val();
-        Calcu(result);
+        calcBookFee(result);
     }
     function changeCount(obj, rusultIndex) {
         result[rusultIndex].objCount = $(obj).val();
-        Calcu(result);
+        calcBookFee(result);
     }
-    function Calcu(fees) {
+    function calcBookFee(fees) {
         bookfee = 0;
         otherfee = 0;
         for (var i = 0; i < fees.length; i++) {
@@ -494,5 +613,16 @@
         }
         $("#spBookFee").text("¥" + bookfee + "元");
         $("#spOtherFee").text("¥" + otherfee + "元");
+        calcShouldPay();
+    }
+    function calcShouldPay() {
+        sumfee = tuition + bookfee + otherfee;
+        $("#txtResult").val(sumfee);
+    }
+    function initModalForm() {
+        $("#txStudentName").val($("#txtName").val());
+        $("#txtClassName1").val($("#selectClass").val());
+        $("#txtShouldFee").val(sumfee);
+        $("#txtRealFee").val($("#txtResult").val());
     }
 </script>
