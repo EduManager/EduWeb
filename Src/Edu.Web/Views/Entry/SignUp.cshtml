@@ -454,7 +454,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         取消
                     </button>
-                    <button type="button" class="btn btn-primary" id="btnDeleteObj" onclick="deleteObj();">
+                    <button type="button" class="btn btn-primary" id="btnAddEntry">
                         确定
                     </button>
                 </div>
@@ -565,6 +565,18 @@
             $("#lblDiscountType").text("元");
         }
         calcTuition();
+    });
+    $("#btnAddEntry").click(function () {
+        var model = { 'courseId': selectedCourseId };
+        $.ajax({
+            url: "../Student/AddStudent",
+            type: "post",
+            data: JSON.stringify(model),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                result = JSON.parse(data);
+            }
+        });
     });
     function calcTuition() {
         var clsPrice = $("#selectClass").find("option:selected").attr("price");
