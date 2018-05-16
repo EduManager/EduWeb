@@ -20,13 +20,31 @@ namespace Edu.Model.Core
         public int Sex { get; set; }
 
         [DataMember]
+        public DateTime Birthday { get; set; }
+
+        [DataMember]
+        public string FullTimeSchool { get; set; }
+
+        [DataMember]
         public string Grade { get; set; }
 
         [DataMember]
-        public string Tel { get; set; }
+        public string Tel1 { get; set; }
+
+        [DataMember]
+        public string Tel2 { get; set; }
+
+        [DataMember]
+        public string Tel3 { get; set; }
 
         [DataMember]
         public string Address { get; set; }
+
+        [DataMember]
+        public string Remark { get; set; }
+
+        [DataMember]
+        public string Picture { get; set; }
 
         [DataMember]
         public int RegionId { get; set; }

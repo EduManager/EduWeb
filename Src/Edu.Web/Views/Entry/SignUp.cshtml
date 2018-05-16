@@ -109,11 +109,11 @@
                                     <label class="col-sm-2 control-label" for="">性别</label>
                                     <div class="col-sm-4 controls">
                                         <label class="radio-inline">
-                                            <input type="radio" name="sex" id="optionsRadios1" value="option1" checked>
+                                            <input type="radio" name="sex" id="maleOption" value="1" checked>
                                             男
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="sex" id="optionsRadios2" value="option2">
+                                            <input type="radio" name="sex" id="femaleOption" value="0">
                                             女
                                         </label>
                                     </div>
@@ -123,27 +123,18 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="txtName">生日</label>
+                                    <label class="col-sm-2 control-label" for="dpBirthday">生日</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" value="" />
+                                        <div class='input-group date' id='dpBirthday'>
+                                            <input id="txtBirthday" type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <label class="col-sm-2 control-label" for="txtName">住址</label>
+                                    <label class="col-sm-2 control-label" for="txtAddress">住址</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" value="" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="txtName">所在学校</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" value="" />
-                                    </div>
-                                    <label class="col-sm-2 control-label" for="">年级班级</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" value="" />
+                                        <input type="text" class="form-control" id="txtAddress" name="txtAddress" value="" />
                                     </div>
                                 </div>
                             </div>
@@ -151,13 +142,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="txtName">母亲电话</label>
+                                    <label class="col-sm-2 control-label" for="txtFullTimeSchool">所在学校</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" value="" />
+                                        <input type="text" class="form-control" id="txtFullTimeSchool" name="txtFullTimeSchool" value="" />
                                     </div>
-                                    <label class="col-sm-2 control-label" for="">父亲电话</label>
+                                    <label class="col-sm-2 control-label" for="txGrade">年级班级</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" value="" />
+                                        <input type="text" class="form-control" id="txGrade" name="txGrade" value="" />
                                     </div>
                                 </div>
                             </div>
@@ -165,13 +156,27 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="txtName">其他电话</label>
+                                    <label class="col-sm-2 control-label" for="txtTel1">母亲电话</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" value="" />
+                                        <input type="text" class="form-control" id="txtTel1" name="txtTel1" value="" />
                                     </div>
-                                    <label class="col-sm-2 control-label" for="">备注</label>
+                                    <label class="col-sm-2 control-label" for="txtTel2">父亲电话</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" value="" />
+                                        <input type="text" class="form-control" id="txtTel2" name="txtTel2" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="txtTel3">其他电话</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="txtTel3" name="txtTel3" value="" />
+                                    </div>
+                                    <label class="col-sm-2 control-label" for="txtStudentRemark">备注</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="txtStudentRemark" name="txtStudentRemark" value="" />
                                     </div>
                                 </div>
                             </div>
@@ -282,7 +287,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <div class='input-group date' id='datepicker1'>
-                                            <input id="txtDatepicker4" type='text' class="form-control" />
+                                            <input id="txtDatepicker1" type='text' class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -476,6 +481,10 @@
             format: 'YYYY-MM-DD',
             locale: moment.locale('zh-cn')
         });
+        $('#dpBirthday').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
     });
     var tuition = 0;
     var bookfee = 0;
@@ -567,7 +576,22 @@
         calcTuition();
     });
     $("#btnAddEntry").click(function () {
-        var model = { 'courseId': selectedCourseId };
+        var regionId = $("#selectCampus").val();
+        var sname = $("#txtName").val();
+        var sex = $("input[name='sex']:checked").val();
+        var birthday = $("#dpBirthday").data().date;
+
+        var fulltimeschool = $("#txtFullTimeSchool").val();
+        var grade = $("#txGrade").val();
+        var address = $("#txtAddress").val();
+        var tel1 = $("#txtTel1").val();
+        var tel2 = $("#txtTel2").val();
+        var tel3 = $("#txtTel3").val();
+        var remark = $("#txtStudentRemark").val();
+
+        var model = {'RegionId': regionId, 'Name': sname, 'Sex': sex, 'Birthday': birthday, 'FullTimeSchool': fulltimeschool, 'Grade': grade,
+            'Tel1': tel1, 'Tel2': tel2, 'Tel3': tel3, 'Address': address, 'Remark': remark, 'Picture': ""
+        };
         $.ajax({
             url: "../Student/AddStudent",
             type: "post",

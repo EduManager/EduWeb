@@ -16,6 +16,10 @@ namespace Edu.Model.Args
 
         public int Sex { get; set; }
 
+        public DateTime Birthday { get; set; }
+
+        public string FullTimeSchool { get; set; }
+
         public string Grade { get; set; }
 
         public string Tel1 { get; set; }
@@ -27,6 +31,8 @@ namespace Edu.Model.Args
         public string Address { get; set; }
 
         public string Remark { get; set; }
+
+        public string Picture { get; set; }
 
         public int CreateBy { get; set; }
 

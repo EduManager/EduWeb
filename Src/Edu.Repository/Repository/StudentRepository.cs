@@ -42,7 +42,7 @@ namespace Edu.Repository
         {
             try
             {
-                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>(0, "add_student", args);
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<int>(args.SchoolId, "add_student", args);
                 if (result.Code == 200 && result.Items.Count > 0)
                 {
                     return CommandResult.Success(result.Items[0]);

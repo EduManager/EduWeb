@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Args\AddEntryArgs.cs" />
     <Compile Include="Args\AddStudentArgs.cs" />
     <Compile Include="Args\UpdateClassesArgs.cs" />
     <Compile Include="Args\UpdateAttendClassArgs.cs" />
