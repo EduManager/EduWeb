@@ -589,7 +589,8 @@
         var tel3 = $("#txtTel3").val();
         var remark = $("#txtStudentRemark").val();
 
-        var model = {'RegionId': regionId, 'Name': sname, 'Sex': sex, 'Birthday': birthday, 'FullTimeSchool': fulltimeschool, 'Grade': grade,
+        var model = {
+            'RegionId': regionId, 'Name': sname, 'Sex': sex, 'Birthday': birthday, 'FullTimeSchool': fulltimeschool, 'Grade': grade,
             'Tel1': tel1, 'Tel2': tel2, 'Tel3': tel3, 'Address': address, 'Remark': remark, 'Picture': ""
         };
         $.ajax({
@@ -598,7 +599,38 @@
             data: JSON.stringify(model),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                result = JSON.parse(data);
+                var addStuResult = JSON.parse(data);
+                var courseId = $("#selectCourse").val();
+                var classId = $("#selectClass").val();
+                var classFullName = $("#selectClass").text();
+                var endDate = $("#datepicker1").data().date;
+                var classCount = $("#txtClassCount").val();
+                var realPay = $("#txtResult").val();//实际支付
+                var status = "";
+                var remain = realPay - sumfee;
+                if (sumfee == realPay) {
+                    status = "正常"
+                }
+                else if (sumfee > realPay) {
+                    status = "欠费"
+                }
+                else {
+                    status = "余额"
+                }
+                var entryModel = {
+                    'RegionId': regionId, 'StudentId': addStuResult.data, 'CourseId': courseId, 'ClassId': classId, 'FullName': classFullName, 'StartDate': "",
+                    'EndDate': endDate, 'CourseHour': classCount, 'Status': status, 'Remain': remain
+                };
+                $.ajax({
+                    url: "AddEntry",
+                    type: "post",
+                    data: JSON.stringify(entryModel),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        result = JSON.parse(data);
+
+                    }
+                });
             }
         });
     });

@@ -30,10 +30,6 @@ namespace Edu.Model.Args
 
         public string Remain { get; set; }
 
-        public string Ext1 { get; set; }
-
-        public string Ext2 { get; set; }
-
         public int CreateBy { get; set; }
 
         public int ModifyBy { get; set; }

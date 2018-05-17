@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BookfeeService.cs" />
     <Compile Include="ClassesService.cs" />
+    <Compile Include="EntryService.cs" />
     <Compile Include="StudentService.cs" />
     <Compile Include="CourseService.cs" />
     <Compile Include="CampusService.cs" />

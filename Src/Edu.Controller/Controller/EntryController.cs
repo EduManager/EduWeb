@@ -1,5 +1,9 @@
 ﻿using Edu.Controller.Common;
 using Edu.Infrastructure.Common;
+using Edu.Infrastructure.Helper;
+using Edu.Model;
+using Edu.Model.Args;
+using Edu.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +22,20 @@ namespace Edu.Controller.Controller
             var userId = ApplicationContext.UserId;
             var schoolId = ApplicationContext.SchoolId;
             return View();
+        }
+        [HttpPost]
+        public string AddEntry(AddEntryArgs model)
+        {
+            if (model != null)
+            {
+                model.CreateBy = ApplicationContext.UserId;
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+
+                var result = EntryService.Instance.AddEntry(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
     }
 }
