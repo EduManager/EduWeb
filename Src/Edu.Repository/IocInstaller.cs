@@ -47,6 +47,9 @@ namespace Edu.Repository
                     .LifeStyle.Singleton,
                 Component.For(typeof(IConsultRepository))
                     .ImplementedBy<ConsultRepository>()
+                    .LifeStyle.Singleton,
+                Component.For(typeof(IEntryRepository))
+                    .ImplementedBy<EntryRepository>()
                     .LifeStyle.Singleton);
 
             #endregion

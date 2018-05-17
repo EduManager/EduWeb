@@ -37,5 +37,20 @@ namespace Edu.Controller.Controller
             }
             return JsonHelper.Serialize(CommandResult.Failure<int>());
         }
+
+        [HttpPost]
+        public string AddAccount(AddAccountArgs model)
+        {
+            if (model != null)
+            {
+                model.CreateBy = ApplicationContext.UserId;
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+
+                var result = EntryService.Instance.AddAccount(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
     }
 }

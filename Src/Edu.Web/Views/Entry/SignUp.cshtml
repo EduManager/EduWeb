@@ -431,9 +431,9 @@
                         <div class="row">
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
-                                    <label for="txtClassName1" class="col-sm-3 control-label">经办人</label>
+                                    <label for="txtOptor" class="col-sm-3 control-label">经办人</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="txtClassName1" name="txtClassName1">
+                                        <input type="text" class="form-control" id="txtOptor" name="txtOptor">
                                     </div>
                                 </div>
                             </div>
@@ -441,7 +441,7 @@
                         <div class="row">
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
-                                    <label for="txtClassName1" class="col-sm-3 control-label">支付方式</label>
+                                    <label for="selectPayType" class="col-sm-3 control-label">支付方式</label>
                                     <div class="col-sm-9">
                                         <select id="selectPayType" class="form-control">
                                             <option value="现金">现金</option>
@@ -491,6 +491,7 @@
     var otherfee = 0;
     var sumfee = 0;
     var classcount = 0;
+    var discountvalue = 0;
     var result = [];
     $("#selectCourse").change(function () {
         var selectedCourseId = $(this).val();
@@ -559,19 +560,21 @@
             $("#lblDiscountType").addClass("hidden");
             $("#txtDiscount").addClass("hidden");
             $("#selectDiscountValue").addClass("hidden");
+            discountvalue = 1;
         }
         else if (desc == '1') {
             $("#txtDiscount").addClass("hidden");
             $("#lblDiscountType").removeClass("hidden");
             $("#selectDiscountValue").removeClass("hidden");
             $("#lblDiscountType").text("折");
-
+            discountvalue = $("#selectDiscountValue").val();
         }
         else if (desc == '2') {
             $("#selectDiscountValue").addClass("hidden");
             $("#lblDiscountType").removeClass("hidden");
             $("#txtDiscount").removeClass("hidden");
             $("#lblDiscountType").text("元");
+            discountvalue = $("#txtDiscount").val();
         }
         calcTuition();
     });
@@ -627,8 +630,27 @@
                     data: JSON.stringify(entryModel),
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
-                        result = JSON.parse(data);
-
+                        var AddEntryResult = JSON.parse(data);
+                        var opttype = $("#selectPayType").val(); 
+                        var optor = $("#txtOptor").val();
+                        var entryremark = $("#txtRemark").val();
+                        var disTp = $(selectDiscount).val();
+                        var accountModel = {
+                            'RegionId': regionId, 'EntryId': AddEntryResult.data, 'ShouldExpenses': sumfee, 'BookExpenses': bookfee, 'OtherExpenses': otherfee, 'RealExpenses': realPay,
+                            'OptType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
+                        };
+                        $.ajax({
+                            url: "AddAccount",
+                            type: "post",
+                            data: JSON.stringify(accountModel),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                var AddAccountResult = JSON.parse(data);
+                                if (AddAccountResult.code === 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
                     }
                 });
             }

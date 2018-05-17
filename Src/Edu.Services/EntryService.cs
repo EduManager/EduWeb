@@ -40,5 +40,19 @@ namespace Edu.Services
 
             return ContainerFactory<IEntryRepository>.Instance.AddEntry(args);
         }
+
+        /// <summary>
+        /// 添加缴费
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> AddAccount(AddAccountArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IEntryRepository>.Instance.AddAccount(args);
+        }
     }
 }
