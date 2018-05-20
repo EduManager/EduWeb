@@ -115,6 +115,9 @@
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\mode-ecb.js" />
     <Content Include="Scripts\tripledes.js" />
+    <Content Include="Scripts\upimg\amazeui.min.js" />
+    <Content Include="Scripts\upimg\cropper.min.js" />
+    <Content Include="Scripts\upimg\custom_up_img.js" />
     <Content Include="Scripts\ztree\jquery.ztree.core.min.js" />
     <Content Include="Scripts\ztree\jquery.ztree.excheck.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -155,6 +158,7 @@
     <Content Include="Views\Consult\ConsultList.cshtml" />
     <Content Include="Views\Student\List.cshtml" />
     <Content Include="Views\Entry\SignUp.cshtml" />
+    <Content Include="Views\Entry\Renew.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
