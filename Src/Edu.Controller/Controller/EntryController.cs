@@ -34,6 +34,25 @@ namespace Edu.Controller.Controller
 
             return View(result.Items);
         }
+
+        public ViewResult Refund(int pageIndex = 1)
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var args = new GetObjectsByPagingArgs()
+            {
+                PageSize = 10,
+                SchoolId = schoolId,
+                PageIndex = pageIndex,
+                WhereStr = "",
+                OrderBy = ""
+            };
+            var result = StudentService.Instance.GetStudentListByPaging(args);
+            ViewData["PageCount"] = args.RowsCount / args.PageSize + 1;
+            ViewData["PageSize"] = args.PageSize;
+            ViewData["PageIndex"] = args.PageIndex;
+
+            return View(result.Items);
+        }
         [AuthFilter]
         public ViewResult SignUp()
         {
