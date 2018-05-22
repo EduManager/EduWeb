@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Edu.Model.Core.Student>
+﻿@model IEnumerable<Edu.Model.Core.Entry>
 @{
     ViewBag.Title = "List";
 }
 <ol class="breadcrumb">
-    <li>学生列表</li>
+    <li>办理续费</li>
 </ol>
 <div class="row well well-sm" style="margin:10px 0px;">
     <div class="col-md-12">
@@ -47,8 +47,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.Name</td>
-                        <td>@item.RegionName</td>
+                        <td>@item.StudentName</td>
                         @{
                             if (item.Sex == 1)
                             {
@@ -63,30 +62,28 @@
                                 <td></td>
                             }
                         }
-                        <td>@item.Grade</td>
-                        <td>@item.Tel1</td>
-                        <td>@item.Address</td>
-                        <td>@item.CreateBy</td>
+                        <td>@item.Age</td>
+                        <td>@item.Tel</td>
+                        <td>@item.CourseName</td>
+                        <td>@item.ClassName</td>
+                        <td>@item.Teacher</td>
+                        <td>@item.RealExpenses</td>
+                        <td>@item.State</td>
                         <td>
-                            @if (item.CreateTime != null)
+                            @if (item.opttime != null)
                             {
-                                @item.CreateTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                                @item.opttime.Value.ToString("yyyy-MM-dd hh:mm:ss")
                             }
                         </td>
-                        <td>@item.ModifyBy</td>
-                        <td>
-                            @if (item.ModifyTime != null)
-                            {
-                                @item.ModifyTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
-                            }
-                        </td>
+                        <td>@item.RegionName</td>
+                        <td>@item.OperatorName</td>
                         <td>
                             <div class="btn-group">
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#ObjModal"> <i class="glyphicon glyphicon-jpy"></i> 续费</button>
                             </div>
                         </td>
                     </tr>
-                }
+                            }
             </tbody>
         </table>
     </div>
@@ -153,7 +150,7 @@
 
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-mb-12 col-sm-12">
@@ -192,17 +189,11 @@
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="selectCampus" class="col-sm-2 control-label">经办校区</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-4">
                                         <select id="selectCampus" class="form-control"></select>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-mb-12 col-sm-12">
-                                <div class="form-group">
                                     <label for="txtOptor" class="col-sm-2 control-label">经办人</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-4">
                                         <input type="text" class="form-control" id="txtOptor" name="txtOptor">
                                     </div>
                                 </div>
@@ -212,13 +203,31 @@
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="selectPayType" class="col-sm-2 control-label">支付方式</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-4">
                                         <select id="selectPayType" class="form-control">
                                             <option value="现金">现金</option>
                                             <option value="刷卡">刷卡</option>
                                             <option value="微信">微信</option>
                                             <option value="支付宝">支付宝</option>
                                         </select>
+                                    </div>
+                                    <label for="selectPayType" class="col-sm-2 control-label">办理日期</label>
+                                    <div class='col-sm-3 input-group date' id='datepicker3'>
+                                        <input id="txtDatepicker3" type='text' class="form-control" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtRemark" class="col-sm-2 control-label">备注</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" style="max-width:800px;" class="form-control" id="txtRemark" value="0"/>
                                     </div>
                                 </div>
                             </div>
@@ -244,5 +253,42 @@
     function editData() {
 
     }
+    var pageInfo = {
+        pageIndex: parseInt('@ViewData["PageIndex"]'),
+        pageCount: parseInt('@ViewData["PageCount"]'),
+        pageSize: parseInt('@ViewData["PageSize"]')
+    };
 
+    $(document).ready(function () {
+
+        $('#ulPaging')
+            .bootstrapPaginator({
+                currentPage: pageInfo.pageIndex, //当前的请求页面。
+                totalPages: pageInfo.pageCount, //pageInfo.pageCount, //一共多少页。
+                size: "normal", //应该是页眉的大小。
+                bootstrapMajorVersion: 3, //bootstrap的版本要求。
+                alignment: "right",
+                numberOfPages: numberOfPage, //一页列出多少数据。
+                itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
+                    switch (type) {
+                        case "first":
+                            return "首页";
+                        case "prev":
+                            return "上一页";
+                        case "next":
+                            return "下一页";
+                        case "last":
+                            return "末页";
+                        case "page":
+                            return page;
+                    }
+                },
+                onPageClicked: function (event, originalEvent, type, page) {
+                    if (page != pageInfo.pageIndex)
+                        window.location.href = "Renew?pageIndex=" + page;
+                }
+            });
+
+
+    });
 </script>

@@ -25,5 +25,11 @@ namespace Edu.Core.DomainRepository
         /// <returns></returns>
         CommandResult<int> AddAccount(AddAccountArgs args);
 
+        /// <summary>
+        /// 通过分页获取报名信息列表
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        QueryResult<Entry> GetEntryListByPaging(GetObjectsByPagingArgs args);
     }
 }

@@ -27,7 +27,7 @@ namespace Edu.Controller.Controller
                 WhereStr = "",
                 OrderBy = ""
             };
-            var result = StudentService.Instance.GetStudentListByPaging(args);
+            var result = EntryService.Instance.GetEntryListByPaging(args);
             ViewData["PageCount"] = args.RowsCount / args.PageSize + 1;
             ViewData["PageSize"] = args.PageSize;
             ViewData["PageIndex"] = args.PageIndex;
@@ -37,21 +37,7 @@ namespace Edu.Controller.Controller
 
         public ViewResult Refund(int pageIndex = 1)
         {
-            var schoolId = ApplicationContext.SchoolId;
-            var args = new GetObjectsByPagingArgs()
-            {
-                PageSize = 10,
-                SchoolId = schoolId,
-                PageIndex = pageIndex,
-                WhereStr = "",
-                OrderBy = ""
-            };
-            var result = StudentService.Instance.GetStudentListByPaging(args);
-            ViewData["PageCount"] = args.RowsCount / args.PageSize + 1;
-            ViewData["PageSize"] = args.PageSize;
-            ViewData["PageIndex"] = args.PageIndex;
-
-            return View(result.Items);
+            return Renew(pageIndex);
         }
         [AuthFilter]
         public ViewResult SignUp()

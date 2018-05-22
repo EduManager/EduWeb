@@ -87,6 +87,7 @@
     <Compile Include="Core\Classes.cs" />
     <Compile Include="Core\Course.cs" />
     <Compile Include="Core\CourseType.cs" />
+    <Compile Include="Core\Entry.cs" />
     <Compile Include="Core\Student.cs" />
     <Compile Include="Core\SysConfig.cs" />
     <Compile Include="Core\UserForLogin.cs" />
