@@ -2,6 +2,16 @@
 @{
     ViewBag.Title = "List";
 }
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/moment-with-locales.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<style>
+    .margin-lr {
+        margin: 0px,10px;
+    }
+</style>
 <ol class="breadcrumb">
     <li>办理续费</li>
 </ol>
@@ -79,11 +89,11 @@
                         <td>@item.OperatorName</td>
                         <td>
                             <div class="btn-group">
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#ObjModal"> <i class="glyphicon glyphicon-jpy"></i> 续费</button>
+                                <button class="btn btn-primary" data-val="@item.Id" data-toggle="modal" data-target="#ObjModal" onclick="showModal(this);"> <i class="glyphicon glyphicon-jpy"></i> 续费</button>
                             </div>
                         </td>
                     </tr>
-                            }
+                }
             </tbody>
         </table>
     </div>
@@ -103,9 +113,8 @@
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="txtClassName1" class="col-sm-2 control-label">报名班级</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtClassName1" name="txtClassName1" readonly>
-                                    </div>
+                                    <label id="txtClassName1" class="col-sm-10 control-label" style="text-align: left;"> </label>
+
                                 </div>
                             </div>
                         </div>
@@ -114,24 +123,17 @@
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="txtShouldFee" class="col-sm-2 control-label">学费计算</label>
-
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="txtDiscount" value="0" onchange="calcTuition();" />
-                                    </div>
-                                    <div class="col-sm-1 text-center">
-                                        <label class="control-label glyphicon glyphicon-remove"></label>
-                                    </div>
-                                    <div class="col-sm-3 form-inline">
-                                        <input type="number" maxlength='3' style="width:80px;" class="form-control" id="txtClassCount" name="txtClassCount" value="10" onchange="calcTuition();" />
-                                        <label class="control-label">课时</label>
-                                    </div>
-                                    <div class="col-sm-3 form-inline">
-                                        <select id="selectDiscount" class="form-control">
+                                    <div class="col-sm-10 form-inline">
+                                        <input type="text" class="form-control margin-lr readonly" style="width:100px;" id="txtClassUnit" value="0" />
+                                        <label class="control-label margin-lr glyphicon glyphicon-remove"></label>
+                                        <input type="number" maxlength='3' style="width:80px;" class="form-control margin-lr" id="txtClassCount" name="txtClassCount" value="10" onchange="calcTuition();" />
+                                        <label class="control-label margin-lr">课时</label>
+                                        <select id="selectDiscount" class="form-control margin-lr" onchange="changeDiscount();">
                                             <option value="0">原价</option>
                                             <option value="1">打折</option>
                                             <option value="2">优惠</option>
                                         </select>
-                                        <input type="text" style="width:60px;" class="form-control hidden" id="txtDiscount" value="0" onchange="calcTuition();" />
+                                        <input type="text" style="width:80px;" class="form-control margin-lr hidden" id="txtDiscount" value="0" onchange="calcTuition();" />
                                         <select style="width:80px;" id="selectDiscountValue" class="form-control hidden" onchange="calcTuition();">
                                             <option value="1"></option>
                                             <option value="0.99">99</option>
@@ -146,8 +148,7 @@
                                             <option value="0.60">60</option>
                                             <option value="0.50">50</option>
                                         </select>
-                                        <label id="lblDiscountType" style="margin-left:5px;margin-right:5px;" class="control-label hidden">元</label>
-
+                                        <label id="lblDiscountType" class="control-label hidden margin-lr">元</label>
                                     </div>
                                 </div>
                             </div>
@@ -155,9 +156,14 @@
                         <div class="row">
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
-                                    <label for="txtRealFee" class="col-sm-2 control-label">使用余额</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="txtRealFee" name="txtRealFee">
+                                    <label for="txtRemainValue" class="col-sm-2 control-label">使用余额</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="txtRemainValue" name="txtRemainValue" onchange="calcTuition();">
+                                        <label for="txtRemainDesc" class="control-label">当前余额：0元</label>
+                                    </div>
+                                    <label for="txtRealPay" class="col-sm-2 control-label">实收费用</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="txtRealPay" name="txtRealPay">
                                     </div>
                                 </div>
                             </div>
@@ -173,6 +179,8 @@
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
                                         </div>
+                                    </div>
+                                    <div class="col-sm-2">
                                     </div>
                                     <div class="col-sm-4">
                                         <div class='input-group date' id='datepicker2'>
@@ -211,12 +219,14 @@
                                             <option value="支付宝">支付宝</option>
                                         </select>
                                     </div>
-                                    <label for="selectPayType" class="col-sm-2 control-label">办理日期</label>
-                                    <div class='col-sm-3 input-group date' id='datepicker3'>
-                                        <input id="txtDatepicker3" type='text' class="form-control" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
+                                    <label for="datepicker3" class="col-sm-2 control-label">办理日期</label>
+                                    <div class='col-sm-4'>
+                                        <div class='input-group date' id='datepicker3'>
+                                            <input id="txtDatepicker3" type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -226,8 +236,8 @@
                                 <div class="form-group">
                                     <label for="txtRemark" class="col-sm-2 control-label">备注</label>
 
-                                    <div class="col-sm-9">
-                                        <input type="text" style="max-width:800px;" class="form-control" id="txtRemark" value="0"/>
+                                    <div class="col-sm-10">
+                                        <input type="text" style="max-width:800px;" class="form-control" id="txtRemark" value=" " />
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +248,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         取消
                     </button>
-                    <button type="button" class="btn btn-primary" id="btnAddEntry">
+                    <button type="button" class="btn btn-primary" id="btnAddAccount">
                         确定
                     </button>
                 </div>
@@ -247,10 +257,45 @@
     </div>
 </div>
 <script>
-    function fullData() {
-
+    var clsPrice = 0;
+    var regionId, entryId, tuition, realPay, discountvalue;
+    function showModal(e) {
+      var  entryId = e.dataset.val;
+             var entryModels = @Html.Raw(Json.Encode(Model));
+             $.each(entryModels, function (tempindex, item) {
+                 if (item.Id == entryId) {
+                     regionId = item.RegionId;
+                     entryId = item.Id;
+                     clsPrice = item.UnitPrice;
+                     $("#renewModalLabel").html(item.StudentName + "-续费");
+                     $("#txtClassName1").html(item.ClassFullName);
+                     $("#txtClassUnit").val(clsPrice + "元/" + item.Unit);
+                     $("#txtRemainValue").val(item.Remain);
+                     $("#txtRemainDesc").html("当前余额：" + item.Remain + "元");
+                     $("#selectCampus").val(item.RegionId);
+                     calcTuition();
+                 }
+             });
     }
     function editData() {
+
+    }
+    function calcTuition() {
+        var claCount = $("#txtClassCount").val();
+        var desc = $("#selectDiscount").val();
+        if (desc == "0") {
+            tuition = clsPrice * claCount;
+        }
+        else if (desc == "1") {
+            var discount = $("#selectDiscountValue").val();
+            tuition = clsPrice * claCount * discount;
+        }
+        else if (desc == "2") {
+            var discount = $("#txtDiscount").val();
+            tuition = clsPrice * claCount - discount;
+        }
+        tuition = tuition - Number($("#txtRemainValue").val());
+        $("#txtRealPay").val(tuition);
 
     }
     var pageInfo = {
@@ -258,9 +303,46 @@
         pageCount: parseInt('@ViewData["PageCount"]'),
         pageSize: parseInt('@ViewData["PageSize"]')
     };
-
+    $("#btnAddAccount").click(function () {
+        var opttype = $("#selectPayType").val();
+        var optor = $("#txtOptor").val();
+        var entryremark = $("#txtRemark").val();
+        var disTp = $(selectDiscount).val();
+        var realPay = $("#txtRealPay").val();
+        var accountModel = {
+            'RegionId': regionId, 'EntryId': entryId, 'ShouldExpenses': tuition, 'BookExpenses': 0, 'OtherExpenses': 0, 'RealExpenses': realPay,
+            'OptType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
+        };
+        $.ajax({
+            url: "AddAccount",
+            type: "post",
+            data: JSON.stringify(accountModel),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var AddAccountResult = JSON.parse(data);
+                if (AddAccountResult.code === 200) {
+                    alert("操作成功！");
+                    window.location.reload();
+                }
+            }
+        });
+    });
     $(document).ready(function () {
-
+        getCampus("selectCampus");
+        var newDate = new Date().Format("yyyy-MM-dd");  
+        $('#txtDatepicker3').val(newDate);
+        $('#datepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
+        $('#datepicker2').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
+        $('#datepicker3').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
         $('#ulPaging')
             .bootstrapPaginator({
                 currentPage: pageInfo.pageIndex, //当前的请求页面。
@@ -288,7 +370,6 @@
                         window.location.href = "Renew?pageIndex=" + page;
                 }
             });
-
 
     });
 </script>

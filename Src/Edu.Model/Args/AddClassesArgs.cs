@@ -20,6 +20,8 @@ namespace Edu.Model.Args
 
         public decimal UnitPrice { get; set; }
 
+        public string Unit { get; set; }
+
         public int ClassHour { get; set; }
 
         public DateTime StartDate { get; set; }

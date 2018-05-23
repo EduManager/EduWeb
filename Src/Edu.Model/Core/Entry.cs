@@ -25,6 +25,10 @@ namespace Edu.Model.Core
         [DataMember]
         public string ClassName { get; set; }
         [DataMember]
+        public decimal UnitPrice { get; set; }
+        [DataMember]
+        public string Unit { get; set; }
+        [DataMember]
         public string Teacher { get; set; }
         [DataMember]
         public string State { get; set; }
@@ -44,6 +48,10 @@ namespace Edu.Model.Core
         public string Tel { get; set; }
         [DataMember]
         public string Grade { get; set; }
+        [DataMember]
+        public string ClassFullName { get; set; }
+        [DataMember]
+        public decimal Remain { get; set; }
         [DataMember]
         public decimal RealExpenses { get; set; }
         [DataMember]

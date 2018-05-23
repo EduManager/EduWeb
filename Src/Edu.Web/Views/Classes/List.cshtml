@@ -707,26 +707,29 @@
                     var FeeType = feeTypeName;
                     var MaxCount = $("#txtMaxCount").val();
                     var Address = $("input[ name='txtAddress']").val();
-                    var UnitPrice, StartDate, EndDate, ClassHour;
+                    var UnitPrice, StartDate, EndDate, ClassHour,ClassUnit;
                     switch (feeTypeName) {
                         case '课时': 
                             UnitPrice = $("#txtStandard1").val();
                             StartDate = $("#datepicker1").data().date;
                             ClassHour = $("input[ name='txtClassHour']").val();
+                            ClassUnit = "课时";
                             break;
                         case '时间':
                             UnitPrice = $("#txtStandard2").val();
                             StartDate = $("#datepicker2").data().date;
                             EndDate = $("#datepicker3").data().date;
+                            ClassUnit = "周";
                             break;
                         case '学期':
                             UnitPrice = $("#txtStandard3").val();
                             StartDate = $("#datepicker4").data().date;
+                            ClassUnit = "期";
                             break;
 
                     }
                     var classObj = {
-                        'Name': Name, 'SchoolRegionId': SchoolRegionId, 'CourseId': CourseId, 'Address': Address, 'Teacher': Teacher, 'FeeType': FeeType, 'MaxCount': MaxCount, 'UnitPrice': UnitPrice, 'StartDate': StartDate, 'EndDate': EndDate, 'ClassHour': ClassHour
+                        'Name': Name, 'SchoolRegionId': SchoolRegionId, 'CourseId': CourseId, 'Address': Address, 'Teacher': Teacher, 'FeeType': FeeType, 'Unit': ClassUnit, 'MaxCount': MaxCount, 'UnitPrice': UnitPrice, 'StartDate': StartDate, 'EndDate': EndDate, 'ClassHour': ClassHour
                     };
                     if($("#addClassModalLabel").val()=="添加班级")
                     {

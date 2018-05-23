@@ -32,6 +32,9 @@ namespace Edu.Model.Core
         public string FeeType { get; set; }
 
         [DataMember]
+        public string Unit { get; set; }
+
+        [DataMember]
         public decimal UnitPrice { get; set; }
 
         [DataMember]

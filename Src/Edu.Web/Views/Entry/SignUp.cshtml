@@ -242,7 +242,7 @@
                                         <label class="control-label">课时</label>
                                     </div>
                                     <div class="col-sm-4 form-inline">
-                                        <select style="width:80px;" id="selectDiscount" class="form-control">
+                                        <select style="width:80px;" id="selectDiscount" class="form-control" onchange="changeDiscount();">
                                             <option value="0">原价</option>
                                             <option value="1">打折</option>
                                             <option value="2">优惠</option>
@@ -578,30 +578,6 @@
     $("#selectClass").change(function () {
         calcTuition();
 
-    });
-    $("#selectDiscount").change(function () {
-        var desc = $(this).val();
-        if (desc == '0') {
-            $("#lblDiscountType").addClass("hidden");
-            $("#txtDiscount").addClass("hidden");
-            $("#selectDiscountValue").addClass("hidden");
-            discountvalue = 1;
-        }
-        else if (desc == '1') {
-            $("#txtDiscount").addClass("hidden");
-            $("#lblDiscountType").removeClass("hidden");
-            $("#selectDiscountValue").removeClass("hidden");
-            $("#lblDiscountType").text("折");
-            discountvalue = $("#selectDiscountValue").val();
-        }
-        else if (desc == '2') {
-            $("#selectDiscountValue").addClass("hidden");
-            $("#lblDiscountType").removeClass("hidden");
-            $("#txtDiscount").removeClass("hidden");
-            $("#lblDiscountType").text("元");
-            discountvalue = $("#txtDiscount").val();
-        }
-        calcTuition();
     });
     $("#btnAddEntry").click(function () {
         var regionId = $("#selectCampus").val();
