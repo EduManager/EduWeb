@@ -19,6 +19,12 @@ namespace Edu.Core.DomainRepository
         CommandResult<int> AddEntry(AddEntryArgs args);
 
         /// <summary>
+        /// 更新状态
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        CommandResult<int> UpdateEntry(UpdateEntryArgs args);
+        /// <summary>
         /// 添加报名费用
         /// </summary>
         /// <param name="args"></param>

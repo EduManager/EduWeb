@@ -31,7 +31,7 @@ namespace Edu.Model.Core
         [DataMember]
         public string Teacher { get; set; }
         [DataMember]
-        public string State { get; set; }
+        public int Status { get; set; }
         [DataMember]
         public string OperatorName { get; set; }
         [DataMember]
@@ -59,7 +59,7 @@ namespace Edu.Model.Core
         [DataMember]
         public decimal OtherExpenses { get; set; }
         [DataMember]
-        public DateTime? opttime { get; set; }
+        public DateTime? OptTime { get; set; }
 
 
     }

@@ -62,6 +62,19 @@ namespace Edu.Controller.Controller
         }
 
         [HttpPost]
+        public string UpdateEntry(UpdateEntryArgs model)
+        {
+            if (model != null)
+            {
+                model.ModifyBy = ApplicationContext.UserId;
+                model.SchoolId = ApplicationContext.SchoolId;
+
+                var result = EntryService.Instance.UpdateEntry(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure<int>());
+        }
+        [HttpPost]
         public string AddAccount(AddAccountArgs model)
         {
             if (model != null)

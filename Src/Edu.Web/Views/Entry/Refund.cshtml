@@ -1,7 +1,17 @@
-﻿@model IEnumerable<Edu.Model.Core.Student>
+﻿@model IEnumerable<Edu.Model.Core.Entry>
 @{
     ViewBag.Title = "List";
 }
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/moment-with-locales.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<style>
+    .margin-lr {
+        margin: 0px,10px;
+    }
+</style>
 <ol class="breadcrumb">
     <li>办理退费</li>
 </ol>
@@ -25,7 +35,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <table class="table table-striped table-hover table-bordered">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>姓名</th>
@@ -45,10 +55,9 @@
             </thead>
             <tbody>
                 @foreach (var item in Model)
-            {
+                {
                     <tr>
-                        <td>@item.Name</td>
-                        <td>@item.RegionName</td>
+                        <td>@item.StudentName</td>
                         @{
                             if (item.Sex == 1)
                             {
@@ -63,32 +72,48 @@
                                 <td></td>
                             }
                         }
-                        <td>@item.Grade</td>
-                        <td>@item.Tel1</td>
-                        <td>@item.Address</td>
-                        <td>@item.CreateBy</td>
+                        <td>@item.Age</td>
+                        <td>@item.Tel</td>
+                        <td>@item.CourseName</td>
+                        <td>@item.ClassName</td>
+                        <td>@item.Teacher</td>
+                        <td>@item.RealExpenses</td>
+                        @{
+                            //0:正常,1:欠费,2:转出,3:退费,4:停课,5:结业
+                            if (item.Status == 0)
+                            {
+                                <td>正常</td>}
+                            else if (item.Status == 1)
+                            {
+                                <td>欠费</td>}
+                            else if (item.Status == 2)
+                            {
+                                <td>转出</td>}
+                            else if (item.Status == 3)
+                            {
+                                <td>退费</td>}
+                            else if (item.Status == 4)
+                            {
+                                <td>停课</td>}
+                            else if (item.Status == 5)
+                            {
+                                <td>结业</td>}
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
                         <td>
-                            @if (item.CreateTime != null)
-                {
-                                @item.CreateTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                            @if (item.OptTime != null)
+                            {
+                                @item.OptTime.Value.ToString("yyyy-MM-dd")
                             }
                         </td>
-                        <td>@item.ModifyBy</td>
-                        <td>
-                            @if (item.ModifyTime != null)
-                {
-                                @item.ModifyTime.Value.ToString("yyyy-MM-dd hh:mm:ss")
-                            }
-                        </td>
+                        <td>@item.RegionName</td>
+                        <td>@item.OperatorName</td>
                         <td>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    操作 <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a data-toggle="modal" data-target="#updateModal" data-val="@item.Id" onclick="loadStu(this);">编辑</a></li>
-                                    <li><a data-val="@item.Id" onclick="deleteUser(this);">删除</a></li>
-                                </ul>
+                                <button class="btn btn-primary" data-val="@item.Id" data-toggle="modal" data-target="#ObjModal" onclick="showModal(this);"> <i class="glyphicon glyphicon-flash"></i> 退费</button>
                             </div>
                         </td>
                     </tr>
@@ -96,4 +121,262 @@
             </tbody>
         </table>
     </div>
+    <!-- 模态框（Modal）续费 -->
+    <div class="modal fade" id="ObjModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog"  style="width:680px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="renewModalLabel"></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" id="addClassForm" role="form">
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtClassName1" class="col-sm-2 control-label">报名班级</label>
+                                    <label id="txtClassName1" class="col-sm-10 control-label" style="text-align: left;"> </label>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtShouldFee" class="col-sm-2 control-label">已收费用</label>
+                                    <div class="col-sm-10 form-inline text-left">
+                                        <label class="control-label margin-lr">学费：</label>
+                                        <label class="control-label margin-lr" id="lbTuition"></label>
+                                        <label class="control-label margin-lr">+ 教材费：</label>
+                                        <label class="control-label margin-lr" id="lbBooks"></label>
+                                        <label class="control-label margin-lr">+ 杂费：</label>
+                                        <label class="control-label margin-lr" id="lbOthers"></label>
+                                        <label class="control-label margin-lr">=</label>
+                                        <label class="control-label margin-lr" id="lbTotal"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtShouldFee" class="col-sm-2 control-label">已用费用</label>
+                                    <div class="col-sm-10 form-inline">
+                                        <label class="control-label margin-lr hidden">学费：</label>
+                                        <input type="number" maxlength='3' style="width:80px;" class="form-control margin-lr" id="txtUnitPrice" name="txtUnitPrice" value="0" onchange="calcTuition();" />
+                                        <label class="control-label margin-lr" id="lbUnit1"></label>
+                                        <label class="control-label margin-lr glyphicon glyphicon-remove"></label>
+                                        <input type="number" maxlength='3' style="width:80px;" class="form-control margin-lr" id="txtClassCount" name="txtClassCount" value="10" onchange="calcTuition();" />
+                                        <label class="control-label margin-lr" id="lbUnit2"></label>
+                                        <label class="control-label margin-lr">+ 教材杂费：</label>
+                                        <input type="number" maxlength='3' style="width:80px;" class="form-control margin-lr" id="txtBooks" name="txtBooks" value="10" onchange="calcTuition();" />
+                                        <label class="control-label margin-lr">=</label>
+                                        <label class="control-label margin-lr" id="lbUsed"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtRefund" class="col-sm-2 control-label">应退费用</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="txtRefund" name="txtRefund">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="selectCampus" class="col-sm-2 control-label">经办校区</label>
+                                    <div class="col-sm-4">
+                                        <select id="selectCampus" class="form-control"></select>
+                                    </div>
+                                    <label for="txtOptor" class="col-sm-2 control-label">经办人</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="txtOptor" name="txtOptor">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="selectPayType" class="col-sm-2 control-label">退款方式</label>
+                                    <div class="col-sm-4">
+                                        <select id="selectPayType" class="form-control">
+                                            <option value="现金">现金</option>
+                                            <option value="刷卡">刷卡</option>
+                                            <option value="微信">微信</option>
+                                            <option value="支付宝">支付宝</option>
+                                        </select>
+                                    </div>
+                                    <label for="datepicker3" class="col-sm-2 control-label">办理日期</label>
+                                    <div class='col-sm-4'>
+                                        <div class='input-group date' id='datepicker3'>
+                                            <input id="txtDatepicker3" type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-mb-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="txtRemark" class="col-sm-2 control-label">备注</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" style="max-width:800px;" class="form-control" id="txtRemark" value=" " />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnAddAccount">
+                        确定
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
 </div>
+<script>
+    var clsPrice = 0;
+    var realpay = 0;
+    var regionId, entryId, tuition, realPay, discountvalue;
+    function showModal(e) {
+      var  entryId = e.dataset.val;
+             var entryModels = @Html.Raw(Json.Encode(Model));
+             $.each(entryModels, function (tempindex, item) {
+                 if (item.Id == entryId) {
+                     regionId = item.RegionId;
+                     entryId = item.Id;
+                     clsPrice = item.UnitPrice;
+                     realpay=item.RealExpenses;
+                     $("#renewModalLabel").html(item.StudentName + "-退费");
+                     $("#txtClassName1").html(item.ClassFullName);
+                     $("#lbTuition").html(item.RealExpenses- item.BookExpenses-item.OtherExpenses+ "元");
+                     $("#lbBooks").html(item.BookExpenses+ "元");
+                     $("#lbOthers").html(item.OtherExpenses+ "元");
+                     $("#lbTotal").html(item.RealExpenses+ "元");
+                     $("#txtUnitPrice").val(clsPrice);
+                     $("#lbUnit1").html("/"+item.Unit);
+                     $("#lbUnit2").html(item.Unit);
+                     $("#txtBooks").val(item.BookExpenses+item.OtherExpenses);
+                     //$("#txtClassUnit").val(clsPrice + "元/" + item.Unit);
+                     //$("#txtRemainValue").val(item.Remain);
+                     //$("#txtRemainDesc").html("当前余额：" + item.Remain + "元");
+                     //$("#selectCampus").val(item.RegionId);
+                     calcTuition();
+                 }
+             });
+    }
+    function editData() {
+
+    }
+    function calcTuition() {
+      var   uPrice = $("#txtUnitPrice").val();
+        var claCount = $("#txtClassCount").val();
+        var bookother = $("#txtBooks").val();
+        var total = uPrice * claCount+Number(bookother);
+        $("#lbUsed").html(total+"元");
+        $("#txtRefund").val(realpay-total+"元");
+    }
+    var pageInfo = {
+        pageIndex: parseInt('@ViewData["PageIndex"]'),
+        pageCount: parseInt('@ViewData["PageCount"]'),
+        pageSize: parseInt('@ViewData["PageSize"]')
+    };
+    $("#btnAddAccount").click(function () {
+        var opttype = $("#selectPayType").val();
+        var optor = $("#txtOptor").val();
+        var entryremark = $("#txtRemark").val();
+        var realPay = $("#txtRealPay").val();
+        var accountModel = {
+            'RegionId': regionId, 'EntryId': entryId, 'ShouldExpenses': -tuition, 'BookExpenses': 0, 'OtherExpenses': 0, 'RealExpenses': -realPay,
+            'OptType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': 0, 'DiscountExpenses': 1
+        };
+        
+        $.ajax({
+            url: "AddAccount",
+            type: "post",
+            data: JSON.stringify(accountModel),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var AddAccountResult = JSON.parse(data);
+                if (AddAccountResult.code === 200) {
+                    var entryStatusModel = {'EntryId': entryId, 'Status': 3};
+                    $.ajax({
+                        url: "UpdateEntry",
+                        type: "post",
+                        data: JSON.stringify(entryStatusModel),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var AddAccountResult = JSON.parse(data);
+                            if (AddAccountResult.code === 200) {
+                                alert("操作成功！");
+                                window.location.reload();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    });
+    $(document).ready(function () {
+        getCampus("selectCampus");
+        var newDate = new Date().Format("yyyy-MM-dd");
+        $('#txtDatepicker3').val(newDate);
+        $('#datepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
+        $('#datepicker2').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
+        $('#datepicker3').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
+        $('#ulPaging')
+            .bootstrapPaginator({
+                currentPage: pageInfo.pageIndex, //当前的请求页面。
+                totalPages: pageInfo.pageCount, //pageInfo.pageCount, //一共多少页。
+                size: "normal", //应该是页眉的大小。
+                bootstrapMajorVersion: 3, //bootstrap的版本要求。
+                alignment: "right",
+                numberOfPages: numberOfPage, //一页列出多少数据。
+                itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
+                    switch (type) {
+                        case "first":
+                            return "首页";
+                        case "prev":
+                            return "上一页";
+                        case "next":
+                            return "下一页";
+                        case "last":
+                            return "末页";
+                        case "page":
+                            return page;
+                    }
+                },
+                onPageClicked: function (event, originalEvent, type, page) {
+                    if (page != pageInfo.pageIndex)
+                        window.location.href = "Renew?pageIndex=" + page;
+                }
+            });
+
+    });
+</script>

@@ -43,6 +43,18 @@ namespace Edu.Services
         }
 
         /// <summary>
+        /// 修改状态
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateEntry(UpdateEntryArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
+
+            return ContainerFactory<IEntryRepository>.Instance.UpdateEntry(args);
+        }
+        /// <summary>
         /// 添加缴费
         /// </summary>
         /// <param name="args"></param>

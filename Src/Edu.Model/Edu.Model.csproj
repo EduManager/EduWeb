@@ -69,6 +69,7 @@
     <Compile Include="Args\GetObjectByIdArgs.cs" />
     <Compile Include="Args\GetObjectsByPagingArgs.cs" />
     <Compile Include="Args\LoginInArgs.cs" />
+    <Compile Include="Args\UpdateEntryArgs.cs" />
     <Compile Include="Args\UpdateCourseArgs.cs" />
     <Compile Include="Args\UpdateBookfeeArgs.cs" />
     <Compile Include="Args\UpdateCourseTypeArgs.cs" />

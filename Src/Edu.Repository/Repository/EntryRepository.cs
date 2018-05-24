@@ -51,12 +51,26 @@ namespace Edu.Repository
                 return CommandResult.Failure<int>(e.ToString());
             }
         }
+
+        public CommandResult<int> UpdateEntry(UpdateEntryArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(args.SchoolId, "update_entry", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "修改报名状态失败，EntryId:" + args.EntryId, e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
         /// <summary>
         /// 通过分页获取学生信息列表
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-         public QueryResult<Entry> GetEntryListByPaging(GetObjectsByPagingArgs args)
+        public QueryResult<Entry> GetEntryListByPaging(GetObjectsByPagingArgs args)
         {
             try
             {

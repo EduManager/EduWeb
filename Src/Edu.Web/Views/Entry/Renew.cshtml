@@ -78,11 +78,35 @@
                         <td>@item.ClassName</td>
                         <td>@item.Teacher</td>
                         <td>@item.RealExpenses</td>
-                        <td>@item.State</td>
-                        <td>
-                            @if (item.opttime != null)
+                        @{
+                            //0:正常,1:欠费,2:转出,3:退费,4:停课,5:结业
+                            if (item.Status == 0)
                             {
-                                @item.opttime.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                                <td>正常</td>}
+                            else if (item.Status == 1)
+                            {
+                                <td>欠费</td>}
+                            else if (item.Status == 2)
+                            {
+                                <td>转出</td>}
+                            else if (item.Status == 3)
+                            {
+                                <td>退费</td>}
+                            else if (item.Status == 4)
+                            {
+                                <td>停课</td>}
+                            else if (item.Status == 5)
+                            {
+                                <td>结业</td>}
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                        <td>
+                            @if (item.OptTime != null)
+                            {
+                                @item.OptTime.Value.ToString("yyyy-MM-dd")
                             }
                         </td>
                         <td>@item.RegionName</td>
@@ -93,7 +117,7 @@
                             </div>
                         </td>
                     </tr>
-                }
+                            }
             </tbody>
         </table>
     </div>
@@ -260,22 +284,22 @@
     var clsPrice = 0;
     var regionId, entryId, tuition, realPay, discountvalue;
     function showModal(e) {
-      var  entryId = e.dataset.val;
-             var entryModels = @Html.Raw(Json.Encode(Model));
-             $.each(entryModels, function (tempindex, item) {
-                 if (item.Id == entryId) {
-                     regionId = item.RegionId;
-                     entryId = item.Id;
-                     clsPrice = item.UnitPrice;
-                     $("#renewModalLabel").html(item.StudentName + "-续费");
-                     $("#txtClassName1").html(item.ClassFullName);
-                     $("#txtClassUnit").val(clsPrice + "元/" + item.Unit);
-                     $("#txtRemainValue").val(item.Remain);
-                     $("#txtRemainDesc").html("当前余额：" + item.Remain + "元");
-                     $("#selectCampus").val(item.RegionId);
-                     calcTuition();
-                 }
-             });
+        var  entryId = e.dataset.val;
+        var entryModels = @Html.Raw(Json.Encode(Model));
+        $.each(entryModels, function (tempindex, item) {
+            if (item.Id == entryId) {
+                regionId = item.RegionId;
+                entryId = item.Id;
+                clsPrice = item.UnitPrice;
+                $("#renewModalLabel").html(item.StudentName + "-续费");
+                $("#txtClassName1").html(item.ClassFullName);
+                $("#txtClassUnit").val(clsPrice + "元/" + item.Unit);
+                $("#txtRemainValue").val(item.Remain);
+                $("#txtRemainDesc").html("当前余额：" + item.Remain + "元");
+                $("#selectCampus").val(item.RegionId);
+                calcTuition();
+            }
+        });
     }
     function editData() {
 
@@ -329,7 +353,7 @@
     });
     $(document).ready(function () {
         getCampus("selectCampus");
-        var newDate = new Date().Format("yyyy-MM-dd");  
+        var newDate = new Date().Format("yyyy-MM-dd");
         $('#txtDatepicker3').val(newDate);
         $('#datepicker1').datetimepicker({
             format: 'YYYY-MM-DD',
