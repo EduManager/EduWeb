@@ -112,9 +112,12 @@
                         <td>@item.RegionName</td>
                         <td>@item.OperatorName</td>
                         <td>
-                            <div class="btn-group">
-                                <button class="btn btn-primary" data-val="@item.Id" data-toggle="modal" data-target="#ObjModal" onclick="showModal(this);"> <i class="glyphicon glyphicon-jpy"></i> 续费</button>
-                            </div>
+                            @if (item.Status == 0 || item.Status == 1 || item.Status == 4)
+                            {
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" data-val="@item.Id" data-toggle="modal" data-target="#ObjModal" onclick="showModal(this);"> <i class="glyphicon glyphicon-jpy"></i> 续费</button>
+                                </div>
+                            }
                         </td>
                     </tr>
                             }

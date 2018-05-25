@@ -112,9 +112,12 @@
                         <td>@item.RegionName</td>
                         <td>@item.OperatorName</td>
                         <td>
+                            @if (item.Status == 0 || item.Status == 1 || item.Status == 4)
+                            {
                             <div class="btn-group">
                                 <button class="btn btn-primary" data-val="@item.Id" data-toggle="modal" data-target="#ObjModal" onclick="showModal(this);"> <i class="glyphicon glyphicon-flash"></i> 退费</button>
                             </div>
+                            }
                         </td>
                     </tr>
                             }
@@ -142,7 +145,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        @*<div class="row">
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="txtShouldFee" class="col-sm-2 control-label">已收费用</label>
@@ -158,36 +161,45 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="row">
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
-                                    <label for="txtShouldFee" class="col-sm-2 control-label">已用费用</label>
+                                    <label for="txtShouldFee" class="col-sm-2 control-label">退费计算</label>
                                     <div class="col-sm-10 form-inline">
-                                        <label class="control-label margin-lr hidden">学费：</label>
-                                        <input type="number" maxlength='3' style="width:80px;" class="form-control margin-lr" id="txtUnitPrice" name="txtUnitPrice" value="0" onchange="calcTuition();" />
-                                        <label class="control-label margin-lr" id="lbUnit1"></label>
+                                        <label class="control-label margin-lr" id="lbTuition"></label>
+                                        <label class="control-label margin-lr glyphicon glyphicon-minus"></label>
+                                        <div class="input-group">
+                                            <input type="number" maxlength='3' style="width:70px;" class="form-control margin-lr" aria-describedby="lbUnit1"  id="txtUnitPrice" name="txtUnitPrice" value="0" onchange="calcTuition();" />
+                                            <span class="input-group-addon" id="lbUnit1"></span>
+                                        </div>
                                         <label class="control-label margin-lr glyphicon glyphicon-remove"></label>
-                                        <input type="number" maxlength='3' style="width:80px;" class="form-control margin-lr" id="txtClassCount" name="txtClassCount" value="10" onchange="calcTuition();" />
-                                        <label class="control-label margin-lr" id="lbUnit2"></label>
-                                        <label class="control-label margin-lr">+ 教材杂费：</label>
-                                        <input type="number" maxlength='3' style="width:80px;" class="form-control margin-lr" id="txtBooks" name="txtBooks" value="10" onchange="calcTuition();" />
-                                        <label class="control-label margin-lr">=</label>
-                                        <label class="control-label margin-lr" id="lbUsed"></label>
+                                        <div class="input-group">
+                                            <input type="number" maxlength='3' style="width:70px;" class="form-control margin-lr" aria-describedby="lbUnit2"  id="txtClassCount" name="txtClassCount" value="10" onchange="calcTuition();" />
+                                            <span class="input-group-addon" id="lbUnit2"></span>
+                                        </div>
+                                        <label class="control-label margin-lr glyphicon glyphicon-pause" style="transform:rotate(90deg);"></label>
+                                        <div class="input-group">
+                                            <input type="number" maxlength='3'  class="form-control  margin-lr" style="width:80px;" aria-describedby="basic-addon2" id="txtRefund" name="txtRefund">
+                                            <span class="input-group-addon" id="basic-addon2">元</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        @*<div class="row">
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="txtRefund" class="col-sm-2 control-label">应退费用</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtRefund" name="txtRefund">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" aria-describedby="basic-addon2" id="txtRefund" name="txtRefund">
+                                            <span class="input-group-addon" id="basic-addon2">元</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="row">
                             <div class="col-mb-12 col-sm-12">
                                 <div class="form-group">
@@ -254,9 +266,9 @@
 <script>
     var clsPrice = 0;
     var realpay = 0;
-    var regionId, entryId, tuition, realPay, discountvalue;
+    var regionId, entryId, tuition, realPay, discountvalue,shouldPay;
     function showModal(e) {
-      var  entryId = e.dataset.val;
+      entryId = e.dataset.val;
              var entryModels = @Html.Raw(Json.Encode(Model));
              $.each(entryModels, function (tempindex, item) {
                  if (item.Id == entryId) {
@@ -264,16 +276,17 @@
                      entryId = item.Id;
                      clsPrice = item.UnitPrice;
                      realpay=item.RealExpenses;
+                     tuition=item.RealExpenses- item.BookExpenses-item.OtherExpenses;
                      $("#renewModalLabel").html(item.StudentName + "-退费");
                      $("#txtClassName1").html(item.ClassFullName);
-                     $("#lbTuition").html(item.RealExpenses- item.BookExpenses-item.OtherExpenses+ "元");
-                     $("#lbBooks").html(item.BookExpenses+ "元");
-                     $("#lbOthers").html(item.OtherExpenses+ "元");
-                     $("#lbTotal").html(item.RealExpenses+ "元");
+                     $("#lbTuition").html(tuition+ "元");
+                     //$("#lbBooks").html(item.BookExpenses+ "元");
+                     //$("#lbOthers").html(item.OtherExpenses+ "元");
+                     //$("#lbTotal").html(item.RealExpenses+ "元");
+                     //$("#txtBooks").val(item.BookExpenses+item.OtherExpenses);
                      $("#txtUnitPrice").val(clsPrice);
-                     $("#lbUnit1").html("/"+item.Unit);
+                     $("#lbUnit1").html("元/"+item.Unit);
                      $("#lbUnit2").html(item.Unit);
-                     $("#txtBooks").val(item.BookExpenses+item.OtherExpenses);
                      //$("#txtClassUnit").val(clsPrice + "元/" + item.Unit);
                      //$("#txtRemainValue").val(item.Remain);
                      //$("#txtRemainDesc").html("当前余额：" + item.Remain + "元");
@@ -288,10 +301,11 @@
     function calcTuition() {
       var   uPrice = $("#txtUnitPrice").val();
         var claCount = $("#txtClassCount").val();
-        var bookother = $("#txtBooks").val();
-        var total = uPrice * claCount+Number(bookother);
-        $("#lbUsed").html(total+"元");
-        $("#txtRefund").val(realpay-total+"元");
+        //var bookother = $("#txtBooks").val();
+        //$("#lbUsed").html(total+"元");
+        var total = uPrice * claCount;
+        shouldPay=tuition-total;
+        $("#txtRefund").val(shouldPay);
     }
     var pageInfo = {
         pageIndex: parseInt('@ViewData["PageIndex"]'),
@@ -302,9 +316,9 @@
         var opttype = $("#selectPayType").val();
         var optor = $("#txtOptor").val();
         var entryremark = $("#txtRemark").val();
-        var realPay = $("#txtRealPay").val();
+        var realPay = $("#txtRefund").val();
         var accountModel = {
-            'RegionId': regionId, 'EntryId': entryId, 'ShouldExpenses': -tuition, 'BookExpenses': 0, 'OtherExpenses': 0, 'RealExpenses': -realPay,
+            'RegionId': regionId, 'EntryId': entryId, 'ShouldExpenses': 0-shouldPay, 'BookExpenses': 0, 'OtherExpenses': 0, 'RealExpenses': 0-realPay,
             'OptType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': 0, 'DiscountExpenses': 1
         };
         
