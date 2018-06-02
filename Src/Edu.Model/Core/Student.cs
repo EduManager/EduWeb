@@ -50,6 +50,6 @@ namespace Edu.Model.Core
         public int RegionId { get; set; }
 
         [DataMember]
-        public int RegionName { get; set; }
+        public string RegionName { get; set; }
     }
 }
