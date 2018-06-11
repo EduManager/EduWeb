@@ -22,6 +22,8 @@ namespace Edu.Model.Args
 
         public decimal RealExpenses { get; set; }
 
+        public int PayType { get; set; }
+
         public int OptType { get; set; }
 
         public string Optor { get; set; }

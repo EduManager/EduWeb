@@ -57,7 +57,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.StudentName</td>
+                        <td><a href="#" style="cursor:hand">@item.StudentName</a></td>
                         @{
                             if (item.Sex == 1)
                             {
@@ -82,22 +82,22 @@
                             //0:正常,1:欠费,2:转出,3:退费,4:停课,5:结业
                             if (item.Status == 0)
                             {
-                                <td>正常</td>}
+                                <td><span class="label label-primary">正常</span></td>}
                             else if (item.Status == 1)
                             {
-                                <td>欠费</td>}
+                                <td><span class="label label-Danger">欠费</span></td>}
                             else if (item.Status == 2)
                             {
-                                <td>转出</td>}
+                                <td><span class="label label-Success">转出</span></td>}
                             else if (item.Status == 3)
                             {
-                                <td>退费</td>}
+                                <td><span class="label label-info">退费</span></td>}
                             else if (item.Status == 4)
                             {
-                                <td>停课</td>}
+                                <td><span class="label label-warning">停课</span></td>}
                             else if (item.Status == 5)
                             {
-                                <td>结业</td>}
+                                <td><span class="label label-default">结业</span></td>}
                             else
                             {
                                 <td></td>
@@ -112,7 +112,7 @@
                         <td>@item.RegionName</td>
                         <td>@item.OperatorName</td>
                         <td>
-                            @if (item.Status == 0 || item.Status == 1 || item.Status == 4)
+                            @if (item.Status == 0 || item.Status == 1)
                             {
                                 <div class="btn-group">
                                     <button class="btn btn-primary" data-val="@item.Id" data-toggle="modal" data-target="#ObjModal" onclick="showModal(this);"> <i class="glyphicon glyphicon-jpy"></i> 续费</button>
@@ -338,7 +338,7 @@
         var realPay = $("#txtRealPay").val();
         var accountModel = {
             'RegionId': regionId, 'EntryId': entryId, 'ShouldExpenses': tuition, 'BookExpenses': 0, 'OtherExpenses': 0, 'RealExpenses': realPay,
-            'OptType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
+            'OptType':1,'PayType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
         };
         $.ajax({
             url: "AddAccount",

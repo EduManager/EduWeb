@@ -1,4 +1,7 @@
-﻿<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+﻿@{
+    ViewBag.Title = "报名";
+}
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrapValidator.js"></script>
 <link rel="stylesheet" href="/Content/upimg/amazeui.cropper.css">
 <link rel="stylesheet" href="/Content/upimg/custom_up_img.css">
@@ -638,7 +641,7 @@
                         var disTp = $(selectDiscount).val();
                         var accountModel = {
                             'RegionId': regionId, 'EntryId': AddEntryResult.data, 'ShouldExpenses': sumfee, 'BookExpenses': bookfee, 'OtherExpenses': otherfee, 'RealExpenses': realPay,
-                            'OptType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
+                            'OptType': 0, 'PayType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
                         };
                         $.ajax({
                             url: "AddAccount",
