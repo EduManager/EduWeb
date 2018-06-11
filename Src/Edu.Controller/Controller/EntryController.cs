@@ -43,6 +43,10 @@ namespace Edu.Controller.Controller
         {
             return Renew(pageIndex);
         }
+        public ViewResult ChangeClass(int pageIndex = 1)
+        {
+            return Renew(pageIndex);
+        }
         [AuthFilter]
         public ViewResult SignUp()
         {

@@ -161,6 +161,7 @@
     <Content Include="Views\Entry\Renew.cshtml" />
     <Content Include="Views\Entry\Refund.cshtml" />
     <Content Include="Views\Entry\StopClass.cshtml" />
+    <Content Include="Views\Entry\ChangeClass.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
