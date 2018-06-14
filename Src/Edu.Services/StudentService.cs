@@ -86,5 +86,17 @@ namespace Edu.Services
             return ContainerFactory<IStudentRepository>.Instance.GetStudentById(args);
         }
 
+        /// <summary>
+        /// 修改学生信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateUserInfo(UpdateStudentArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.StudentId, "StudentId", Arguments.Positive);
+
+            return ContainerFactory<IStudentRepository>.Instance.UpdateUserInfo(args);
+        }
     }
 }

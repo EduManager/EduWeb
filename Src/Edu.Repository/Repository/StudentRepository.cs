@@ -75,7 +75,7 @@ namespace Edu.Repository
             try
             {
                 var result =
-                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Student>(0,
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<Student>(args.SchoolId,
                         "get_student_by_id", args);
                 if (result.Code == 200)
                     return CommandResult.Success(result.Items.FirstOrDefault());
@@ -88,5 +88,18 @@ namespace Edu.Repository
             }
         }
 
+        public CommandResult<int> UpdateUserInfo(UpdateStudentArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(args.SchoolId, "update_student", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "学生模块--修改学生信息失败", e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
     }
 }

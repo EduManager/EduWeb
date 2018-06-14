@@ -2,7 +2,34 @@
 @{
     ViewBag.Title = "List";
 }
+<style>
+    
+    .modal-body {
+        padding: 0 15px;
+    }
+    .my-modal {
+        margin-top: 15px;
+    }
+     .my-modal .form-horizontal .form-control{
+         background: #f0f0f0;
+         border: none;  
+         box-shadow: none;
+     }
+    .my-modal input[type="text"]:focus {
+        background: #ffffff;
+        border: 1px solid #cccccc;
+    }
+    .my-modal .form-horizontal .form-group i{
+        position: absolute;
+        color: #c8c8c8;
+        transition : all 0.5s ease 0s;
+    }
+    .my-modal .form-horizontal .form-control:focus + i{
+        color: #00b4ef;
+    }
+</style>
 <script>
+    var currentStuId = 0;
     function deleteUser(e) {
         var id = e.dataset.val;
         $.ajax({
@@ -21,20 +48,15 @@
 
     function loadStu(e) {
         var id = e.dataset.val;
-        $.ajax({
-            url: "GetStudentInfo",
-            type: "get",
-            data: JSON.stringify({ "stuId": id }),
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                var result = JSON.parse(data);
-                if (result.code === 200) {
-                    $('#txtUpdateName').val(result.data.name);
-                    $('#txtUpdateSex').val(result.data.sex);
-                    $('#txtUpdateGrade').val(result.data.grade);
-                    $('#txtUpdateTel').val(result.data.tel);
-                    $('#txtUpdateAddress').val(result.data.address);
-                }
+        currentStuId = id;
+        $.get("GetStudentInfo?stuId="+id,function(data) {
+            var result = JSON.parse(data);
+            if (result.code === 200) {
+                $('#txtUpdateName').val(result.data.name);
+                $('#txtUpdateSex').val(result.data.sex);
+                $('#txtUpdateGrade').val(result.data.grade);
+                $('#txtUpdateTel').val(result.data.tel1);
+                $('#txtUpdateAddress').val(result.data.address);
             }
         });
     }
@@ -45,6 +67,7 @@
 
 <div class="row">
     <div class="col-md-12">
+        <button class="btn btn-default" data-toggle="modal" id="btnAdd" data-target="#addModal">添加学生</button>
     </div>
     <div class="col-md-12">
         <table class="table table-striped">
@@ -106,7 +129,7 @@
                                 操作 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" data-target="#updateModal" data-val="@item.Id" onclick="loadStu();">编辑</a></li>
+                                <li><a data-toggle="modal" data-target="#updateModal" data-val="@item.Id" onclick="loadStu(this);">编辑</a></li>
                                 <li><a data-val="@item.Id" onclick="deleteUser(this);" >删除</a></li>
                             </ul>
                         </div>
@@ -118,7 +141,77 @@
     </div>
 </div>
 <ul class="pagination" id="ulPaging"></ul>
-<!-- 模态框（Modal）编辑用户 -->
+
+<!-- 模态框（Modal）创建学生 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="addStudentModalLabel">添加学生</h5>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 my-modal">
+                    <div class="form-horizontal" role="form" id="addStudentForm">
+                        <div class="form-group">
+                            <label for="txtAddName" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtAddName" name="txtAddName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">所属校区</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="selectAddCampus"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtAddSex" class="col-sm-2 control-label">性别</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="txtAddSex">
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                    <option value="3">无</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtAddGrade" class="col-sm-2 control-label">年级</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtAddGrade" name="txtAddGrade" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtAddTel" class="col-sm-2 control-label">联系电话</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtAddTel" name="txtAddTel" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtAddAddress" class="col-sm-2 control-label">家庭住址</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtAddAddress" name="txtAddAddress" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="btnAddStudent">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!-- 模态框（Modal）编辑学生 -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -129,8 +222,8 @@
                 <h5 class="modal-title" id="updateModalLabel">编辑用户</h5>
             </div>
             <div class="modal-body">
-                <div class="col-md-12 usermodal">
-                    <div class="form-horizontal" role="form" id="updateUserForm">
+                <div class="col-md-12 my-modal">
+                    <div class="form-horizontal" role="form" id="updateStudentForm">
                         <div class="form-group">
                             <label for="txtUpdateName" class="col-sm-2 control-label">姓名</label>
                             <div class="col-sm-10">
@@ -180,14 +273,135 @@
     </div><!-- /.modal -->
 </div>
 
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrapValidator.js"></script>
+<script src="~/Scripts/bootstrap-paginator.js"></script>
 <script>
-     var pageInfo = {
+    var pageInfo = {
         pageIndex: parseInt('@ViewData["PageIndex"]'),
         pageCount: parseInt('@ViewData["PageCount"]'),
         pageSize: parseInt('@ViewData["PageSize"]')
     };
 
-    $(document).ready(function() {
+    $(document).ready(function () {
+
+        $('#btnAdd')
+            .click(function() {
+                $('#selectAddCampus').empty();
+                $.get("../Campus/SchoolCampus",
+                    function(data) {
+                        var result = JSON.parse(data);
+                        if (result.code == 200 && result.items.length > 0) {
+                            for (var index = 0; index < result.items.length; index++) {
+                                var item = result.items[index];
+                                if (index == 0) {
+                                    $('#selectAddCampus')
+                                        .append("<option selected value='" +
+                                            item.id +
+                                            "'>" +
+                                            item.campusName +
+                                            "</option>");
+                                } else {
+                                    $('#selectAddCampus')
+                                        .append("<option value='" + item.id + "'>" + item.campusName + "</option>");
+                                }
+                            }
+                        }
+                    });
+            });
+
+        $('#updateStudentForm')
+                   .bootstrapValidator({
+                       message: '值不能为空',
+                       submitButtons: '#btnAddUser',
+                       feedbackIcons: {
+                           valid: 'glyphicon glyphicon-ok',
+                           invalid: 'glyphicon glyphicon-remove',
+                           validating: 'glyphicon glyphicon-refresh'
+                       },
+                       fields: {
+                           txtUpdateName: {
+                               message: '用户名验证失败',
+                               validators: {
+                                   notEmpty: {
+                                       message: '用户名称不能为空'
+                                   }
+                               }
+                           },
+                           txtUpdateGrade: {
+                               message: '年级验证失败',
+                               validators: {
+                                   notEmpty: {
+                                       message: '年级不能为空'
+                                   }
+                               }
+                           },
+                           txtUpdateTel: {
+                               message: '联系电话验证失败',
+                               validators: {
+                                   notEmpty: {
+                                       message: '联系电话不能为空'
+                                   },
+                                   callback: {
+                                       message: '联系电话无效',
+                                       callback: function (value, validator) {
+                                           var reg =
+                                               /^134[0-8]\d{7}$|^13[^4]\d{8}$|^14[5-9]\d{8}$|^15[^4]\d{8}$|^16[6]\d{8}$|^17[0-8]\d{8}$|^18[\d]{9}$|^19[8,9]\d{8}$/;
+                                           var reg2 = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
+                                           return reg.test(value) || reg2.test(value);
+                                       }
+                                   }
+                               }
+                           }
+                       }
+                   });
+
+
+        $('#addStudentForm')
+                   .bootstrapValidator({
+                       message: '值不能为空',
+                       submitButtons: '#btnAddUser',
+                       feedbackIcons: {
+                           valid: 'glyphicon glyphicon-ok',
+                           invalid: 'glyphicon glyphicon-remove',
+                           validating: 'glyphicon glyphicon-refresh'
+                       },
+                       fields: {
+                           txtAddName: {
+                               message: '用户名验证失败',
+                               validators: {
+                                   notEmpty: {
+                                       message: '用户名称不能为空'
+                                   }
+                               }
+                           },
+                           txtAddGrade: {
+                               message: '年级验证失败',
+                               validators: {
+                                   notEmpty: {
+                                       message: '年级不能为空'
+                                   }
+                               }
+                           },
+                           txtAddTel: {
+                               message: '联系电话验证失败',
+                               validators: {
+                                   notEmpty: {
+                                       message: '联系电话不能为空'
+                                   },
+                                   callback: {
+                                       message: '联系电话无效',
+                                       callback: function (value, validator) {
+                                           var reg =
+                                               /^134[0-8]\d{7}$|^13[^4]\d{8}$|^14[5-9]\d{8}$|^15[^4]\d{8}$|^16[6]\d{8}$|^17[0-8]\d{8}$|^18[\d]{9}$|^19[8,9]\d{8}$/;
+                                           var reg2 = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
+                                           return reg.test(value) || reg2.test(value);
+                                       }
+                                   }
+                               }
+                           }
+                       }
+                   });
 
         $('#ulPaging')
             .bootstrapPaginator({
@@ -196,7 +410,7 @@
                 size: "normal", //应该是页眉的大小。
                 bootstrapMajorVersion: 3, //bootstrap的版本要求。
                 alignment: "right",
-                numberOfPages: numberOfPage, //一页列出多少数据。
+                numberOfPages: pageInfo.pageSize, //一页列出多少数据。
                 itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
                     switch (type) {
                     case "first":
@@ -210,6 +424,7 @@
                     case "page":
                         return page;
                     }
+                    return "首页";
                 },
                 onPageClicked: function (event, originalEvent, type, page) {
                     if (page != pageInfo.pageIndex)
@@ -217,6 +432,70 @@
                 }
             });
 
+        $("#btnAddStudent")
+            .click(function () {
+                $("#addStudentForm").bootstrapValidator('validate'); //提交验证  
+                if ($("#addStudentForm").data('bootstrapValidator').isValid()) {
+                    var name = $('#txtAddName').val();
+                    var sex = $('#txtAddSex').val();
+                    var grade = $('#txtAddGrade').val();
+                    var tel = $('#txtAddTel').val();
+                    var address = $('#txtAddAddress').val();
+                    var regionId = $('#selectAddCampus').val();
+                    var postdata = {
+                        StudentId: currentStuId,
+                        Name: name,
+                        Sex: sex,
+                        Grade: grade,
+                        Tel1: tel,
+                        Address: address,
+                        RegionId:regionId
+                    };
+                    $.ajax({
+                        type: 'post',
+                        url: 'AddStudent',
+                        data: JSON.stringify(postdata),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            if (result.code == 200) {
+                                window.location.reload();
+                            }
+                        }
+                    });
+                }
+            });
+        $("#btnUpdateStu")
+            .click(function() {
+                $("#updateStudentForm").bootstrapValidator('validate'); //提交验证  
+                if ($("#updateStudentForm").data('bootstrapValidator').isValid()) {
+                    var name = $('#txtUpdateName').val();
+                    var sex = $('#txtUpdateSex').val();
+                    var grade = $('#txtUpdateGrade').val();
+                    var tel = $('#txtUpdateTel').val();
+                    var address = $('#txtUpdateAddress').val();
+                    var postdata = {
+                        StudentId: currentStuId,
+                        Name: name,
+                        Sex: sex,
+                        Grade: grade,
+                        Tel: tel,
+                        Address: address
+                    };
+                    $.ajax({
+                        type: 'put',
+                        url: 'UpdateStudent',
+                        data: JSON.stringify(postdata),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function(data) {
+                            var result = JSON.parse(data);
+                            if (result.code == 200) {
+                                window.location.reload();
+                            }
+                        }
+                    });
+                }
+            });
 
     });
 </script>

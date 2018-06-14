@@ -85,5 +85,18 @@ namespace Edu.Controller.Controller
             var result = StudentService.Instance.DeleteStudent(args);
             return JsonHelper.Serialize(result);
         }
+
+        [HttpPut]
+        public string UpdateStudent(UpdateStudentArgs model)
+        {
+            if (model != null)
+            {
+                model.SchoolId = ApplicationContext.SchoolId;
+                model.ModifyBy = ApplicationContext.UserId;
+                var result = StudentService.Instance.UpdateUserInfo(model);
+                return JsonHelper.Serialize(result);
+            }
+            return JsonHelper.Serialize(CommandResult.Failure());
+        }
     }
 }
