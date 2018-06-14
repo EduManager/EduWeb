@@ -82,6 +82,7 @@
     <Compile Include="Common\AuthAttribute.cs" />
     <Compile Include="Controller\BookfeeController.cs" />
     <Compile Include="Controller\ClassesController.cs" />
+    <Compile Include="Controller\ClassCheckController.cs" />
     <Compile Include="Controller\CourseController.cs" />
     <Compile Include="Controller\CampusController.cs" />
     <Compile Include="Controller\EntryController.cs" />

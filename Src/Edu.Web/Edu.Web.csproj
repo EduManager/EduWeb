@@ -160,6 +160,7 @@
     <Content Include="Views\Entry\SignUp.cshtml" />
     <Content Include="Views\Entry\Renew.cshtml" />
     <Content Include="Views\Entry\Refund.cshtml" />
+    <Content Include="Views\ClassCheck\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
