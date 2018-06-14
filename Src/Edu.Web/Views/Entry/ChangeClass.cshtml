@@ -203,11 +203,12 @@
                                                 <option value="1">打折</option>
                                                 <option value="2">优惠</option>
                                             </select>
-                                            <div class="input-group">
+                                            <div id="" class="input-group">
                                                 <input type="number" style="width:60px;" class="form-control hidden" id="txtDiscount" value="0" onchange="calcTuition();" />
                                                 <span id="lblDiscountType"  class="input-group-addon hidden">元</span>
 
                                             </div>
+                                            <div class="input-group">
                                                 <select style="width:80px;" id="selectDiscountValue" class="form-control hidden" onchange="calcTuition();">
                                                     <option value="1"></option>
                                                     <option value="0.99">99</option>
@@ -222,10 +223,11 @@
                                                     <option value="0.60">60</option>
                                                     <option value="0.50">50</option>
                                                 </select>
-                                                <label id="lblDiscountType" class="form-control hidden">折</label>
-                               
+                                                <span id="lblDiscType" class="form-control hidden">折</span>
 
-                                             
+                                            </div>
+
+
                                             </div>
                                     </div>
                                 </div>
