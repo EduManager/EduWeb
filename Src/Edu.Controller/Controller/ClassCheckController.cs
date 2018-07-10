@@ -36,6 +36,28 @@ namespace Edu.Controller.Controller
                 models = result.Items;
             return View(models);
         }
-        
+        [HttpPost]
+        [ActionName("getClass")]
+        public string getClass(int courseId,int campusId)
+        {
+            var schoolId = ApplicationContext.SchoolId;
+            var result = ClassesService.Instance.GetClassesBySchoolId(new GetObjectByIdArgs()
+            {
+                SchoolId = schoolId
+            });
+            var models = new List<Classes>();
+            if (result.Code == 200)
+                models = result.Items;
+            if (courseId != -1)
+            {
+                models = models.Where(p => p.CourseId == courseId).ToList();
+
+            }
+            if (campusId != -1)
+            {
+                models = models.Where( p.SchoolRegionId == campusId).ToList();
+            }
+            return JsonHelper.Serialize(models);
+        }
     }
 }

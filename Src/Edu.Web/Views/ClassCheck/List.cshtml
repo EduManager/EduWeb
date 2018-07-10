@@ -3,7 +3,6 @@
     ViewBag.Title = "List";
 }
 <style>
-
     .modal-body {
         padding: 0 15px;
     }
@@ -72,16 +71,20 @@
 <div class="row well well-sm" style="margin:10px 0px;">
     <div class="col-md-12">
         <div class="form-group">
-            <label for="txtCampus" class="col-sm-1 control-label">所属校区</label>
-            <div class="col-sm-3">
+            <label for="selectCampus" class="col-sm-1 control-label">所属校区</label>
+            <div class="col-sm-2">
                 <select id="selectCampus" class="form-control"></select>
             </div>
-            <label for="txtCourseType" class="col-sm-1 control-label">课程类别</label>
-            <div class="col-sm-3">
-                <select id="selectCourseType_add" class="form-control"></select>
+            <label for="selectCourseType" class="col-sm-1 control-label">课程类别</label>
+            <div class="col-sm-2">
+                <select id="selectCourseType" class="form-control"></select>
+            </div>
+            <label for="selectCourse" class="col-sm-1 control-label">课程名称</label>
+            <div class="col-sm-2">
+                <select id="selectCourse" class="form-control"></select>
             </div>
             <div class="col-sm-3">
-                <button class="btn btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-search">  </span> 查询</button>
+                <button id="btnQuery" class="btn btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-search">  </span> 查询</button>
 
             </div>
         </div>
@@ -276,16 +279,16 @@
                 numberOfPages: pageInfo.pageSize, //一页列出多少数据。
                 itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
                     switch (type) {
-                    case "first":
-                        return "首页";
-                    case "prev":
-                        return "上一页";
-                    case "next":
-                        return "下一页";
-                    case "last":
-                        return "末页";
-                    case "page":
-                        return page;
+                        case "first":
+                            return "首页";
+                        case "prev":
+                            return "上一页";
+                        case "next":
+                            return "下一页";
+                        case "last":
+                            return "末页";
+                        case "page":
+                            return page;
                     }
                     return "首页";
                 },
@@ -294,7 +297,40 @@
                         window.location.href = "List?pageIndex=" + page;
                 }
             });
-        
+
+        getCampus("selectCampus");
+        getCourseType("selectCourseType");
+        $("#selectCourseType").change(function () {
+            var selectedCourseId = $(this).val();
+            getCourseList("selectCourse", selectedCourseId);
+        });
+        $("#selectCourse").change(function () {
+            courseid = $(this).val();
+        });
+        $("#selectCampus").change(function () {
+            campusid = $(this).val();
+        });
+        var courseid=-1;
+        var campusid=-1;
+        $("#btnQuery").click(function () {
+            var model = { 'courseId': courseid, 'campusId': campusid };
+            $.ajax({
+                url: "getClass",
+                type: "post",
+                data: JSON.stringify(model),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    if (result.length > 0) {
+                        for (var index = 0; index < result.length; index++) {
+                            var item = result[index];
+                            $('#' + ctrlId)
+                                .append("<option value='" + item.id + "' price='" + item.unitPrice + "'>" + item.schoolRegionName + "|" + item.name + "|" + item.teacher + "|" + item.unitPrice + "元/" + item.feeType + "</option>");
+                        }
+                    }
+                }
+            });
+        });
 
     });
 </script>
