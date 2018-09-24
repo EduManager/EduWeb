@@ -14,6 +14,9 @@ namespace Edu.Controller
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            RouteTable.Routes.MapMvcAttributeRoutes();
+
             //default   routes
             routes.MapRoute(
                 "Default",

@@ -77,6 +77,7 @@
     <Compile Include="Args\UpdateCampusArgs.cs" />
     <Compile Include="Args\UpdateRoleArgs.cs" />
     <Compile Include="Args\UpdateStudentArgs.cs" />
+    <Compile Include="Args\UpdateSchoolImgArgs.cs" />
     <Compile Include="Args\UpdateUserByAdminArgs.cs" />
     <Compile Include="Args\UpdateUserArgs.cs" />
     <Compile Include="Args\CreateOrUpdateUserRoleArgs.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Core\Course.cs" />
     <Compile Include="Core\CourseType.cs" />
     <Compile Include="Core\Entry.cs" />
+    <Compile Include="Core\SchoolInfo.cs" />
     <Compile Include="Core\Student.cs" />
     <Compile Include="Core\SysConfig.cs" />
     <Compile Include="Core\UserForLogin.cs" />

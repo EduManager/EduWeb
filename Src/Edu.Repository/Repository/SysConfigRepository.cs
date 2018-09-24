@@ -9,10 +9,40 @@ using Edu.Model;
 using Edu.Model.Args;
 using Edu.Model.Core;
 
-namespace Edu.Repository.Repository
+namespace Edu.Repository
 {
     internal class SysConfigRepository : BaseRepository, ISysConfigRepository
     {
+        public QueryResult<SchoolInfo> GetSchoolInfoById(GetObjectByIdArgs args)
+        {
+            try
+            {
+                var result =
+                    ContainerFactory<ISqlExcuteContext>.Instance.ExcuteQueryProcedure<SchoolInfo>(0,
+                        "get_school_by_school_id", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "系统配置模块--通过学校Id获取学校信息失败", e);
+                return QueryResult.Failure<SchoolInfo>(e.ToString());
+            }
+        }
+
+        public CommandResult<int> UpdateSchoolImg(UpdateSchoolImgArgs args)
+        {
+            try
+            {
+                var result = ContainerFactory<ISqlExcuteContext>.Instance.ExcuteProceDure(0, "update_school_img", args);
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(this.GetType(), "系统配置模块--学校Logo更新失败", e);
+                return CommandResult.Failure<int>(e.ToString());
+            }
+        }
+
         public QueryResult<SysConfig> GetSysConfigByUserId(GetSysConfigByUserIdArgs args)
         {
             try

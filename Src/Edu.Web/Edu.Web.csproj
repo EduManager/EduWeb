@@ -180,6 +180,7 @@
     <Content Include="Views\Entry\StopClass.cshtml" />
     <Content Include="Views\Entry\ChangeClass.cshtml" />
     <Content Include="Views\ClassCheck\List.cshtml" />
+    <Content Include="Views\Config\Index.cshtml" />
     <None Include="Views\Shared\_Layout_left.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

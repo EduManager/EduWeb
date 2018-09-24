@@ -15,7 +15,7 @@ namespace Edu.Infrastructure.Common
             }
             set { HttpContext.Current.Session[SessionConst.SchoolId] = value; }
         }
-
+        
         public static int RoleId
         {
             get

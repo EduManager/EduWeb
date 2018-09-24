@@ -28,6 +28,32 @@ namespace Edu.Services
         #endregion
 
         /// <summary>
+        /// 通过Id获取学校信息
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public QueryResult<SchoolInfo> GetSchoolInfoById(GetObjectByIdArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            
+            return ContainerFactory<ISysConfigRepository>.Instance.GetSchoolInfoById(args);
+        }
+
+
+        /// <summary>
+        /// 更新学校Logo
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public CommandResult<int> UpdateSchoolImg(UpdateSchoolImgArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.ImgPath, "ImgPath", Arguments.NotEmptyOrWhitespace);
+
+            return ContainerFactory<ISysConfigRepository>.Instance.UpdateSchoolImg(args);
+        }
+
+        /// <summary>
         /// 获取角色菜单列表
         /// </summary>
         /// <param name="args"></param>

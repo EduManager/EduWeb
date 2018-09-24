@@ -29,7 +29,23 @@ namespace Edu.Controller.Common
                 return JsonHelper.Serialize(model);
             }
         }
-        
+
+        public static string ImgPath
+        {
+            get
+            {
+                var schools = SysConfigService.Instance.GetSchoolInfoById(new GetObjectByIdArgs()
+                {
+                    SchoolId = ApplicationContext.SchoolId
+                });
+                if (schools.Code == 200)
+                {
+                    var school = schools.Items.FirstOrDefault();
+                    if (school != null) return school.ImgPath;
+                }
+                return "";
+            }
+        }
     }
     
 }

@@ -1,0 +1,174 @@
+﻿@model Edu.Model.Core.SchoolInfo
+@{
+    ViewBag.Title = "系统设置";
+}
+<style>
+    .irow {
+        border-bottom: 2px solid #d5d7d8;
+    }
+    .file {
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: #1687d9;
+        text-decoration: none;
+        text-indent: 0;
+        padding: 1px 2px;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+    }
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+    #p_img {
+        width: 120px;
+        height: 45px;
+        margin-bottom: 15px;
+    }
+</style>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    学校设置
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <div class="row irow">
+                    <div class="col-md-1">Logo设置:</div>
+                    <div class="col-md-2">
+                        <img id="p_img" src="~/Content/logo/@Model.ImgPath" class="img-thumbnail"/>
+                        <br/>
+                        
+                        <a class="file">
+                            更换图片
+                            <input id="upload" type="file" accept="image/*" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    个人设置
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    其他设置
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var s = ".";
+    var imgString = '';
+    var h5_upload_ops = {
+        init: function () {
+            this.eventBind();
+        },
+        eventBind: function () {
+            var that = this;
+            $("#upload").change(function () {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    that.compress(this.result);
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
+        },
+        getclick:function() {
+            $("#upload").click();
+        },
+        compress: function (res) {
+            var that = this;
+            var img = new Image(),
+                maxH = 900;
+
+            img.onload = function () {
+                var cvs = document.createElement('canvas'),
+                    ctx = cvs.getContext('2d');
+
+                if (img.height > maxH) {
+                    img.width *= maxH / img.height;
+                    img.height = maxH;
+                }
+                cvs.width = img.width;
+                cvs.height = img.height;
+
+                ctx.clearRect(0, 0, cvs.width, cvs.height);
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+                var dataUrl = cvs.toDataURL('image/jpeg', 1);
+                $("#p_img").attr("src", dataUrl);
+                $("#p_img").show();
+                // 上传略
+                imgString = dataUrl;
+                that.upload(dataUrl);
+            };
+            img.src = res;
+        },
+        upload: function (image_data) {
+            /*这里写上次方法,图片流是base64_encode的*/
+            $("#p_img").show();
+            //var interval = setInterval(function () {
+            //        s += ".";
+            //        if (s == ".......") {
+            //            s = ".";
+            //        }
+            //        $("#span1").html("正在解析" + s);
+            //    },
+            //    200);
+            $.ajax({
+                url: "../../v1/school/logo_img",
+                type: "post",
+                data: { data: image_data },
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    if (result.code == 200) {
+                        //clearInterval(interval);
+                    } else {
+                        alert("创建失败，请重试！");
+                    }
+                }
+            });
+
+        }
+    };
+    $(document)
+        .ready(function() {
+            h5_upload_ops.init();
+        });
+</script>
+

@@ -50,6 +50,9 @@ namespace Edu.Repository
                     .LifeStyle.Singleton,
                 Component.For(typeof(IEntryRepository))
                     .ImplementedBy<EntryRepository>()
+                    .LifeStyle.Singleton,
+                Component.For(typeof(ISysConfigRepository))
+                    .ImplementedBy<SysConfigRepository>()
                     .LifeStyle.Singleton);
 
             #endregion
