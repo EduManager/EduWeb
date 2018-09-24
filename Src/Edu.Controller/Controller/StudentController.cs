@@ -36,7 +36,7 @@ namespace Edu.Controller.Controller
                 OrderBy = ""
             };
             var result = StudentService.Instance.GetStudentListByPaging(args);
-            ViewData["PageCount"] = args.RowsCount / args.PageSize + 1;
+            ViewData["PageCount"] = (args.RowsCount-1) / args.PageSize + 1;
             ViewData["PageSize"] = args.PageSize;
             ViewData["PageIndex"] = args.PageIndex;
 

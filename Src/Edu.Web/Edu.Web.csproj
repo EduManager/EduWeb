@@ -95,6 +95,20 @@
     <Content Include="Content\bootstrapValidator.css" />
     <Content Include="Content\calendar\fullcalendar.min.css" />
     <Content Include="Content\calendar\fullcalendar.print.css" />
+    <Content Include="Content\css\bootstrap-responsive.min.css" />
+    <Content Include="Content\css\default.css" />
+    <Content Include="Content\css\style-metro.css" />
+    <Content Include="Content\css\style-responsive.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\img\gritter-light.png" />
+    <Content Include="Content\img\gritter.png" />
+    <Content Include="Content\img\hor-menu-search-close.png" />
+    <Content Include="Content\img\menu-toggler.png" />
+    <Content Include="Content\img\search-icon.png" />
+    <Content Include="Content\img\sidebar-search-close.png" />
+    <Content Include="Content\img\sidebar-toggler.jpg" />
+    <Content Include="Content\img\syncfusion-icons-white.png" />
+    <Content Include="Content\img\syncfusion-icons.png" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\ztree\img\line_conn.gif" />
     <Content Include="Content\ztree\img\loading.gif" />
@@ -103,7 +117,9 @@
     <Content Include="Content\ztree\zTreeStyle.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="index.html" />
     <Content Include="Scripts\ajaxFunc.js" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap-paginator.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -112,6 +128,7 @@
     <Content Include="Scripts\calendar\locale-all.js" />
     <Content Include="Scripts\calendar\moment.min.js" />
     <Content Include="Scripts\HashMap.js" />
+    <Content Include="Scripts\index.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\mode-ecb.js" />
     <Content Include="Scripts\tripledes.js" />
@@ -163,6 +180,7 @@
     <Content Include="Views\Entry\StopClass.cshtml" />
     <Content Include="Views\Entry\ChangeClass.cshtml" />
     <Content Include="Views\ClassCheck\List.cshtml" />
+    <None Include="Views\Shared\_Layout_left.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -173,7 +191,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
-    <Folder Include="Content\img\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

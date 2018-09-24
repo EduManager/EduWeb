@@ -55,7 +55,7 @@ namespace Edu.Controller.Controller
             }
             if (campusId != -1)
             {
-                models = models.Where( p.SchoolRegionId == campusId).ToList();
+                models = models.Where(p=> p.SchoolRegionId == campusId).ToList();
             }
             return JsonHelper.Serialize(models);
         }
