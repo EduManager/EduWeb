@@ -619,13 +619,13 @@
                 var status = "";
                 var remain = realPay - sumfee;
                 if (sumfee == realPay) {
-                    status = "正常"
+                    status = 0
                 }
                 else if (sumfee > realPay) {
-                    status = "欠费"
+                    status = 1
                 }
                 else {
-                    status = "余额"
+                    status = 9
                 }
                 var entryModel = {
                     'RegionId': regionId, 'StudentId': addStuResult.data, 'CourseId': courseId, 'ClassId': classId, 'FullName': classFullName, 'StartDate': "",
