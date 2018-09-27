@@ -120,7 +120,7 @@
                             }
                         </td>
                     </tr>
-                            }
+                }
             </tbody>
         </table>
     </div>
@@ -205,7 +205,7 @@
                                             </select>
                                             <div id="" class="input-group">
                                                 <input type="number" style="width:60px;" class="form-control hidden" id="txtDiscount" value="0" onchange="calcTuition();" />
-                                                <span id="lblDiscountType"  class="input-group-addon hidden">元</span>
+                                                <span id="lblDiscountType" class="input-group-addon hidden">元</span>
 
                                             </div>
                                             <div class="input-group">
@@ -228,7 +228,7 @@
                                             </div>
 
 
-                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -341,6 +341,11 @@
         </div><!-- /.modal -->
     </div>
 </div>
+
+<ul class="pagination" id="ulPaging"></ul>
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrapValidator.js"></script>
+<script src="~/Scripts/bootstrap-paginator.js"></script>
 <script>
     var clsPrice = 0;
     var realpay = 0;
@@ -429,7 +434,7 @@
     });
     $(document).ready(function () {
         getCampus("selectCampus");
-        var newDate = new Date().Format("yyyy-MM-dd");
+        var newDate = new Date();//.Format("yyyy-MM-dd");
         $('#txtDatepicker3').val(newDate);
         $('#datepicker1').datetimepicker({
             format: 'YYYY-MM-DD',
@@ -450,7 +455,7 @@
                 size: "normal", //应该是页眉的大小。
                 bootstrapMajorVersion: 3, //bootstrap的版本要求。
                 alignment: "right",
-                numberOfPages: numberOfPage, //一页列出多少数据。
+                numberOfPages: pageInfo.pageSize, //一页列出多少数据。
                 itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
                     switch (type) {
                         case "first":

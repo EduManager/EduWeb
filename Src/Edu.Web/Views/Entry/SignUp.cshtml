@@ -185,9 +185,9 @@
                         </div>
                     </div>
                     <div class="col-md-3" id="updateForm" style="text-align: center; ">
-                        <div class="row" >
+                        <div class="row">
                             <div class="form-group">
-                                    <img id="headimg" alt="点击图片上传" src="/Content/img/student.png"  class="thumbnail"/>
+                                <img id="headimg" alt="点击图片上传" src="/Content/img/student.png" class="thumbnail" />
                                 <div><a style="text-align: center; display: block;" id="pic"></a></div>
                             </div>
                         </div>
@@ -480,11 +480,14 @@
         </div><!-- /.modal -->
     </div>
 </div>
+<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrapValidator.js"></script>
+<script src="~/Scripts/bootstrap-paginator.js"></script>
 <script src="~/Scripts/upimg/cropper.min.js" charset="utf-8"></script>
 <script src="~/Scripts/upimg/custom_up_img.js" charset="utf-8"></script>
 <script>
     $(document).ready(function () {
-        widgetToggle();
+        //widgetToggle();
         getCampus("selectCampus")
         getCourseType("selectCourseType");
         $("#selectCourseType").change(function () {
@@ -503,14 +506,14 @@
         lefile.onchange
     });
     $("#lefile").change(function () {
-        // getObjectURL是自定义的函数，见下面  
-        // this.files[0]代表的是选择的文件资源的第一个，因为上面写了 multiple="multiple" 就表示上传文件可能不止一个  
-        // ，但是这里只读取第一个   
+        // getObjectURL是自定义的函数，见下面
+        // this.files[0]代表的是选择的文件资源的第一个，因为上面写了 multiple="multiple" 就表示上传文件可能不止一个
+        // ，但是这里只读取第一个
         var objUrl = getObjectURL(this.files[0]);
-        // 这句代码没什么作用，删掉也可以  
-        // console.log("objUrl = "+objUrl) ;  
+        // 这句代码没什么作用，删掉也可以
+        // console.log("objUrl = "+objUrl) ;
         if (objUrl) {
-            // 在这里修改图片的地址属性  
+            // 在这里修改图片的地址属性
             $("#headimg").attr("src", objUrl);
         }
     });
