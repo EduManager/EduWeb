@@ -95,6 +95,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">学生信息</h3>
                 <div class="actions pull-right">
+                    <button type="button" class="btn btn-default navbar-btn">Sign in</button>
                     <i class="glyphicon glyphicon-chevron-up"></i>
                 </div>
             </div>
@@ -106,7 +107,14 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="txtName">学生姓名</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" value="" />
+                                        <div class='input-group' id='dpName'>
+                                            <input type="text" class="form-control" id="txtName" name="txtName" value="" />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-success" id="btnStdSearch" data-toggle="modal" data-target="#stdModal" onclick="">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
                                     <label class="col-sm-2 control-label" for="">性别</label>
                                     <div class="col-sm-4 controls">
@@ -479,6 +487,69 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
+    <!-- 模态框（Modal）学生查询 -->
+    <div class="modal fade" id="stdModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog"  style="width:80%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title">学生查询</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row well well-sm" style="margin:10px 0px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="txtName" class="col-sm-1 control-label right">姓名</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="txtName" name="txtName" placeholder="请输入学生姓名">
+                                </div>
+                                <label for="txtTel" class="col-sm-1 control-label">电话尾号</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="txtTel" name="txtTel" placeholder="请输入电话尾号">
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-search">  </span> 查询</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table table-striped table-bordered" id="tbStudent">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>年龄</th>
+                                    <th>所在学校</th>
+                                    <th>年级班级</th>
+                                    <th>家庭住址</th>
+                                    <th>母亲电话</th>
+                                    <th>父亲电话</th>
+                                    <th>其他电话</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnAddEntry">
+                        确定
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
 </div>
 <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrapValidator.js"></script>
@@ -663,6 +734,9 @@
             }
         });
     });
+    function StdQuery() {
+
+    }
     function calcTuition() {
         var clsPrice = $("#selectClass").find("option:selected").attr("price");
         var claCount = $("#txtClassCount").val();

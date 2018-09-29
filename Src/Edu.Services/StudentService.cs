@@ -87,6 +87,19 @@ namespace Edu.Services
         }
 
         /// <summary>
+        /// 通过姓名和电话尾号模糊查询
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public QueryResult<Student> QueryStudent(GetObjectsByPagingArgs args)
+        {
+            ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
+            ArgumentHelper.Require(args.PageSize, "PageSize", Arguments.Positive);
+            ArgumentHelper.Require(args.PageIndex, "PageIndex", Arguments.Positive);
+
+            return ContainerFactory<IStudentRepository>.Instance.GetStudentListByPaging(args);
+        }
+        /// <summary>
         /// 修改学生信息
         /// </summary>
         /// <param name="args"></param>

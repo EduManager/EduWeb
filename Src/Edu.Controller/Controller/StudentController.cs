@@ -36,7 +36,7 @@ namespace Edu.Controller.Controller
                 OrderBy = ""
             };
             var result = StudentService.Instance.GetStudentListByPaging(args);
-            ViewData["PageCount"] = (args.RowsCount-1) / args.PageSize + 1;
+            ViewData["PageCount"] = (args.RowsCount - 1) / args.PageSize + 1;
             ViewData["PageSize"] = args.PageSize;
             ViewData["PageIndex"] = args.PageIndex;
 
@@ -58,6 +58,28 @@ namespace Edu.Controller.Controller
             }
 
             return JsonHelper.Serialize(CommandResult.Failure("id不能为小于0的值"));
+        }
+
+        [HttpGet]
+        public string QueryStudent(string stuName, string stdPhone,int pageIndex = 1)
+        {
+            string wherestr = "name like % '" + stuName + "%'";
+            if (stdPhone.Trim() == "")
+            {
+                wherestr = wherestr + " and (right(tel1,4)='" + stdPhone + "' or right(tel1,4)='" + stdPhone + "' or right(tel1,4)='" + stdPhone + "')";
+            }
+            var schoolId = ApplicationContext.SchoolId;
+            var args = new GetObjectsByPagingArgs()
+            {
+                PageSize = 10,
+                SchoolId = schoolId,
+                PageIndex = pageIndex,
+                WhereStr = wherestr,
+                OrderBy = ""
+            };
+            var result = StudentService.Instance.GetStudentListByPaging(args);
+            return JsonHelper.Serialize(result);
+
         }
 
         [HttpPost]

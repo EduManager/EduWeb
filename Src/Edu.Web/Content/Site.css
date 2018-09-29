@@ -8,8 +8,6 @@
     padding-left: 15px;
     padding-right: 15px;
 }
-
-<<<<<<< HEAD
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select{
@@ -57,7 +55,6 @@ select{
 .bs-callout-info h4 {
   color: #1b809e;
 }
-
-
-=======
->>>>>>> 39b07ecc1516d2d9349fffd4d8789d51bfbd7c94
+.table-striped thead tr {
+    background-image: linear-gradient(to bottom,#f8f8f8 0,#ececec 100%);
+} 
