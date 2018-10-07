@@ -28,7 +28,7 @@ namespace Edu.Controller.Common
             var userName = ApplicationContext.UserName;
             bool isRedirct = schoolId == 0 || userId == 0 || roleId == 0 || string.IsNullOrEmpty(userName);
 
-            if (isRedirct)
+            if (true)
             {
                 //判断cookie中是否包含登陆信息
                 bool isRealRedirect = true;
