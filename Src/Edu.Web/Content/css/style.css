@@ -27,11 +27,6 @@ light grey: #fafafa;
 *********************/
 
 /***
-Import fonts
-***/
-@import url(../image/css);
-
-/***
 Reset and overrides  
 ***/
 /* general body settings */
@@ -836,11 +831,12 @@ Sidebar toggler(show/hide)
 }
 
 .page-sidebar-closed ul.page-sidebar-menu > li:hover > .sub-menu {  
-  width: 189px;
+  width: 225px;
   position: absolute;
   z-index: 2000;
   left: 36px;
   margin-top: 0;
+  margin-left: -36px;
   top: 100%;
   display: block !important;
 }

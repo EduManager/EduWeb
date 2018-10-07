@@ -157,6 +157,7 @@
                  var result = JSON.parse(data);
                  if(result.code === 200){
                      $('#roleMenuModal').modal('hide');
+                     window.location.reload();
                  }
              });
     }
