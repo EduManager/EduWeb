@@ -81,7 +81,7 @@ namespace Edu.Services
         public CommandResult<Student> GetStudentById(GetObjectByIdArgs args)
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
-            ArgumentHelper.Require(args.Id, "Id", Arguments.Positive);
+            ArgumentHelper.Require(args.OId, "Id", Arguments.Positive);
 
             return ContainerFactory<IStudentRepository>.Instance.GetStudentById(args);
         }

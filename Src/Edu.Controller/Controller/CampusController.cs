@@ -22,7 +22,7 @@ namespace Edu.Controller.Controller
             var schoolId = ApplicationContext.SchoolId;
             var result = CampusService.Instance.GetCampusBySchoolId(new GetObjectByIdArgs()
             {
-                Id = schoolId
+                OId = schoolId
             });
             var roles = new List<Campus>();
             if (result.Code == 200)
@@ -77,7 +77,7 @@ namespace Edu.Controller.Controller
             int schoolId = ApplicationContext.SchoolId;
             var result = CampusService.Instance.GetCampusBySchoolId(new GetObjectByIdArgs()
             {
-                Id = schoolId
+                OId = schoolId
             });
             return JsonHelper.Serialize(result);
         }

@@ -48,7 +48,7 @@ namespace Edu.Controller.Common
                                 var userInfos = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
                                 {
                                     SchoolId = schoolId,
-                                    Id = userId
+                                    OId = userId
                                 });
                                 if (userInfos.Code == 200)
                                 {
