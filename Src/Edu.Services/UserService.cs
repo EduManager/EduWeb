@@ -48,7 +48,7 @@ namespace Edu.Services
         /// <returns></returns>
         public QueryResult<UserLite> GetUserInfoByUserId(GetObjectByIdArgs args)
         {
-            ArgumentHelper.Require(args.Id, "UserId", Arguments.Positive);
+            ArgumentHelper.Require(args.OId, "UserId", Arguments.Positive);
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
 
             return ContainerFactory<IUserRepository>.Instance.GetUserInfoByUserId(args);

@@ -199,7 +199,7 @@ namespace Edu.Controller.Controller
             var schoolId = ApplicationContext.SchoolId;
             var userInfoResult = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
             {
-                Id = userId,
+                OId = userId,
                 SchoolId = ApplicationContext.SchoolId
             });
             var userInfo = new UserLite();
@@ -241,7 +241,7 @@ namespace Edu.Controller.Controller
 
                         var userInfo = UserService.Instance.GetUserInfoByUserId(new GetObjectByIdArgs()
                         {
-                            Id = userId,
+                            OId = userId,
                             SchoolId = schoolId
                         });
 

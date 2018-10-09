@@ -22,7 +22,7 @@ namespace Edu.Controller.Common
                     return JsonHelper.Serialize(new List<RoleMenuItem>());
                 var result = RoleMenuService.Instance.GetRoleMenuByRoleId(new GetObjectByIdArgs()
                 {
-                    Id = ApplicationContext.RoleId,
+                    OId = ApplicationContext.RoleId,
                     SchoolId = ApplicationContext.SchoolId
                 });
                 var model = result.Code == 200 ? result.Items : new List<RoleMenuItem>();
