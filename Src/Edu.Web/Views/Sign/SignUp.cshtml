@@ -1,6 +1,9 @@
-﻿@{
+﻿@model IEnumerable<Edu.Model.Core.Student>
+@{
     ViewBag.Title = "报名";
 }
+
+
 <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrapValidator.js"></script>
 <link rel="stylesheet" href="/Content/upimg/amazeui.cropper.css">
@@ -61,8 +64,6 @@
     }
 </style>
 <style>
-
-
     input[type="text"]:focus {
         background: #ffffff;
         border: 1px solid #cccccc;
@@ -91,7 +92,7 @@
                 <h3 class="panel-title">学生信息</h3>
                 <div class="actions pull-right">
                     <i id="stdReset" title="重置" class="glyphicon glyphicon-refresh" onclick=""></i>
-                    <i id="stdQuery" title="学生查询" class="glyphicon glyphicon-search"  data-toggle="modal" data-target="#stdModal" onclick="initModalForm();"></i>
+                    <i id="stdQuery" title="学生查询" class="glyphicon glyphicon-search" data-toggle="modal" data-target="#stdModal" onclick="QueryStudent();"></i>
                     <i title="收起" class="glyphicon glyphicon-chevron-up"></i>
                 </div>
             </div>
@@ -202,7 +203,7 @@
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     </div>
     <div class="col-md-12">
         <div class="panel panel-primary">
@@ -523,7 +524,36 @@
                                     <th>其他电话</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td><input type="radio" name="radio"  onclick="showModal(this);"/></td>
+                                        <td>@item.Name</td>
+                                        @{
+                                            if (item.Sex == 1)
+                                            {
+                                                <td>男</td>
+                                            }
+                                            else if (item.Sex == 0)
+                                            {
+                                                <td>女</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                        }
+                                        <td>@item.Birthday</td>
+                                        <td>@item.FullTimeSchool</td>
+                                        <td>@item.Grade</td>
+                                        <td>@item.Address</td>
+                                        <td>@item.Tel1</td>
+                                        <td>@item.Tel2</td>
+                                        <td>@item.Tel3</td>
+                                    </tr>
+                                            }
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -538,7 +568,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
-
+    <ul class="pagination" id="ulPaging"></ul>
 </div>
 <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrapValidator.js"></script>
@@ -563,7 +593,34 @@
             format: 'YYYY-MM-DD',
             locale: moment.locale('zh-cn')
         });
-        lefile.onchange
+       // lefile.onchange
+        $('#ulPaging').bootstrapPaginator({
+          currentPage: pageInfo.pageIndex, //当前的请求页面。
+          totalPages: pageInfo.pageCount, //pageInfo.pageCount, //一共多少页。
+          size: "normal", //应该是页眉的大小。
+          bootstrapMajorVersion: 3, //bootstrap的版本要求。
+          alignment: "right",
+          numberOfPages: pageInfo.pageSize, //一页列出多少数据。
+          itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
+              switch (type) {
+                  case "first":
+                      return "首页";
+                  case "prev":
+                      return "上一页";
+                  case "next":
+                      return "下一页";
+                  case "last":
+                      return "末页";
+                  case "page":
+                      return page;
+              }
+          },
+          onPageClicked: function (event, originalEvent, type, page) {
+             // if (page != pageInfo.pageIndex)
+                  //window.location.href = "Renew?pageIndex=" + page;
+          }
+      });
+
     });
     $("#lefile").change(function () {
         // getObjectURL是自定义的函数，见下面
@@ -724,12 +781,9 @@
         });
     });
     function StdQuery(stdName, phoneNo) {
-        var model = {
-            'RegionId': regionId, 'Name': sname, 'Sex': sex, 'Birthday': birthday, 'FullTimeSchool': fulltimeschool, 'Grade': grade,
-            'Tel1': tel1, 'Tel2': tel2, 'Tel3': tel3, 'Address': address, 'Remark': remark, 'Picture': ""
-        };
+        var model = { 'stuName': stdName, 'stdPhone': phoneNo };
         $.ajax({
-            url: "../Student/QueryStudent",
+            url: "QueryStudent",
             type: "post",
             data: JSON.stringify(model),
             contentType: 'application/json; charset=utf-8',
@@ -796,5 +850,8 @@
         $("#txtClassName1").val($("#selectClass").val());
         $("#txtShouldFee").val(sumfee);
         $("#txtRealFee").val($("#txtResult").val());
+    }
+    function QueryStudent() {
+        StdQuery("", "");
     }
 </script>
