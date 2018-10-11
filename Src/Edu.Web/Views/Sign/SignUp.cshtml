@@ -552,7 +552,7 @@
                                         <td>@item.Tel2</td>
                                         <td>@item.Tel3</td>
                                     </tr>
-                                }
+                                            }
                             </tbody>
                         </table>
                     </div>
@@ -576,7 +576,7 @@
 <script src="~/Scripts/upimg/cropper.min.js" charset="utf-8"></script>
 <script src="~/Scripts/upimg/custom_up_img.js" charset="utf-8"></script>
 <script>
-        var pageInfo = {
+    var pageInfo = {
         pageIndex: parseInt('@ViewData["PageIndex"]'),
         pageCount: parseInt('@ViewData["PageCount"]'),
         pageSize: parseInt('@ViewData["PageSize"]')
@@ -598,36 +598,8 @@
             format: 'YYYY-MM-DD',
             locale: moment.locale('zh-cn')
         });
-       // lefile.onchange
-        $('#ulPaging').bootstrapPaginator({
-          currentPage: pageInfo.pageIndex, //当前的请求页面。
-          totalPages: pageInfo.pageCount, //pageInfo.pageCount, //一共多少页。
-          size: "normal", //应该是页眉的大小。
-          bootstrapMajorVersion: 3, //bootstrap的版本要求。
-          alignment: "right",
-          numberOfPages: pageInfo.pageSize, //一页列出多少数据。
-          itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
-              switch (type) {
-                  case "first":
-                      return "首页";
-                  case "prev":
-                      return "上一页";
-                  case "next":
-                      return "下一页";
-                  case "last":
-                      return "末页";
-                  case "page":
-                      return page;
-              }
-          },
-          onPageClicked: function (event, originalEvent, type, page) {
-              if (page != pageInfo.pageIndex) {
-                  //window.location.href = "Renew?pageIndex=" + page;
-                  StdQuery("", "", page);
-              }
-                 
-          }
-      });
+        // lefile.onchange
+
 
     });
     $("#lefile").change(function () {
@@ -789,6 +761,10 @@
         });
     });
     function StdQuery(stdName, phoneNo, pageIndex) {
+        var table = document.getElementById("tbStudent");
+        var oBody = table.tBodies[0];
+        oBody.innerHTML = "";
+        var rowIndex = oBody.rows.length;
         var model = { 'stuName': stdName, 'stdPhone': phoneNo, 'pageIndex': pageIndex };
         $.ajax({
             url: "QueryStudent",
@@ -796,7 +772,48 @@
             data: JSON.stringify(model),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                var addStuResult = JSON.parse(data);
+                if (data != "") {
+                    var dataList = JSON.parse(data);
+                    tbody = "<thead><tr><th></th><th>姓名</th><th>性别</th><th>年龄</th><th>所在学校</th><th>年级班级</th><th>家庭住址</th><th>母亲电话</th><th>父亲电话</th><th>其他电话</th></tr></thead>";
+
+                    $.each(dataList, function (i, n) {
+                        var trs = "";
+                        trs += "<tr><td align='center'>" + n.sbbsh + "</td><td align='center'>" + n.sblb + "</td><td align='center'>" + n.csbm + "</td><td align='center'>" + n.sxcode + "</td><td align='center'>" + n.sjly + "</td></tr>";
+                        tbody += trs;
+                    });
+                    $("#testTable").html(tbody);
+
+
+                    $('#ulPaging').bootstrapPaginator({
+                        currentPage: pageInfo.pageIndex, //当前的请求页面。
+                        totalPages: pageInfo.pageCount, //pageInfo.pageCount, //一共多少页。
+                        size: "normal", //应该是页眉的大小。
+                        bootstrapMajorVersion: 3, //bootstrap的版本要求。
+                        alignment: "right",
+                        numberOfPages: pageInfo.pageSize, //一页列出多少数据。
+                        itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
+                            switch (type) {
+                                case "first":
+                                    return "首页";
+                                case "prev":
+                                    return "上一页";
+                                case "next":
+                                    return "下一页";
+                                case "last":
+                                    return "末页";
+                                case "page":
+                                    return page;
+                            }
+                        },
+                        onPageClicked: function (event, originalEvent, type, page) {
+                            if (page != pageInfo.pageIndex) {
+                                //window.location.href = "Renew?pageIndex=" + page;
+                                StdQuery("", "", page);
+                            }
+
+                        }
+                    });
+                }
             }
         })
     }
@@ -860,6 +877,6 @@
         $("#txtRealFee").val($("#txtResult").val());
     }
     function QueryStudent() {
-        StdQuery("", "");
+        StdQuery("", "",1);
     }
 </script>
