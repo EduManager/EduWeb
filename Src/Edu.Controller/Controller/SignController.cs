@@ -57,7 +57,7 @@ namespace Edu.Controller.Controller
                 var result = StudentService.Instance.GetStudentById(new GetObjectByIdArgs()
                 {
                     SchoolId = ApplicationContext.SchoolId,
-                    Id = stuId
+                    OId = stuId
                 });
 
                 return JsonHelper.Serialize(result);

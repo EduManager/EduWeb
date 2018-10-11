@@ -528,7 +528,7 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td><input type="radio" name="radio"  onclick="showModal(this);"/></td>
+                                        <td><input type="radio" name="radio" onclick="showModal(this);" /></td>
                                         <td>@item.Name</td>
                                         @{
                                             if (item.Sex == 1)
@@ -552,10 +552,11 @@
                                         <td>@item.Tel2</td>
                                         <td>@item.Tel3</td>
                                     </tr>
-                                            }
+                                }
                             </tbody>
                         </table>
                     </div>
+                    <ul class="pagination" id="ulPaging"></ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -568,7 +569,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
-    <ul class="pagination" id="ulPaging"></ul>
 </div>
 <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrapValidator.js"></script>
@@ -576,6 +576,11 @@
 <script src="~/Scripts/upimg/cropper.min.js" charset="utf-8"></script>
 <script src="~/Scripts/upimg/custom_up_img.js" charset="utf-8"></script>
 <script>
+        var pageInfo = {
+        pageIndex: parseInt('@ViewData["PageIndex"]'),
+        pageCount: parseInt('@ViewData["PageCount"]'),
+        pageSize: parseInt('@ViewData["PageSize"]')
+    };
     $(document).ready(function () {
         //widgetToggle();
         getCampus("selectCampus")
@@ -616,8 +621,11 @@
               }
           },
           onPageClicked: function (event, originalEvent, type, page) {
-             // if (page != pageInfo.pageIndex)
+              if (page != pageInfo.pageIndex) {
                   //window.location.href = "Renew?pageIndex=" + page;
+                  StdQuery("", "", page);
+              }
+                 
           }
       });
 
@@ -780,8 +788,8 @@
             }
         });
     });
-    function StdQuery(stdName, phoneNo) {
-        var model = { 'stuName': stdName, 'stdPhone': phoneNo };
+    function StdQuery(stdName, phoneNo, pageIndex) {
+        var model = { 'stuName': stdName, 'stdPhone': phoneNo, 'pageIndex': pageIndex };
         $.ajax({
             url: "QueryStudent",
             type: "post",
