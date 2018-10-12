@@ -91,7 +91,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">学生信息</h3>
                 <div class="actions pull-right">
-                    <i id="stdReset" title="重置" class="glyphicon glyphicon-refresh" onclick=""></i>
+                    <i id="stdReset" title="重置" class="glyphicon glyphicon-refresh" onclick="resetStudent();"></i>
                     <i id="stdQuery" title="学生查询" class="glyphicon glyphicon-search" data-toggle="modal" data-target="#stdModal" onclick="QueryStudent();"></i>
                     <i title="收起" class="glyphicon glyphicon-chevron-up"></i>
                 </div>
@@ -493,16 +493,16 @@
                     <div class="row well well-sm" style="margin:10px 0px;">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="txtName" class="col-sm-1 control-label right">姓名</label>
+                                <label for="txtQyName" class="col-sm-1 control-label right">姓名</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="txtName" name="txtName" placeholder="请输入学生姓名">
+                                    <input type="text" class="form-control" id="txtQyName" name="txtQyName" placeholder="请输入学生姓名">
                                 </div>
-                                <label for="txtTel" class="col-sm-1 control-label">电话尾号</label>
+                                <label for="txtQyTel" class="col-sm-1 control-label">电话尾号</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="txtTel" name="txtTel" placeholder="请输入电话尾号">
+                                    <input type="text" class="form-control" id="txtQyTel" name="txtQyTel" placeholder="请输入电话尾号">
                                 </div>
                                 <div class="col-sm-3">
-                                    <button class="btn btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-search">  </span> 查询</button>
+                                    <button class="btn btn-primary" data-toggle="modal" onclick="QueryStudent();"><span class="glyphicon glyphicon-search">  </span> 查询</button>
 
                                 </div>
                             </div>
@@ -524,9 +524,7 @@
                                     <th>其他电话</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                     <ul class="pagination" id="ulPaging"></ul>
@@ -535,7 +533,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         取消
                     </button>
-                    <button type="button" class="btn btn-primary"  onclick="getStudentId();">
+                    <button type="button" class="btn btn-primary" onclick="getStudentId();">
                         确定
                     </button>
                 </div>
@@ -594,7 +592,7 @@
     var classcount = 0;
     var discountvalue = 0;
     var result = [];
-    var stdId=0;
+    var stdId = 0;
     $("#selectCourse").change(function () {
         var selectedCourseId = $(this).val();
         getClassByCourse(selectedCourseId, "selectClass");
@@ -674,66 +672,77 @@
             'RegionId': regionId, 'Name': sname, 'Sex': sex, 'Birthday': birthday, 'FullTimeSchool': fulltimeschool, 'Grade': grade,
             'Tel1': tel1, 'Tel2': tel2, 'Tel3': tel3, 'Address': address, 'Remark': remark, 'Picture': ""
         };
+        if (stdId == 0) {
+            $.ajax({
+                url: "../Student/AddStudent",
+                type: "post",
+                data: JSON.stringify(model),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    var addStuResult = JSON.parse(data);
+                    addEntry(addStuResult.data);
+                }
+            });
+        }
+        else {
+            addEntry(stdId);
+        }
+    });
+    //报名
+    function addEntry(stuid)
+    {
+        var regionId = $("#selectCampus").val();
+        var courseId = $("#selectCourse").val();
+        var classId = $("#selectClass").val();
+        var classFullName = $("#selectClass").text();
+        var endDate = $("#datepicker1").data().date;
+        var classCount = $("#txtClassCount").val();
+        var realPay = $("#txtResult").val();//实际支付
+        var status = "";
+        var remain = realPay - sumfee;
+        if (sumfee == realPay) {
+            status = 0
+        }
+        else if (sumfee > realPay) {
+            status = 1
+        }
+        else {
+            status = 9
+        }
+        var entryModel = {
+            'RegionId': regionId, 'StudentId': stuid, 'CourseId': courseId, 'ClassId': classId, 'FullName': classFullName, 'StartDate': "",
+            'EndDate': endDate, 'CourseHour': classCount, 'Status': status, 'Remain': remain
+        };
         $.ajax({
-            url: "../Student/AddStudent",
+            url: "../Entry/AddEntry",
             type: "post",
-            data: JSON.stringify(model),
+            data: JSON.stringify(entryModel),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                var addStuResult = JSON.parse(data);
-                var courseId = $("#selectCourse").val();
-                var classId = $("#selectClass").val();
-                var classFullName = $("#selectClass").text();
-                var endDate = $("#datepicker1").data().date;
-                var classCount = $("#txtClassCount").val();
-                var realPay = $("#txtResult").val();//实际支付
-                var status = "";
-                var remain = realPay - sumfee;
-                if (sumfee == realPay) {
-                    status = 0
-                }
-                else if (sumfee > realPay) {
-                    status = 1
-                }
-                else {
-                    status = 9
-                }
-                var entryModel = {
-                    'RegionId': regionId, 'StudentId': addStuResult.data, 'CourseId': courseId, 'ClassId': classId, 'FullName': classFullName, 'StartDate': "",
-                    'EndDate': endDate, 'CourseHour': classCount, 'Status': status, 'Remain': remain
+                var AddEntryResult = JSON.parse(data);
+                var opttype = $("#selectPayType").val();
+                var optor = $("#txtOptor").val();
+                var entryremark = $("#txtRemark").val();
+                var disTp = $(selectDiscount).val();
+                var accountModel = {
+                    'RegionId': regionId, 'EntryId': AddEntryResult.data, 'ShouldExpenses': sumfee, 'BookExpenses': bookfee, 'OtherExpenses': otherfee, 'RealExpenses': realPay,
+                    'OptType': 0, 'PayType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
                 };
                 $.ajax({
-                    url: "AddEntry",
+                    url: "../Entry/AddAccount",
                     type: "post",
-                    data: JSON.stringify(entryModel),
+                    data: JSON.stringify(accountModel),
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
-                        var AddEntryResult = JSON.parse(data);
-                        var opttype = $("#selectPayType").val();
-                        var optor = $("#txtOptor").val();
-                        var entryremark = $("#txtRemark").val();
-                        var disTp = $(selectDiscount).val();
-                        var accountModel = {
-                            'RegionId': regionId, 'EntryId': AddEntryResult.data, 'ShouldExpenses': sumfee, 'BookExpenses': bookfee, 'OtherExpenses': otherfee, 'RealExpenses': realPay,
-                            'OptType': 0, 'PayType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
-                        };
-                        $.ajax({
-                            url: "AddAccount",
-                            type: "post",
-                            data: JSON.stringify(accountModel),
-                            contentType: 'application/json; charset=utf-8',
-                            success: function (data) {
-                                var AddAccountResult = JSON.parse(data);
-                                if (AddAccountResult.code === 200) {
-                                    window.location.reload();
-                                }
-                            }
-                        });
+                        var AddAccountResult = JSON.parse(data);
+                        if (AddAccountResult.code === 200) {
+                            window.location.reload();
+                        }
                     }
                 });
             }
         });
-    });
+    }
     function StdQuery(stdName, phoneNo, pageIndex) {
         var table = document.getElementById("tbStudent");
         var oBody = table.tBodies[0];
@@ -755,14 +764,14 @@
                         var a = dataList[i].name == undefined ? "" : dataList[i].name;
                         var b = dataList[i].sex == "1" ? "男" : "女";
                         var c = dataList[i].birthday == undefined ? "" : dataList[i].birthday.substr(0, 10);
-                        var d = dataList[i].fullTimeSchool == undefined ? "" : dataList[i].birthday;
+                        var d = dataList[i].fullTimeSchool == undefined ? "" : dataList[i].fullTimeSchool;
                         var e = dataList[i].grade == undefined ? "" : dataList[i].grade;
                         var f = dataList[i].address == undefined ? "" : dataList[i].address;
                         var g = dataList[i].tel1 == undefined ? "" : dataList[i].tel1;
                         var h = dataList[i].tel2 == undefined ? "" : dataList[i].tel2;
                         var p = dataList[i].tel3 == undefined ? "" : dataList[i].tel3;
                         trs += "<tr><td align='center'><input id='radioId' type='radio' name='radioChoose' value='" + dataList[i].id + "'/></td><td align='center'>"
-                            + a + "</td><td>" +b + "</td><td>" + c + "</td><td>" +d+ "</td><td>" +e + "</td><td>" + f + "</td><td>" + g + "</td><td>" + h + "</td><td>" + p + "</td></tr>";
+                            + a + "</td><td>" + b + "</td><td>" + c + "</td><td>" + d + "</td><td>" + e + "</td><td>" + f + "</td><td>" + g + "</td><td>" + h + "</td><td>" + p + "</td></tr>";
                         tbody += trs;
                     });
                     tbody += "</tbody>";
@@ -880,7 +889,19 @@
         $("#txtShouldFee").val(sumfee);
         $("#txtRealFee").val($("#txtResult").val());
     }
+    function resetStudent() {
+        $("#txtName").val("");
+        $("#maleOption").attr("checked", "checked");
+        $("#txtBirthday").val("");
+        $("#txtFullTimeSchool").val("");
+        $("#txGrade").val("");
+        $("#txtAddress").val("");
+        $("#txtTel1").val("");
+        $("#txtTel2").val("");
+        $("#txtTel3").val("");
+        stdId = 0;
+    }
     function QueryStudent() {
-        StdQuery("", "",1);
+        StdQuery($("#txtQyName").val(), $("#txtQyTel").val(), 1);
     }
 </script>

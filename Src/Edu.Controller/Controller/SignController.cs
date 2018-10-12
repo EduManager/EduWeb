@@ -69,10 +69,10 @@ namespace Edu.Controller.Controller
         [HttpPost]
         public string QueryStudent(string stuName, string stdPhone,int pageIndex = 1)
         {
-            string wherestr = "name like '%" + stuName + "%'";
-            if (stdPhone.Trim() == "")
+            string wherestr = " and st.name like '%" + stuName + "%'";
+            if (stdPhone.Trim() != "")
             {
-                wherestr = wherestr + " and (right(tel1,4)='" + stdPhone + "' or right(tel1,4)='" + stdPhone + "' or right(tel1,4)='" + stdPhone + "')";
+                wherestr = wherestr + " and (right(st.tel1,4)='" + stdPhone + "' or right(st.tel1,4)='" + stdPhone + "' or right(st.tel1,4)='" + stdPhone + "')";
             }
             var schoolId = ApplicationContext.SchoolId;
             var args = new GetObjectsByPagingArgs()
@@ -80,7 +80,7 @@ namespace Edu.Controller.Controller
                 PageSize = 10,
                 SchoolId = schoolId,
                 PageIndex = pageIndex,
-                WhereStr = "",
+                WhereStr = wherestr,
                 OrderBy = ""
             };
             var result = StudentService.Instance.GetStudentListByPaging(args);
