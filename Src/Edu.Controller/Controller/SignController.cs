@@ -83,9 +83,6 @@ namespace Edu.Controller.Controller
                 WhereStr = "",
                 OrderBy = ""
             };
-            ViewData["PageCount"] = (args.RowsCount - 1) / args.PageSize + 1;
-            ViewData["PageSize"] = args.PageSize;
-            ViewData["PageIndex"] = args.PageIndex;
             var result = StudentService.Instance.GetStudentListByPaging(args);
             return JsonHelper.Serialize(result);
 
