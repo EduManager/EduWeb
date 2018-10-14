@@ -731,7 +731,7 @@
                     var classObj = {
                         'Name': Name, 'SchoolRegionId': SchoolRegionId, 'CourseId': CourseId, 'Address': Address, 'Teacher': Teacher, 'FeeType': FeeType, 'Unit': ClassUnit, 'MaxCount': MaxCount, 'UnitPrice': UnitPrice, 'StartDate': StartDate, 'EndDate': EndDate, 'ClassHour': ClassHour
                     };
-                    if($("#addClassModalLabel").val()=="添加班级")
+                    if($("#addClassModalLabel").html()=="添加班级")
                     {
                         $.ajax({
                             url: "AddClass",

@@ -67,7 +67,7 @@ namespace Edu.Controller.Controller
         }
 
         [HttpPost]
-        public string QueryStudent(string stuName, string stdPhone,int pageIndex = 1)
+        public string QueryStudent(string stuName, string stdPhone, int pageIndex = 1)
         {
             string wherestr = " and st.name like '%" + stuName + "%'";
             if (stdPhone.Trim() != "")
@@ -85,8 +85,21 @@ namespace Edu.Controller.Controller
             };
             var result = StudentService.Instance.GetStudentListByPaging(args);
             return JsonHelper.Serialize(result);
-
         }
-       
+        [HttpPost]
+        public string uppic(IEnumerable<HttpPostedFileBase> filename, FormCollection form)
+        {
+            string path = "";
+            if (filename == null)
+                return "上传失败！";
+            foreach (var item in filename)
+            {
+                var fileName = Path.Combine(Request.MapPath("~/Content/img/upload/"), Path.GetFileName(item.FileName));
+                item.SaveAs(fileName);
+                path = "/Content/img/upload/" + Path.GetFileName(item.FileName);
+            }
+            return path;
+        }
+
     }
 }

@@ -24,18 +24,6 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 };
-function getObjectURL(file) {
-    var url = null;
-    // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已  
-    if (window.createObjectURL != undefined) { // basic  
-        url = window.createObjectURL(file);
-    } else if (window.URL != undefined) { // mozilla(firefox)  
-        url = window.URL.createObjectURL(file);
-    } else if (window.webkitURL != undefined) { // webkit or chrome  
-        url = window.webkitURL.createObjectURL(file);
-    }
-    return url;
-}
 function changeDiscount() {
     var desc = $("#selectDiscount").val();
     if (desc == '0') {

@@ -6,8 +6,6 @@
 
 <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrapValidator.js"></script>
-<link rel="stylesheet" href="/Content/upimg/amazeui.cropper.css">
-<link rel="stylesheet" href="/Content/upimg/custom_up_img.css">
 <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
 
@@ -15,19 +13,12 @@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
 <style type="text/css">
-    .up-img-cover {
-        width: 100px;
-        height: 100px;
-    }
-
-        .up-img-cover img {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            left: 0;
-            top: 0;
-        }
-
+  .am-circle {
+    border-radius: 50% !important;
+                cursor: pointer;
+                width:180px;
+                height:180px;
+}
     .panel .actions {
         position: absolute;
         right: 30px;
@@ -186,19 +177,13 @@
                         <div class="col-md-3" id="updateForm" style="text-align: center; ">
                             <div class="row">
                                 <div class="form-group">
-                                    <img id="headimg" alt="点击图片上传" src="/Content/img/student.png" class="thumbnail" />
-                                    <div><a style="text-align: center; display: block;" id="pic"></a></div>
+                                    <form class="up-img-cover" enctype="multipart/form-data" id="form1">
+                                        <input id="lefile" name="filename" type="file" style="display:none" onchange="sc();" >
+                                        <img id="headimg" class="am-circle"  onclick="$('input[id=lefile]').click();" alt="点击图片上传" src="/Content/img/student.png" data-am-popover="{content: '点击上传', trigger: 'hover focus'}">
+                                    </form>
                                 </div>
                             </div>
-                            <div class="row">
-                                <input id="lefile" type="file" style="display:none">
-                                <button type="button" class="am-btn am-btn-default am-btn-sm" onclick="$('input[id=lefile]').click();">
-                                    <i class="glyphicon glyphicon-folder-open"></i> 选择照片
-                                </button>
-                                <button id="btnUpImg" type="button" class="am-btn am-btn-default am-btn-sm">
-                                    <i class="glyphicon glyphicon-cloud-upload"></i> 上传照片
-                                </button>
-                            </div>
+              
                         </div>
                     </div>
                 </div>
@@ -491,21 +476,19 @@
                 </div>
                 <div class="modal-body">
                     <div class="row well well-sm" style="margin:10px 0px;">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="txtQyName" class="col-sm-1 control-label right">姓名</label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="txtQyName" name="txtQyName" placeholder="请输入学生姓名">
-                                </div>
-                                <label for="txtQyTel" class="col-sm-1 control-label">电话尾号</label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="txtQyTel" name="txtQyTel" placeholder="请输入电话尾号">
-                                </div>
-                                <div class="col-sm-3">
-                                    <button class="btn btn-primary" data-toggle="modal" onclick="QueryStudent();"><span class="glyphicon glyphicon-search">  </span> 查询</button>
+                        <div class="col-md-6">
+                            <div class="form-group  form-inline">
+                                <input type="text" style="max-width:150px;margin-right:10px;" class="form-control" id="txtQyName" name="txtQyName" placeholder="请输入学生姓名">
 
-                                </div>
+                                <input type="text" style="max-width:150px;margin-right:10px;" class="form-control" id="txtQyTel" name="txtQyTel" placeholder="请输入电话尾号">
+
+                                <button class="btn btn-primary" style="" data-toggle="modal" onclick="QueryStudent();"><span class="glyphicon glyphicon-search">  </span> 查询</button>
+
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="pagination" style="margin:0px;float:right;" id="ulPaging"></ul>
+
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -527,381 +510,424 @@
                             <tbody></tbody>
                         </table>
                     </div>
-                    <ul class="pagination" id="ulPaging"></ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        取消
-                    </button>
-                    <button type="button" class="btn btn-primary" onclick="getStudentId();">
-                        确定
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="getStudentId();">
+                            确定
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
     </div>
-</div>
-<link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
-<script src="~/Scripts/bootstrapValidator.js"></script>
-<script src="~/Scripts/bootstrap-paginator.js"></script>
-<script src="~/Scripts/upimg/cropper.min.js" charset="utf-8"></script>
-<script src="~/Scripts/upimg/custom_up_img.js" charset="utf-8"></script>
-<script>
-    var pageInfo = {
-        pageIndex: parseInt('@ViewData["PageIndex"]'),
-        pageCount: parseInt('@ViewData["PageCount"]'),
-        pageSize: parseInt('@ViewData["PageSize"]')
-    };
-    $(document).ready(function () {
-        //widgetToggle();
-        getCampus("selectCampus")
-        getCourseType("selectCourseType");
-        $("#selectCourseType").change(function () {
-            $("#selectClass").empty();
-            var selectedCoursTypeId = $(this).val();
-            getCourseList("selectCourse", selectedCoursTypeId);
-        });
-        $('#datepicker1').datetimepicker({
-            format: 'YYYY-MM-DD',
-            locale: moment.locale('zh-cn')
-        });
-        $('#dpBirthday').datetimepicker({
-            format: 'YYYY-MM-DD',
-            locale: moment.locale('zh-cn')
-        });
-        // lefile.onchange
+    <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrapValidator.js"></script>
+    <script src="~/Scripts/bootstrap-paginator.js"></script>
+    <script src="~/Scripts/upimg/cropper.min.js" charset="utf-8"></script>
+    <script src="~/Scripts/upimg/custom_up_img.js" charset="utf-8"></script>
+    <script>
+        var pageInfo = {
+            pageIndex: parseInt('@ViewData["PageIndex"]'),
+            pageCount: parseInt('@ViewData["PageCount"]'),
+            pageSize: parseInt('@ViewData["PageSize"]')
+        };
+        $(document).ready(function () {
+            //widgetToggle();
+            getCampus("selectCampus")
+            getCourseType("selectCourseType");
+            $("#selectCourseType").change(function () {
+                $("#selectClass").empty();
+                var selectedCoursTypeId = $(this).val();
+                getCourseList("selectCourse", selectedCoursTypeId);
+            });
+            $('#datepicker1').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn')
+            });
+            $('#dpBirthday').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn')
+            });
+            // lefile.onchange
 
 
-    });
-    $("#lefile").change(function () {
-        // getObjectURL是自定义的函数，见下面
-        // this.files[0]代表的是选择的文件资源的第一个，因为上面写了 multiple="multiple" 就表示上传文件可能不止一个
-        // ，但是这里只读取第一个
-        var objUrl = getObjectURL(this.files[0]);
-        // 这句代码没什么作用，删掉也可以
-        // console.log("objUrl = "+objUrl) ;
-        if (objUrl) {
-            // 在这里修改图片的地址属性
-            $("#headimg").attr("src", objUrl);
-        }
-    });
-    var tuition = 0;
-    var bookfee = 0;
-    var otherfee = 0;
-    var sumfee = 0;
-    var classcount = 0;
-    var discountvalue = 0;
-    var result = [];
-    var stdId = 0;
-    $("#selectCourse").change(function () {
-        var selectedCourseId = $(this).val();
-        getClassByCourse(selectedCourseId, "selectClass");
-        //var bookfee = getBookFeeByCourse(selectedCourseId);
-        var bookcard = document.getElementById("bookcard");
-        var othercard = document.getElementById("othercard");
-        bookcard.innerHTML = "";
-        othercard.innerHTML = "";
-        result = [];
-        var model = { 'courseId': selectedCourseId };
-        $.ajax({
-            url: "../Bookfee/getBookFeeByCourse",
-            type: "post",
-            data: JSON.stringify(model),
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                result = JSON.parse(data);
-                var content1 = "";
-                var content2 = "";
-                for (var i = 0; i < result.length; i++) {
-                    result[i].objCount = 1;
-                    result[i].usable = true;
-                    if (result[i].feeType == 1)//教材
-                    {
-                        content1 += "<div class='row'>";
-                        content1 += "<div class='form-group'>";
-                        content1 += " <div class='col-mb-12 col-sm-12  form-inline'>";
-                        content1 += "<div class='radio'>";
-                        content1 += "<input class='icheck' type='checkbox' onchange='radioChange(this," + i + ")' checked='' name='check1'>";
-                        content1 += "<label>" + result[i].feeName + "</label>";
-                        content1 += "</div>";
-                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' onchange='changePrice(this," + i + ")' value='" + result[i].price + "' />";
-                        content1 += "<label class='glyphicon glyphicon-remove'></label>";
-                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' onchange='changeCount(this," + i + ")' value='1' />";
-                        content1 += "</div></div></div>";
-                    }
-                    else if (result[i].feeType == 2)//杂费
-                    {
-                        content2 += "<div class='row'>";
-                        content2 += "<div class='form-group'>";
-                        content2 += " <div class='col-mb-12 col-sm-12  form-inline'>";
-                        content2 += "<div class='radio'>";
-                        content2 += "<input class='icheck' type='checkbox' onchange='radioChange(this," + i + ")' checked=''  name='check1'>";
-                        content2 += "<label>" + result[i].feeName + "</label>";
-                        content2 += "</div>";
-                        content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' onchange='changePrice(this," + i + ")' value='" + result[i].price + "' />";
-                        content2 += "<label class='glyphicon glyphicon-remove'></label>";
-                        content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount'  onchange='changeCount(this," + i + ")'  value='1' />";
-                        content2 += "</div></div></div>";
-                    }
-                }
-                bookcard.innerHTML = content1;
-                othercard.innerHTML = content2;
-                calcBookFee(result);
+        });
+        $("#ss").change(function () {
+            // getObjectURL是自定义的函数，见下面
+            // this.files[0]代表的是选择的文件资源的第一个，因为上面写了 multiple="multiple" 就表示上传文件可能不止一个
+            // ，但是这里只读取第一个
+            var objUrl = getObjectURL(this.files[0]);
+            // 这句代码没什么作用，删掉也可以
+            // console.log("objUrl = "+objUrl) ;
+            if (objUrl) {
+                // 在这里修改图片的地址属性
+                $("#headimg").attr("src", objUrl);
             }
         });
-    });
-    $("#selectClass").change(function () {
-        calcTuition();
-
-    });
-    $("#btnAddEntry").click(function () {
-        var regionId = $("#selectCampus").val();
-        var sname = $("#txtName").val();
-        var sex = $("input[name='sex']:checked").val();
-        var birthday = $("#dpBirthday").data().date;
-
-        var fulltimeschool = $("#txtFullTimeSchool").val();
-        var grade = $("#txGrade").val();
-        var address = $("#txtAddress").val();
-        var tel1 = $("#txtTel1").val();
-        var tel2 = $("#txtTel2").val();
-        var tel3 = $("#txtTel3").val();
-        var remark = $("#txtStudentRemark").val();
-
-        var model = {
-            'RegionId': regionId, 'Name': sname, 'Sex': sex, 'Birthday': birthday, 'FullTimeSchool': fulltimeschool, 'Grade': grade,
-            'Tel1': tel1, 'Tel2': tel2, 'Tel3': tel3, 'Address': address, 'Remark': remark, 'Picture': ""
-        };
-        if (stdId == 0) {
+        var tuition = 0;
+        var bookfee = 0;
+        var otherfee = 0;
+        var sumfee = 0;
+        var classcount = 0;
+        var discountvalue = 0;
+        var result = [];
+        var picurl = "";
+        var stdId = 0;
+        $("#selectCourse").change(function () {
+            var selectedCourseId = $(this).val();
+            getClassByCourse(selectedCourseId, "selectClass");
+            //var bookfee = getBookFeeByCourse(selectedCourseId);
+            var bookcard = document.getElementById("bookcard");
+            var othercard = document.getElementById("othercard");
+            bookcard.innerHTML = "";
+            othercard.innerHTML = "";
+            result = [];
+            var model = { 'courseId': selectedCourseId };
             $.ajax({
-                url: "../Student/AddStudent",
+                url: "../Bookfee/getBookFeeByCourse",
                 type: "post",
                 data: JSON.stringify(model),
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
-                    var addStuResult = JSON.parse(data);
-                    addEntry(addStuResult.data);
+                    result = JSON.parse(data);
+                    var content1 = "";
+                    var content2 = "";
+                    for (var i = 0; i < result.length; i++) {
+                        result[i].objCount = 1;
+                        result[i].usable = true;
+                        if (result[i].feeType == 1)//教材
+                        {
+                            content1 += "<div class='row'>";
+                            content1 += "<div class='form-group'>";
+                            content1 += " <div class='col-mb-12 col-sm-12  form-inline'>";
+                            content1 += "<div class='radio'>";
+                            content1 += "<input class='icheck' type='checkbox' onchange='radioChange(this," + i + ")' checked='' name='check1'>";
+                            content1 += "<label>" + result[i].feeName + "</label>";
+                            content1 += "</div>";
+                            content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' onchange='changePrice(this," + i + ")' value='" + result[i].price + "' />";
+                            content1 += "<label class='glyphicon glyphicon-remove'></label>";
+                            content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' onchange='changeCount(this," + i + ")' value='1' />";
+                            content1 += "</div></div></div>";
+                        }
+                        else if (result[i].feeType == 2)//杂费
+                        {
+                            content2 += "<div class='row'>";
+                            content2 += "<div class='form-group'>";
+                            content2 += " <div class='col-mb-12 col-sm-12  form-inline'>";
+                            content2 += "<div class='radio'>";
+                            content2 += "<input class='icheck' type='checkbox' onchange='radioChange(this," + i + ")' checked=''  name='check1'>";
+                            content2 += "<label>" + result[i].feeName + "</label>";
+                            content2 += "</div>";
+                            content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' onchange='changePrice(this," + i + ")' value='" + result[i].price + "' />";
+                            content2 += "<label class='glyphicon glyphicon-remove'></label>";
+                            content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount'  onchange='changeCount(this," + i + ")'  value='1' />";
+                            content2 += "</div></div></div>";
+                        }
+                    }
+                    bookcard.innerHTML = content1;
+                    othercard.innerHTML = content2;
+                    calcBookFee(result);
                 }
             });
-        }
-        else {
-            addEntry(stdId);
-        }
-    });
-    //报名
-    function addEntry(stuid)
-    {
-        var regionId = $("#selectCampus").val();
-        var courseId = $("#selectCourse").val();
-        var classId = $("#selectClass").val();
-        var classFullName = $("#selectClass").text();
-        var endDate = $("#datepicker1").data().date;
-        var classCount = $("#txtClassCount").val();
-        var realPay = $("#txtResult").val();//实际支付
-        var status = "";
-        var remain = realPay - sumfee;
-        if (sumfee == realPay) {
-            status = 0
-        }
-        else if (sumfee > realPay) {
-            status = 1
-        }
-        else {
-            status = 9
-        }
-        var entryModel = {
-            'RegionId': regionId, 'StudentId': stuid, 'CourseId': courseId, 'ClassId': classId, 'FullName': classFullName, 'StartDate': "",
-            'EndDate': endDate, 'CourseHour': classCount, 'Status': status, 'Remain': remain
-        };
-        $.ajax({
-            url: "../Entry/AddEntry",
-            type: "post",
-            data: JSON.stringify(entryModel),
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                var AddEntryResult = JSON.parse(data);
-                var opttype = $("#selectPayType").val();
-                var optor = $("#txtOptor").val();
-                var entryremark = $("#txtRemark").val();
-                var disTp = $(selectDiscount).val();
-                var accountModel = {
-                    'RegionId': regionId, 'EntryId': AddEntryResult.data, 'ShouldExpenses': sumfee, 'BookExpenses': bookfee, 'OtherExpenses': otherfee, 'RealExpenses': realPay,
-                    'OptType': 0, 'PayType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
-                };
+        });
+        $("#selectClass").change(function () {
+            calcTuition();
+
+        });
+        $("#btnAddEntry").click(function () {
+            var regionId = $("#selectCampus").val();
+            var sname = $("#txtName").val();
+            var sex = $("input[name='sex']:checked").val();
+            var birthday = $("#dpBirthday").data().date;
+
+            var fulltimeschool = $("#txtFullTimeSchool").val();
+            var grade = $("#txGrade").val();
+            var address = $("#txtAddress").val();
+            var tel1 = $("#txtTel1").val();
+            var tel2 = $("#txtTel2").val();
+            var tel3 = $("#txtTel3").val();
+            var remark = $("#txtStudentRemark").val();
+
+            var model = {
+                'RegionId': regionId, 'Name': sname, 'Sex': sex, 'Birthday': birthday, 'FullTimeSchool': fulltimeschool, 'Grade': grade,
+                'Tel1': tel1, 'Tel2': tel2, 'Tel3': tel3, 'Address': address, 'Remark': remark, 'Picture': picurl
+            };
+            if (stdId == 0) {
                 $.ajax({
-                    url: "../Entry/AddAccount",
+                    url: "../Student/AddStudent",
                     type: "post",
-                    data: JSON.stringify(accountModel),
+                    data: JSON.stringify(model),
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
-                        var AddAccountResult = JSON.parse(data);
-                        if (AddAccountResult.code === 200) {
-                            window.location.reload();
-                        }
+                        var addStuResult = JSON.parse(data);
+                        addEntry(addStuResult.data);
                     }
                 });
             }
+            else {
+                addEntry(stdId);
+            }
         });
-    }
-    function StdQuery(stdName, phoneNo, pageIndex) {
-        var table = document.getElementById("tbStudent");
-        var oBody = table.tBodies[0];
-        oBody.innerHTML = "";
-        var rowIndex = oBody.rows.length;
-        var model = { 'stuName': stdName, 'stdPhone': phoneNo, 'pageIndex': pageIndex };
-        $.ajax({
-            url: "QueryStudent",
-            type: "post",
-            data: JSON.stringify(model),
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data != "") {
-                    var dataList = JSON.parse(data).items;
-                    tbody = "<thead><tr><th></th><th>姓名</th><th>性别</th><th>年龄</th><th>所在学校</th><th>年级班级</th><th>家庭住址</th><th>母亲电话</th><th>父亲电话</th><th>其他电话</th></tr></thead><tbody>";
-
-                    $.each(dataList, function (i) {
-                        var trs = "";
-                        var a = dataList[i].name == undefined ? "" : dataList[i].name;
-                        var b = dataList[i].sex == "1" ? "男" : "女";
-                        var c = dataList[i].birthday == undefined ? "" : dataList[i].birthday.substr(0, 10);
-                        var d = dataList[i].fullTimeSchool == undefined ? "" : dataList[i].fullTimeSchool;
-                        var e = dataList[i].grade == undefined ? "" : dataList[i].grade;
-                        var f = dataList[i].address == undefined ? "" : dataList[i].address;
-                        var g = dataList[i].tel1 == undefined ? "" : dataList[i].tel1;
-                        var h = dataList[i].tel2 == undefined ? "" : dataList[i].tel2;
-                        var p = dataList[i].tel3 == undefined ? "" : dataList[i].tel3;
-                        trs += "<tr><td align='center'><input id='radioId' type='radio' name='radioChoose' value='" + dataList[i].id + "'/></td><td align='center'>"
-                            + a + "</td><td>" + b + "</td><td>" + c + "</td><td>" + d + "</td><td>" + e + "</td><td>" + f + "</td><td>" + g + "</td><td>" + h + "</td><td>" + p + "</td></tr>";
-                        tbody += trs;
-                    });
-                    tbody += "</tbody>";
-                    $("#tbStudent").html(tbody);
-                    $('#ulPaging').bootstrapPaginator({
-                        currentPage: pageIndex, //当前的请求页面。
-                        totalPages: pageInfo.pageCount, //pageInfo.pageCount, //一共多少页。
-                        size: "normal", //应该是页眉的大小。
-                        bootstrapMajorVersion: 3, //bootstrap的版本要求。
-                        alignment: "right",
-                        numberOfPages: pageInfo.pageSize, //一页列出多少数据。
-                        itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
-                            switch (type) {
-                                case "first":
-                                    return "首页";
-                                case "prev":
-                                    return "上一页";
-                                case "next":
-                                    return "下一页";
-                                case "last":
-                                    return "末页";
-                                case "page":
-                                    return page;
+        //报名
+        function addEntry(stuid) {
+            var regionId = $("#selectCampus").val();
+            var courseId = $("#selectCourse").val();
+            var classId = $("#selectClass").val();
+            var classFullName = $("#selectClass").text();
+            var endDate = $("#datepicker1").data().date;
+            var classCount = $("#txtClassCount").val();
+            var realPay = $("#txtResult").val();//实际支付
+            var status = "";
+            var remain = realPay - sumfee;
+            if (sumfee == realPay) {
+                status = 0
+            }
+            else if (sumfee > realPay) {
+                status = 1
+            }
+            else {
+                status = 9
+            }
+            var entryModel = {
+                'RegionId': regionId, 'StudentId': stuid, 'CourseId': courseId, 'ClassId': classId, 'FullName': classFullName, 'StartDate': "",
+                'EndDate': endDate, 'CourseHour': classCount, 'Status': status, 'Remain': remain
+            };
+            $.ajax({
+                url: "../Entry/AddEntry",
+                type: "post",
+                data: JSON.stringify(entryModel),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    var AddEntryResult = JSON.parse(data);
+                    var opttype = $("#selectPayType").val();
+                    var optor = $("#txtOptor").val();
+                    var entryremark = $("#txtRemark").val();
+                    var disTp = $(selectDiscount).val();
+                    var accountModel = {
+                        'RegionId': regionId, 'EntryId': AddEntryResult.data, 'ShouldExpenses': sumfee, 'BookExpenses': bookfee, 'OtherExpenses': otherfee, 'RealExpenses': realPay,
+                        'OptType': 0, 'PayType': opttype, 'Optor': optor, 'Remark': entryremark, 'DiscountType': disTp, 'DiscountExpenses': discountvalue
+                    };
+                    $.ajax({
+                        url: "../Entry/AddAccount",
+                        type: "post",
+                        data: JSON.stringify(accountModel),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var AddAccountResult = JSON.parse(data);
+                            if (AddAccountResult.code === 200) {
+                                window.location.reload();
                             }
-                        },
-                        onPageClicked: function (event, originalEvent, type, page) {
-                            if (page != pageIndex) {
-                                //window.location.href = "Renew?pageIndex=" + page;
-                                StdQuery("", "", page);
-                            }
-
                         }
                     });
                 }
+            });
+        }
+        function StdQuery(stdName, phoneNo, pageIndex) {
+            var table = document.getElementById("tbStudent");
+            var oBody = table.tBodies[0];
+            oBody.innerHTML = "";
+            var rowIndex = oBody.rows.length;
+            var model = { 'stuName': stdName, 'stdPhone': phoneNo, 'pageIndex': pageIndex };
+            $.ajax({
+                url: "QueryStudent",
+                type: "post",
+                data: JSON.stringify(model),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data != "") {
+                        var dataList = JSON.parse(data).items;
+                        tbody = "<thead><tr><th></th><th>姓名</th><th>性别</th><th>年龄</th><th>所在学校</th><th>年级班级</th><th>家庭住址</th><th>母亲电话</th><th>父亲电话</th><th>其他电话</th></tr></thead><tbody>";
+
+                        $.each(dataList, function (i) {
+                            var trs = "";
+                            var a = dataList[i].name == undefined ? "" : dataList[i].name;
+                            var b = dataList[i].sex == "1" ? "男" : "女";
+                            var c = dataList[i].birthday == undefined ? "" : dataList[i].birthday.substr(0, 10);
+                            var d = dataList[i].fullTimeSchool == undefined ? "" : dataList[i].fullTimeSchool;
+                            var e = dataList[i].grade == undefined ? "" : dataList[i].grade;
+                            var f = dataList[i].address == undefined ? "" : dataList[i].address;
+                            var g = dataList[i].tel1 == undefined ? "" : dataList[i].tel1;
+                            var h = dataList[i].tel2 == undefined ? "" : dataList[i].tel2;
+                            var p = dataList[i].tel3 == undefined ? "" : dataList[i].tel3;
+                            trs += "<tr value='" + dataList[i].picture + "'><td align='center'><input id='radioId' type='radio' name='radioChoose' value='" + dataList[i].id + "'/></td><td align='center'>"
+                                + a + "</td><td>" + b + "</td><td>" + c + "</td><td>" + d + "</td><td>" + e + "</td><td>" + f + "</td><td>" + g + "</td><td>" + h + "</td><td>" + p + "</td></tr>";
+                            tbody += trs;
+                        });
+                        tbody += "</tbody>";
+                        $("#tbStudent").html(tbody);
+                        $('#ulPaging').bootstrapPaginator({
+                            currentPage: pageIndex, //当前的请求页面。
+                            totalPages: pageInfo.pageCount, //pageInfo.pageCount, //一共多少页。
+                            size: "normal", //应该是页眉的大小。
+                            bootstrapMajorVersion: 3, //bootstrap的版本要求。
+                            alignment: "right",
+                            numberOfPages: pageInfo.pageSize, //一页列出多少数据。
+                            itemTexts: function (type, page, current) { //如下的代码是将页眉显示的中文显示我们自定义的中文。
+                                switch (type) {
+                                    case "first":
+                                        return "首页";
+                                    case "prev":
+                                        return "上一页";
+                                    case "next":
+                                        return "下一页";
+                                    case "last":
+                                        return "末页";
+                                    case "page":
+                                        return page;
+                                }
+                            },
+                            onPageClicked: function (event, originalEvent, type, page) {
+                                if (page != pageIndex) {
+                                    //window.location.href = "Renew?pageIndex=" + page;
+                                    StdQuery("", "", page);
+                                }
+
+                            }
+                        });
+                    }
+                }
+            })
+        }
+        function getStudentId() {
+            var checkedRedio = $("#tbStudent input[type='radio']:checked");
+            stdId = checkedRedio.val();
+            var tr = checkedRedio.closest('tr');
+            var tds = tr.find('td');
+            $("#txtName").val(tds.eq(1).text());
+            if (tds.eq(1).text() == "1") {
+                $("#maleOption").attr("checked", "checked");
             }
-        })
-    }
-    function getStudentId() {
-        var checkedRedio = $("#tbStudent input[type='radio']:checked");
-        stdId = checkedRedio.val();
-        var tr = checkedRedio.closest('tr');
-        var tds = tr.find('td');
-        $("#txtName").val(tds.eq(1).text());
-        if (tds.eq(1).text() == "1") {
+            else {
+                $("#femaleOption").attr("checked", "checked");
+            }
+            $("#txtBirthday").val(tds.eq(3).text());
+            $("#txtFullTimeSchool").val(tds.eq(4).text());
+            $("#txGrade").val(tds.eq(5).text());
+            $("#txtAddress").val(tds.eq(6).text());
+            $("#txtTel1").val(tds.eq(7).text());
+            $("#txtTel2").val(tds.eq(8).text());
+            $("#txtTel3").val(tds.eq(9).text());
+            if (tr.val() != undefined)
+            {
+                $("#headimg").attr("src", tr.val());
+            }
+            $('#stdModal').modal('hide');
+        }
+        function calcTuition() {
+            var clsPrice = $("#selectClass").find("option:selected").attr("price");
+            var claCount = $("#txtClassCount").val();
+            var desc = $("#selectDiscount").val();
+            if (desc == "0") {
+                tuition = clsPrice * claCount;
+            }
+            else if (desc == "1") {
+                var discount = $("#selectDiscountValue").val();
+                tuition = clsPrice * claCount * discount;
+            }
+            else if (desc == "2") {
+                var discount = $("#txtDiscount").val();
+                tuition = clsPrice * claCount - discount;
+            }
+            $("#spTuition").text("¥" + tuition + "元");
+            calcShouldPay();
+        }
+        function radioChange(obj, rusultIndex) {
+            result[rusultIndex].usable = obj.checked;
+            calcBookFee(result);
+        }
+        function changePrice(obj, rusultIndex) {
+            result[rusultIndex].price = $(obj).val();
+            calcBookFee(result);
+        }
+        function changeCount(obj, rusultIndex) {
+            result[rusultIndex].objCount = $(obj).val();
+            calcBookFee(result);
+        }
+        function calcBookFee(fees) {
+            bookfee = 0;
+            otherfee = 0;
+            for (var i = 0; i < fees.length; i++) {
+                if (fees[i].usable) {
+                    if (fees[i].feeType == 1)//教材
+                    {
+                        bookfee += fees[i].price * fees[i].objCount
+                    }
+                    else if (fees[i].feeType == 2)//杂费
+                    {
+                        otherfee += fees[i].price * fees[i].objCount
+                    }
+                }
+            }
+            $("#spBookFee").text("¥" + bookfee + "元");
+            $("#spOtherFee").text("¥" + otherfee + "元");
+            calcShouldPay();
+        }
+        function calcShouldPay() {
+            sumfee = tuition + bookfee + otherfee;
+            $("#txtResult").val(sumfee);
+        }
+        function initModalForm() {
+            $("#txStudentName").val($("#txtName").val());
+            $("#txtClassName1").val($("#selectClass").val());
+            $("#txtShouldFee").val(sumfee);
+            $("#txtRealFee").val($("#txtResult").val());
+        }
+        function resetStudent() {
+            $("#txtName").val("");
             $("#maleOption").attr("checked", "checked");
+            $("#txtBirthday").val("");
+            $("#txtFullTimeSchool").val("");
+            $("#txGrade").val("");
+            $("#txtAddress").val("");
+            $("#txtTel1").val("");
+            $("#txtTel2").val("");
+            $("#txtTel3").val("");
+            stdId = 0;
         }
-        else {
-            $("#femaleOption").attr("checked", "checked");
+        function QueryStudent() {
+            StdQuery($("#txtQyName").val(), $("#txtQyTel").val(), 1);
         }
-        $("#txtBirthday").val(tds.eq(3).text());
-        $("#txtFullTimeSchool").val(tds.eq(4).text());
-        $("#txGrade").val(tds.eq(5).text());
-        $("#txtAddress").val(tds.eq(6).text());
-        $("#txtTel1").val(tds.eq(7).text());
-        $("#txtTel2").val(tds.eq(8).text());
-        $("#txtTel3").val(tds.eq(9).text());
-        $('#stdModal').modal('hide');
-    }
-    function calcTuition() {
-        var clsPrice = $("#selectClass").find("option:selected").attr("price");
-        var claCount = $("#txtClassCount").val();
-        var desc = $("#selectDiscount").val();
-        if (desc == "0") {
-            tuition = clsPrice * claCount;
-        }
-        else if (desc == "1") {
-            var discount = $("#selectDiscountValue").val();
-            tuition = clsPrice * claCount * discount;
-        }
-        else if (desc == "2") {
-            var discount = $("#txtDiscount").val();
-            tuition = clsPrice * claCount - discount;
-        }
-        $("#spTuition").text("¥" + tuition + "元");
-        calcShouldPay();
-    }
-    function radioChange(obj, rusultIndex) {
-        result[rusultIndex].usable = obj.checked;
-        calcBookFee(result);
-    }
-    function changePrice(obj, rusultIndex) {
-        result[rusultIndex].price = $(obj).val();
-        calcBookFee(result);
-    }
-    function changeCount(obj, rusultIndex) {
-        result[rusultIndex].objCount = $(obj).val();
-        calcBookFee(result);
-    }
-    function calcBookFee(fees) {
-        bookfee = 0;
-        otherfee = 0;
-        for (var i = 0; i < fees.length; i++) {
-            if (fees[i].usable) {
-                if (fees[i].feeType == 1)//教材
-                {
-                    bookfee += fees[i].price * fees[i].objCount
-                }
-                else if (fees[i].feeType == 2)//杂费
-                {
-                    otherfee += fees[i].price * fees[i].objCount
-                }
+
+        function sc() {
+            var animateimg = $("#lefile").val(); //获取上传的图片名 带//
+            var imgarr = animateimg.split('\\'); //分割
+            var myimg = imgarr[imgarr.length - 1]; //去掉 // 获取图片名
+            var houzui = myimg.lastIndexOf('.'); //获取 . 出现的位置
+            var ext = myimg.substring(houzui, myimg.length).toUpperCase();  //切割 . 获取文件后缀
+
+            var file = $('#lefile').get(0).files[0]; //获取上传的文件
+            //var file = $("#lefile")[0].files[0];
+            var fileSize = file.size;           //获取上传的文件大小
+            var maxSize = 1048576;              //最大1MB
+            if (ext != '.PNG' && ext != '.GIF' && ext != '.JPG' && ext != '.JPEG' && ext != '.BMP') {
+               alert('文件类型错误,请上传图片类型');
+                return false;
+            } else if (parseInt(fileSize) >= parseInt(maxSize)) {
+                alert('上传的文件不能超过1MB');
+                return false;
+            } else {
+                var fdData = new FormData();
+                fdData.append("filename", file);
+                $.ajax({
+                    url: 'uppic',
+                    type: 'POST',
+                    data: fdData,
+                    async: true,
+                    // 下面三个参数要指定，如果不指定，会报一个JQuery的错误 
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (msg) {
+                        picurl = msg;
+                        $("#headimg").attr("src", msg);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+                return false;
             }
         }
-        $("#spBookFee").text("¥" + bookfee + "元");
-        $("#spOtherFee").text("¥" + otherfee + "元");
-        calcShouldPay();
-    }
-    function calcShouldPay() {
-        sumfee = tuition + bookfee + otherfee;
-        $("#txtResult").val(sumfee);
-    }
-    function initModalForm() {
-        $("#txStudentName").val($("#txtName").val());
-        $("#txtClassName1").val($("#selectClass").val());
-        $("#txtShouldFee").val(sumfee);
-        $("#txtRealFee").val($("#txtResult").val());
-    }
-    function resetStudent() {
-        $("#txtName").val("");
-        $("#maleOption").attr("checked", "checked");
-        $("#txtBirthday").val("");
-        $("#txtFullTimeSchool").val("");
-        $("#txGrade").val("");
-        $("#txtAddress").val("");
-        $("#txtTel1").val("");
-        $("#txtTel2").val("");
-        $("#txtTel3").val("");
-        stdId = 0;
-    }
-    function QueryStudent() {
-        StdQuery($("#txtQyName").val(), $("#txtQyTel").val(), 1);
-    }
-</script>
+    </script>

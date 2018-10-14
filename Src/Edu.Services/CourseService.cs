@@ -60,7 +60,7 @@ namespace Edu.Services
         {
             ArgumentHelper.Require(args.SchoolId, "SchoolId", Arguments.Positive);
             ArgumentHelper.Require(args.CourseType, "CourseType", Arguments.NotEmptyOrWhitespace);
-            ArgumentHelper.Require(args.Description, "Description", Arguments.NotEmptyOrWhitespace);
+            ArgumentHelper.Require(args.Description, "Description");
             ArgumentHelper.Require(args.CreateBy, "CreateBy", Arguments.Positive);
             ArgumentHelper.Require(args.ModifyBy, "ModifyBy", Arguments.Positive);
             return ContainerFactory<ICourseRepository>.Instance.AddCourseType(args);
