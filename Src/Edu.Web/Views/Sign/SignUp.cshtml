@@ -801,8 +801,8 @@
         $("#txtTel1").val(tds.eq(7).text());
         $("#txtTel2").val(tds.eq(8).text());
         $("#txtTel3").val(tds.eq(9).text());
-        if (tr.val() != undefined) {
-            $("#headimg").attr("src", tr.val());
+        if (tr[0].attributes.value.value != undefined) {
+            $("#headimg").attr("src", tr[0].attributes.value.value);
         }
         $('#stdModal').modal('hide');
     }
