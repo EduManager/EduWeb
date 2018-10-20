@@ -33,7 +33,7 @@ namespace Edu.Controller.Controller
                 SchoolId = schoolId,
                 PageIndex = pageIndex,
                 WhereStr = "",
-                OrderBy = ""
+                OrderBy = " order by st.modify_time desc "
             };
             var result = StudentService.Instance.GetStudentListByPaging(args);
             ViewData["PageCount"] = (args.RowsCount - 1) / args.PageSize + 1;
@@ -75,7 +75,7 @@ namespace Edu.Controller.Controller
                 SchoolId = schoolId,
                 PageIndex = pageIndex,
                 WhereStr = wherestr,
-                OrderBy = ""
+                OrderBy = " order by st.modify_time desc "
             };
             var result = StudentService.Instance.GetStudentListByPaging(args);
             return JsonHelper.Serialize(result);

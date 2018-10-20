@@ -47,6 +47,7 @@ function getCourseType(ctrlId) {
 
 function getCourseList(ctrlId, courseTypeId) {
     $('#' + ctrlId).empty();
+    $('#' + ctrlId).append("<option disabled selected value='-1'></option>");
     var model = { CourseTypeId: courseTypeId };
     $.ajax({
         url: "../Course/getCourses",
@@ -60,7 +61,7 @@ function getCourseList(ctrlId, courseTypeId) {
                     var item = result[index];
                     if (index == 0) {
                         $('#' + ctrlId)
-                            .append("<option selected value='" + item.id + "'>" + item.courseName + "</option>");
+                            .append("<option value='" + item.id + "'>" + item.courseName + "</option>");
                     } else {
                         $('#' + ctrlId)
                             .append("<option value='" + item.id + "'>" + item.courseName + "</option>");

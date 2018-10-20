@@ -106,7 +106,7 @@
                                                 男
                                             </label>
                                             <label class="radio-inline">
-                                                <input type="radio" name="sex" id="femaleOption" value="0">
+                                                <input type="radio" name="sex" id="femaleOption" value="2">
                                                 女
                                             </label>
                                         </div>
@@ -318,7 +318,7 @@
                             <div class="col-md-12">
                                 <div class="form-group" style="text-align:center">
                                     <label class="control-label" for="spBookFee">教材费：</label>
-                                        <span id="spBookFee" style="font-size:small">¥ 0元</span>
+                                    <span id="spBookFee" style="font-size:small">¥ 0元</span>
                                 </div>
                             </div>
                         </div>
@@ -326,7 +326,7 @@
                             <div class="col-md-12">
                                 <div class="form-group" style="text-align:center">
                                     <label class="control-label" for="spOtherFee">杂  费：</label>
-                                        <span id="spOtherFee" style="font-size:small">¥ 0元</span>
+                                    <span id="spOtherFee" style="font-size:small">¥ 0元</span>
                                 </div>
                             </div>
                         </div>
@@ -519,6 +519,7 @@
 <script src="~/Scripts/bootstrap-paginator.js"></script>
 <script src="~/Scripts/upimg/cropper.min.js" charset="utf-8"></script>
 <script src="~/Scripts/upimg/custom_up_img.js" charset="utf-8"></script>
+<script src="~/Scripts/main.js"></script>
 <script>
     var pageInfo = {
         pageIndex: parseInt('@ViewData["PageIndex"]'),
@@ -709,7 +710,7 @@
                     success: function (data) {
                         var AddAccountResult = JSON.parse(data);
                         if (AddAccountResult.code === 200) {
-                            window.location.reload();
+                            window.location.href = "/Student/List";
                         }
                     }
                 });
@@ -744,7 +745,7 @@
                         var h = dataList[i].tel2 == undefined ? "" : dataList[i].tel2;
                         var p = dataList[i].tel3 == undefined ? "" : dataList[i].tel3;
                         trs += "<tr value='" + dataList[i].picture + "'><td align='center'><input id='radioId' type='radio' name='radioChoose' value='" + dataList[i].id + "'/></td><td align='center'>"
-                            + a + "</td><td>" + b + "</td><td>" + c + "</td><td>" + d + "</td><td>" + e + "</td><td>" + f + "</td><td>" + g + "</td><td>" + h + "</td><td>" + p + "</td></tr>";
+                            + a + "</td><td value='" + dataList[i].sex+"'>" + b + "</td><td>" + c + "</td><td>" + d + "</td><td>" + e + "</td><td>" + f + "</td><td>" + g + "</td><td>" + h + "</td><td>" + p + "</td></tr>";
                         tbody += trs;
                     });
                     tbody += "</tbody>";
@@ -788,12 +789,7 @@
         var tr = checkedRedio.closest('tr');
         var tds = tr.find('td');
         $("#txtName").val(tds.eq(1).text());
-        if (tds.eq(1).text() == "1") {
-            $("#maleOption").attr("checked", "checked");
-        }
-        else {
-            $("#femaleOption").attr("checked", "checked");
-        }
+        $("input[name='sex'][value='" + tds.eq(2)[0].attributes.value.value + "']").prop("checked", "checked");
         $("#txtBirthday").val(tds.eq(3).text());
         $("#txtFullTimeSchool").val(tds.eq(4).text());
         $("#txGrade").val(tds.eq(5).text());
@@ -801,7 +797,7 @@
         $("#txtTel1").val(tds.eq(7).text());
         $("#txtTel2").val(tds.eq(8).text());
         $("#txtTel3").val(tds.eq(9).text());
-        if (tr[0].attributes.value.value != undefined) {
+        if (tr[0].attributes.value.value != "undefined") {
             $("#headimg").attr("src", tr[0].attributes.value.value);
         }
         $('#stdModal').modal('hide');
