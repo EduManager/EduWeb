@@ -360,7 +360,7 @@
                 clsPrice = item.UnitPrice;
                 realpay=item.RealExpenses;
                 tuition=item.RealExpenses- item.BookExpenses-item.OtherExpenses;
-                $("#renewModalLabel").html(item.StudentName + "-退费");
+                $("#renewModalLabel").html(item.StudentName + "-转班");
                 $("#txtClassName1").html(item.ClassFullName);
                 $("#lbTuition").html(tuition+ "元");
                 //$("#lbBooks").html(item.BookExpenses+ "元");
@@ -472,7 +472,7 @@
                 },
                 onPageClicked: function (event, originalEvent, type, page) {
                     if (page != pageInfo.pageIndex)
-                        window.location.href = "Renew?pageIndex=" + page;
+                        window.location.href = "ChangeClass?pageIndex=" + page;
                 }
             });
 

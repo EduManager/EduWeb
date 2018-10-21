@@ -668,7 +668,7 @@
         var regionId = $("#selectCampus").val();
         var courseId = $("#selectCourse").val();
         var classId = $("#selectClass").val();
-        var classFullName = $("#selectClass").text();
+        var classFullName = $("#selectClass  option:selected").text();
         var endDate = $("#datepicker1").data().date;
         var classCount = $("#txtClassCount").val();
         var realPay = $("#txtResult").val();//实际支付
@@ -857,7 +857,7 @@
     }
     function initModalForm() {
         $("#txStudentName").val($("#txtName").val());
-        $("#txtClassName1").val($("#selectClass").val());
+        $("#txtClassName1").val($("#selectClass  option:selected").text());
         $("#txtShouldFee").val(sumfee);
         $("#txtRealFee").val($("#txtResult").val());
     }

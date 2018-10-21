@@ -120,7 +120,7 @@
                             }
                         </td>
                     </tr>
-                }
+                            }
             </tbody>
         </table>
     </div>
@@ -288,11 +288,12 @@
 <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrapValidator.js"></script>
 <script src="~/Scripts/bootstrap-paginator.js"></script>
+<script src="~/Scripts/main.js"></script>
 <script>
     var clsPrice = 0;
     var regionId, entryId, tuition, realPay, discountvalue;
     function showModal(e) {
-        var  entryId = e.dataset.val;
+        entryId = e.dataset.val;
         var entryModels = @Html.Raw(Json.Encode(Model));
         $.each(entryModels, function (tempindex, item) {
             if (item.Id == entryId) {
@@ -353,8 +354,20 @@
             success: function (data) {
                 var AddAccountResult = JSON.parse(data);
                 if (AddAccountResult.code === 200) {
-                    alert("操作成功！");
-                    window.location.reload();
+                    var entryStatusModel = {'EntryId': entryId, 'Status': 0,'Remain':realPay-tuition};
+                    $.ajax({
+                        url: "UpdateEntry",
+                        type: "post",
+                        data: JSON.stringify(entryStatusModel),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var AddAccountResult = JSON.parse(data);
+                            if (AddAccountResult.code === 200) {
+                                alert("操作成功！");
+                                window.location.reload();
+                            }
+                        }
+                    });
                 }
             }
         });
