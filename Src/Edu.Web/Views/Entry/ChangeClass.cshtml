@@ -241,8 +241,6 @@
 
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">杂费项</label>
                                         <div class="col-sm-4">
                                             <div id="othercard" class="card">
@@ -346,6 +344,7 @@
 <link href="~/Content/bootstrapValidator.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrapValidator.js"></script>
 <script src="~/Scripts/bootstrap-paginator.js"></script>
+<script src="~/Scripts/main.js"></script>
 <script>
     var clsPrice = 0;
     var realpay = 0;
@@ -432,8 +431,73 @@
             }
         });
     });
+
+    $("#selectCourse").change(function () {
+        var selectedCourseId = $(this).val();
+        getClassByCourse(selectedCourseId, "selectClass");
+        //var bookfee = getBookFeeByCourse(selectedCourseId);
+        var bookcard = document.getElementById("bookcard");
+        var othercard = document.getElementById("othercard");
+        bookcard.innerHTML = "";
+        othercard.innerHTML = "";
+        result = [];
+        var model = { 'courseId': selectedCourseId };
+        $.ajax({
+            url: "../Bookfee/getBookFeeByCourse",
+            type: "post",
+            data: JSON.stringify(model),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                result = JSON.parse(data);
+                var content1 = "";
+                var content2 = "";
+                for (var i = 0; i < result.length; i++) {
+                    result[i].objCount = 1;
+                    result[i].usable = true;
+                    if (result[i].feeType == 1)//教材
+                    {
+                        content1 += "<div class='row'>";
+                        content1 += "<div class='form-group'>";
+                        content1 += " <div class='col-mb-12 col-sm-12  form-inline'>";
+                        content1 += "<div class='radio'>";
+                        content1 += "<input class='icheck' type='checkbox' onchange='radioChange(this," + i + ")' checked='' name='check1'>";
+                        content1 += "<label>" + result[i].feeName + "</label>";
+                        content1 += "</div>";
+                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' onchange='changePrice(this," + i + ")' value='" + result[i].price + "' />";
+                        content1 += "<label class='glyphicon glyphicon-remove'></label>";
+                        content1 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount' onchange='changeCount(this," + i + ")' value='1' />";
+                        content1 += "</div></div></div>";
+                    }
+                    else if (result[i].feeType == 2)//杂费
+                    {
+                        content2 += "<div class='row'>";
+                        content2 += "<div class='form-group'>";
+                        content2 += " <div class='col-mb-12 col-sm-12  form-inline'>";
+                        content2 += "<div class='radio'>";
+                        content2 += "<input class='icheck' type='checkbox' onchange='radioChange(this," + i + ")' checked=''  name='check1'>";
+                        content2 += "<label>" + result[i].feeName + "</label>";
+                        content2 += "</div>";
+                        content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtjcCount' name='txtjcCount' onchange='changePrice(this," + i + ")' value='" + result[i].price + "' />";
+                        content2 += "<label class='glyphicon glyphicon-remove'></label>";
+                        content2 += "<input type='text' style='width:50px;height:30px;' class='form-control' id='txtzfCount' name='txtzfCount'  onchange='changeCount(this," + i + ")'  value='1' />";
+                        content2 += "</div></div></div>";
+                    }
+                }
+                bookcard.innerHTML = content1;
+                othercard.innerHTML = content2;
+                calcBookFee(result);
+            }
+        });
+    });
+
     $(document).ready(function () {
         getCampus("selectCampus");
+        getCourseType("selectCourseType");
+        $("#selectCourseType").change(function () {
+            $("#selectClass").empty();
+            var selectedCoursTypeId = $(this).val();
+            getCourseList("selectCourse", selectedCoursTypeId);
+        });
         var newDate = new Date();//.Format("yyyy-MM-dd");
         $('#txtDatepicker3').val(newDate);
         $('#datepicker1').datetimepicker({
